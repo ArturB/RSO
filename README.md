@@ -2,6 +2,11 @@
 
 # RSO 2018L
 
+## Funkcjonalność
+Na chwilę obecną, projekt zawiera dwie usługi sieciowe:
+ - serwer HTTPS (s_server z OpenSSL), który wypisuje trochę informacji o samym sobie
+ - serwer HTTPS ncat, który przekierowuje do HTTPS
+
 ## Continuous Integration
 CI z użyciem Travisa. Travis kompiluje projekt Mavena poprzez mvn install, a nastęnie wysyła na serwer w celu wdrożenia. Aby zmienić cele i sposób kompilacji (np. mvn install na mvn package itp) należy edytować plik .travis.yml. 
 
