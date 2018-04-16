@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  ncat:
+    image: arturbrodzki/rso:ncat
+    volumes:
+      - "/root/ssl:/app/ssl"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "80:80"
+
+  s_server:
+    image: arturbrodzki/rso:s_server
+    volumes:
+      - "/root/ssl:/app/ssl"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "443:443"
+
+

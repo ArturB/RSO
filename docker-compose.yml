@@ -1,0 +1,15 @@
+version: "3"
+services:
+  ncat:
+    build:
+      context: ncat 
+      dockerfile: Dockerfile
+    image: arturbrodzki/rso:ncat
+
+  s_server:
+    build:
+      context: s_server 
+      dockerfile: Dockerfile
+    image: arturbrodzki/rso:s_server
+
+
