@@ -20,5 +20,6 @@ CD również z użyciem Travisa i Dockera, przez SSH.
  - klucze SSH do autoryzacji przechowywane są w pliku keys.tar.enc, w formie zaszyfrowanej. Może je odczytać tylko Travis. 
  - klucze SSL używane podczas stawiania serwera HTTPS przechowywane są na docelowym serwerze i są dynamicznie wczytywane przez Dockera podczas uruchamiania usług. Nie ma możliwości ich odczytania z poziomu użytkownia rso. 
  - klucze RSA używane przez Travisa do obsługi szyfrowania są zapisane w polach "secure".
+ - skrypt uruchamiający kontenery na decelowym serwerze znajduje się w pliku deploy.sh
  
  
