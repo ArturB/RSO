@@ -6,9 +6,11 @@
 Na chwilę obecną, projekt zawiera dwie usługi sieciowe:
  - serwer HTTPS (s_server z OpenSSL), który wypisuje trochę informacji o samym sobie
  - serwer HTTPS ncat, który przekierowuje do HTTPS
+ 
 oraz dwa projekty Mavena:
  - service1
  - service2
+
 jako szablon do dalszej rozbudowy.
 
 ## Continuous Integration
