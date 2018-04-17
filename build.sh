@@ -1,6 +1,5 @@
-cd service1
-mvn install
-cd .. && cd service2
-mvn install
-cd ..
+# POM files to build
+mvn -f service1/pom.xml install
+mvn -f service2/pom.xml install
 
+# Optional additional tasks
