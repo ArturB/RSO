@@ -12,7 +12,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_cd86557fd1a3_key -iv $encrypted_cd86557fd1a3_iv -in key.tar.enc -out key.tar -d
 - tar xvf key.tar
 script:
-- mvn install
+        - bash < build.sh
 - docker-compose build
 after_script:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
