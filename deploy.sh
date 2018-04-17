@@ -10,4 +10,3 @@ fi
 # deploy all docker-compose containers. 
 # sudo password is securely kept at the remote host. 
 cat ~/password | sudo -S docker stack deploy -c docker-compose.yml rso
-
