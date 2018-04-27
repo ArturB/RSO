@@ -1,0 +1,82 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myCandidateLabel">Utwórz bądź zmień a Candidate</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.candidate.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.candidate.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Imię</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="vm.candidate.name"
+                    required/>
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_surname">Nazwisko</label>
+            <input type="text" class="form-control" name="surname" id="field_surname"
+                    ng-model="vm.candidate.surname"
+                    required/>
+            <div ng-show="editForm.surname.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.surname.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_age">Wiek</label>
+            <input type="number" class="form-control" name="age" id="field_age"
+                    ng-model="vm.candidate.age"
+                    required min="18"/>
+            <div ng-show="editForm.age.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.age.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.age.$error.min" translate-value-min="18">
+                    This field should be at least 18.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.age.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_party">Partia</label>
+            <select class="form-control" id="field_party" name="party" ng-model="vm.candidate.party" ng-options="party as party.name for party in vm.parties track by party.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group" has-authority="ROLE_ADMIN">
+            <label for="field_municipality">Okręg Wyborczy</label>
+            <select class="form-control" id="field_municipality" name="municipality" ng-model="vm.candidate.municipality" ng-options="municipality as municipality.name for municipality in vm.municipalities track by municipality.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

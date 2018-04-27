@@ -1,0 +1,43 @@
+
+<div>
+    <h2><span>Votes From District</span> {{vm.votesFromDistrict.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Nr Of Votes</span></dt>
+        <dd>
+            <span>{{vm.votesFromDistrict.nrOfVotes}}</span>
+        </dd>
+        <dt><span>Date</span></dt>
+        <dd>
+            <span>{{vm.votesFromDistrict.date | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Type</span></dt>
+        <dd>
+            <span>{{vm.votesFromDistrict.type}}</span>
+        </dd>
+        <dt><span>Electoral District</span></dt>
+        <dd>
+            <a ui-sref="electoral-district-detail({id:vm.votesFromDistrict.electoralDistrict.id})">{{vm.votesFromDistrict.electoralDistrict.id}}</a>
+        </dd>
+        <dt><span>Candidate</span></dt>
+        <dd>
+            <a ui-sref="candidate-detail({id:vm.votesFromDistrict.candidate.id})">{{vm.votesFromDistrict.candidate.id}}</a>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+            <a ui-sref="my-user-detail({id:vm.votesFromDistrict.user.id})">{{vm.votesFromDistrict.user.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="votes-from-district-detail.edit({id:vm.votesFromDistrict.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>

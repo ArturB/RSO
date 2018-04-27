@@ -1,0 +1,21 @@
+ribbon:
+    eureka:
+        enabled: false
+myuaa:
+    ribbon:
+        eureka:
+            enabled: false
+        listOfServers: http://rso_myuaa-app:9999
+msapp:
+    ribbon:
+        eureka:
+            enabled: false
+        listOfServers: http://rso_msapp-app:8081
+zuul:
+  routes:
+      msapp:
+          path: /msapp/**
+          serviceId: msapp
+      myuaa:
+          path: /myuaa/**
+          serviceId: myuaa

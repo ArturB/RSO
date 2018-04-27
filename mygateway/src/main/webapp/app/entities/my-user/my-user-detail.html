@@ -1,0 +1,63 @@
+
+<div>
+    <h2><span>My User</span> {{vm.myUser.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Username</span></dt>
+        <dd>
+            <span>{{vm.myUser.username}}</span>
+        </dd>
+        <dt><span>Imię</span></dt>
+        <dd>
+            <span>{{vm.myUser.name}}</span>
+        </dd>
+        <dt><span>Nazwisko</span></dt>
+        <dd>
+            <span>{{vm.myUser.surname}}</span>
+        </dd>
+        <dt><span>Document Type</span></dt>
+        <dd>
+            <span>{{vm.myUser.documentType}}</span>
+        </dd>
+        <dt><span>Document Nr</span></dt>
+        <dd>
+            <span>{{vm.myUser.documentNr}}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+            <span>{{vm.myUser.email}}</span>
+        </dd>
+        <dt><span>Birthdate</span></dt>
+        <dd>
+            <span>{{vm.myUser.birthdate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Pesel</span></dt>
+        <dd>
+            <span>{{vm.myUser.pesel}}</span>
+        </dd>
+        <dt><span>My Group</span></dt>
+        <dd>
+            <a ui-sref="my-group-detail({id:vm.myUser.myGroup.id})">{{vm.myUser.myGroup.id}}</a>
+        </dd>
+        <dt><span>Electoral District</span></dt>
+        <dd>
+            <a ui-sref="electoral-district-detail({id:vm.myUser.electoralDistrict.id})">{{vm.myUser.electoralDistrict.id}}</a>
+        </dd>
+        <dt><span>Okręg Wyborczy</span></dt>
+        <dd>
+            <a ui-sref="municipality-detail({id:vm.myUser.municipality.id})">{{vm.myUser.municipality.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="my-user-detail.edit({id:vm.myUser.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>

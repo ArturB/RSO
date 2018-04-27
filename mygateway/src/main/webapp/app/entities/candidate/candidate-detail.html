@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span>Candidate</span> {{vm.candidate.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Imię</span></dt>
+        <dd>
+            <span>{{vm.candidate.name}}</span>
+        </dd>
+        <dt><span>Nazwisko</span></dt>
+        <dd>
+            <span>{{vm.candidate.surname}}</span>
+        </dd>
+        <dt><span>Wiek</span></dt>
+        <dd>
+            <span>{{vm.candidate.age}}</span>
+        </dd>
+        <dt><span>Partia</span></dt>
+        <dd>
+            <a ui-sref="party-detail({id:vm.candidate.party.id})">{{vm.candidate.party.name}}</a>
+        </dd>
+        <dt><span>Okręg Wyborczy</span></dt>
+        <dd>
+            <a ui-sref="municipality-detail({id:vm.candidate.municipality.id})">{{vm.candidate.municipality.name}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="candidate-detail.edit({id:vm.candidate.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>

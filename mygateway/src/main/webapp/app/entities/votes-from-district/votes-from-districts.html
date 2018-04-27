@@ -1,0 +1,72 @@
+<div>
+    <h2>Votes From Districts</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="votes-from-district.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Votes From District
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Nr Of Votes</span></th>
+                    <th><span>Date</span></th>
+                    <th><span>Type</span></th>
+                    <th><span>Electoral District</span></th>
+                    <th><span>Candidate</span></th>
+                    <th><span>User</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="votesFromDistrict in vm.votesFromDistricts track by votesFromDistrict.id">
+                    <td><a ui-sref="votes-from-district-detail({id:votesFromDistrict.id})">{{votesFromDistrict.id}}</a></td>
+                    <td>{{votesFromDistrict.nrOfVotes}}</td>
+                        <td>{{votesFromDistrict.date | date:'mediumDate'}}</td>
+                    <td>{{votesFromDistrict.type}}</td>
+                    <td>
+                        <a ui-sref="electoral-district-detail({id:votesFromDistrict.electoralDistrict.id})">{{votesFromDistrict.electoralDistrict.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="candidate-detail({id:votesFromDistrict.candidate.id})">{{votesFromDistrict.candidate.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="my-user-detail({id:votesFromDistrict.user.id})">{{votesFromDistrict.user.id}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="votes-from-district-detail({id:votesFromDistrict.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="votes-from-district.edit({id:votesFromDistrict.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="votes-from-district.delete({id:votesFromDistrict.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

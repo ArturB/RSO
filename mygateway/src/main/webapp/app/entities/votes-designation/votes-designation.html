@@ -1,0 +1,52 @@
+<div>
+    <h2>Prześlij głosy</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+    <br/>
+    <div class="table-responsive" ng-repeat="(key, value) in vm.candidatesVotes | groupBy:'candidate.party.name'">
+        <h2>Kandydaci
+            <span ng-if="key !== 'undefined'">partii <b>{{key}}</b></span>
+            <span ng-if="key === 'undefined'">bezpartyjni</span>
+        </h2>
+
+        <jhi-alert-error></jhi-alert-error>
+        <table class="jh-table table table-striped">
+            <thead>
+            <tr>
+                <th><span>Kandydat</span></th>
+                <th><span>Ilość głosów</span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="candidateVote in value track by candidateVote.candidate.id ">
+                <td><a ui-sref="candidate-detail({id:candidateVote.candidate.id})">
+                    {{candidateVote.candidate.name}} {{candidateVote.candidate.surname}}</a></td>
+                <td>
+                    <input type="number" class="form-control" name="votesCount" id="field_votesCount"
+                           ng-model="candidateVote.votesCount"
+                           ng-init="candidateVote.votesCount=0"
+                           required min="0"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h3>Głosy nieważne</h3>
+    <input type="number" class="form-control" name="invalidVotes" id="field_invalidVotes"
+           ng-model="vm.invalidVotes"
+           required min="0"/>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Prześlij!
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

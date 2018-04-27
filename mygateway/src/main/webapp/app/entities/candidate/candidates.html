@@ -1,0 +1,68 @@
+<div>
+    <h2>Kandydaci</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="candidate.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Dodaj kandydata
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Imie</span></th>
+                    <th><span>Nazwisko</span></th>
+                    <th><span>Wiek</span></th>
+                    <th><span>Partia</span></th>
+                    <th><span>Gmina</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="candidate in vm.candidates track by candidate.id">
+                    <td><a ui-sref="candidate-detail({id:candidate.id})">{{candidate.id}}</a></td>
+                    <td>{{candidate.name}}</td>
+                    <td>{{candidate.surname}}</td>
+                    <td>{{candidate.age}}</td>
+                    <td>
+                        <a ui-sref="party-detail({id:candidate.party.id})">{{candidate.party.abbreviation}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="municipality-detail({id:candidate.municipality.id})">{{candidate.municipality.name}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="candidate-detail({id:candidate.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="candidate.edit({id:candidate.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="candidate.delete({id:candidate.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <!-- <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/> -->
+    <include file="config/liquibase/changelog/20180403172808_added_entity_Party.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180403172809_added_entity_Candidate.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180403172810_added_entity_MyGroup.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180403172811_added_entity_Municipality.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180403172812_added_entity_VotesFromDistrict.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180403172813_added_entity_ElectoralDistrict.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180403172814_added_entity_MyUser.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20180403172809_added_entity_constraints_Candidate.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180403172812_added_entity_constraints_VotesFromDistrict.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180403172813_added_entity_constraints_ElectoralDistrict.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180403172814_added_entity_constraints_MyUser.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+	    <include file="config/liquibase/changelog/00000000000002_add_data.xml" relativeToChangelogFile="false"/>
+</databaseChangeLog>
