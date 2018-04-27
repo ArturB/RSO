@@ -24,9 +24,9 @@ script:
 
 # if all thigs built correctly, deploy them to destination host, invoking a deploy.sh script
 after_script:
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker-compose push
-- cat deploy.sh | ssh -o StrictHostKeyChecking=no -i .ssh/id_rsa rso@brodzki.org
+- test $TRAVIS_BRANCH = "master" && echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- test $TRAVIS_BRANCH = "master" && docker-compose push
+- test $TRAVIS_BRANCH = "master" && cat deploy.sh | ssh -o StrictHostKeyChecking=no -i .ssh/id_rsa rso@brodzki.org
 
 # don't send any notifications to me
 notification:
