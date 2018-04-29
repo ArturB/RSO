@@ -1,0 +1,3 @@
+2018-04-08 14:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CANDIDATE" not found; SQL statement:
+select * from candidate [42102-192]

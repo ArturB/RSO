@@ -1,0 +1,51 @@
+2018-04-02 23:30:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DATABASECHANGELOGLOCK" not found; SQL statement:
+select count(*) from PUBLIC.DATABASECHANGELOGLOCK [42102-196]
+2018-04-13 17:15:44 jdbc[23]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "UPDATE JHI_USER SET 
+ACTIVATION_KEY=NULL,
+ACTIVATED = TRUE,
+WHERE[*] ID=5 "; expected "identifier"; SQL statement:
+UPDATE JHI_USER SET 
+ACTIVATION_KEY=null,
+ACTIVATED = TRUE,
+WHERE ID=5 [42001-196]
+2018-04-13 17:16:06 jdbc[23]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "UPDATE JHI_USER SET 
+ACTIVATION_KEY = NULL,
+ACTIVATED = TRUE,
+WHERE[*] ID = 5 "; expected "identifier"; SQL statement:
+UPDATE JHI_USER SET 
+ACTIVATION_KEY = null,
+ACTIVATED = TRUE,
+WHERE ID = 5 [42001-196]
+2018-04-13 18:28:49 jdbc[45]: null
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-196]
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:185)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:127)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:100)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:117)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:123)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:375)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:204)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:459)
+	at com.zaxxer.hikari.pool.HikariPool.access$200(HikariPool.java:70)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:696)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:682)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.h2.jdbc.JdbcSQLException: The connection was not closed by the application and is garbage collected [90018-196]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 19 more
+2018-04-22 00:43:33 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "UPRATE[*] JHI_USER SET ACTIVATED=TRUE WHERE ID =7"; expected "UPDATE, USE, {"; SQL statement:
+UPRATE JHI_USER SET ACTIVATED=TRUE WHERE ID =7 [42001-196]
+2018-04-22 00:44:16 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "JHI_USER_AUTORITY" not found; SQL statement:
+INSERT INTO JHI_USER_AUTORITY VALUES (7, 'ROLE_GKW_MEMBER') [42102-196]

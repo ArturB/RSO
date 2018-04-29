@@ -27,6 +27,9 @@ services:
     ports:
       - "443:443"
   msapp-app:
+    build:
+      context: msapp/target 
+      dockerfile: Dockerfile
     image: msapp
     environment:
         - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
@@ -38,6 +41,9 @@ services:
     deploy:
         replicas: 1                
   mygateway-app:
+    build:
+      context: mygateway/target 
+      dockerfile: Dockerfile
     image: mygateway
     environment:
         - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
@@ -49,6 +55,9 @@ services:
     deploy:
         replicas: 1           
   myuaa-app:
+    build:
+      context: myuaa/target 
+      dockerfile: Dockerfile
     image: myuaa
     environment:
         - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka

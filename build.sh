@@ -3,6 +3,6 @@ mvn -f service1/pom.xml install
 mvn -f service2/pom.xml install
 
 # Optional additional tasks
-( cd msapp ; bash mvnw package -DskipTests -P"dev,no-liquibase,zuul,no-eureka" dockerfile:build )
-( cd mygateway ; bash mvnw package -DskipTests -P"dev,no-liquibase,zuul,no-eureka" dockerfile:build )
-( cd myuaa ; bash mvnw package -DskipTests -P"dev,no-liquibase,zuul,no-eureka" dockerfile:build )
+( cd msapp ; mvn package -DskipTests -P"dev,no-liquibase,zuul,no-eureka" ; cd target ; )
+( cd mygateway ; mvn package -DskipTests -P"dev,no-liquibase,zuul,no-eureka" ; cd target ; )
+( cd myuaa ; mvn package -DskipTests -P"dev,no-liquibase,zuul,no-eureka" ; cd target ; )
