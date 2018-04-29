@@ -30,7 +30,7 @@ services:
     build:
       context: msapp/target 
       dockerfile: Dockerfile
-      image: arturbrodzki/rso:msapp
+    image: arturbrodzki/rso:msapp
     environment:
         - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
         - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
