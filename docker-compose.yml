@@ -30,7 +30,7 @@ services:
     build:
       context: msapp/target 
       dockerfile: Dockerfile
-    image: msapp
+      image: arturbrodzki/rso:msapp
     environment:
         - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
         - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
@@ -44,7 +44,7 @@ services:
     build:
       context: mygateway/target 
       dockerfile: Dockerfile
-    image: mygateway
+    image: arturbrodzki/rso:mygateway
     environment:
         - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
         - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
@@ -58,7 +58,7 @@ services:
     build:
       context: myuaa/target 
       dockerfile: Dockerfile
-    image: myuaa
+    image: arturbrodzki/rso:myuaa
     environment:
         - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
         - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
