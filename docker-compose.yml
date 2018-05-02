@@ -46,7 +46,7 @@ services:
       dockerfile: Dockerfile
     image: arturbrodzki/rso:mygateway
     environment:
-        - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
+        - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka,ssl
         - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
         - JHIPSTER_SLEEP=2
         - JHIPSTER_REGISTRY_PASSWORD=admin

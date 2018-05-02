@@ -1041,5 +1041,8 @@
                 </dependency>
             </dependencies>
         </profile>
+        <profile>
+            <id>ssl</id>
+        </profile>
     </profiles>
 </project>
