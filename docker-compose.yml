@@ -1,31 +1,5 @@
 version: "3"
 services:
-  ncat:
-    build:
-      context: ncat 
-      dockerfile: Dockerfile
-    image: arturbrodzki/rso:ncat
-    volumes:
-      - "/root/ssl:/app/ssl"
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure
-    ports:
-      - "80:80"
-  s_server:
-    build:
-      context: s_server 
-      dockerfile: Dockerfile
-    image: arturbrodzki/rso:s_server
-    volumes:
-      - "/root/ssl:/app/ssl"
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure
-    ports:
-      - "443:443"
   msapp-app:
     build:
       context: msapp/target 
@@ -45,13 +19,16 @@ services:
       context: mygateway/target 
       dockerfile: Dockerfile
     image: arturbrodzki/rso:mygateway
+    volumes:
+      - "./ssl:/ssl"    
     environment:
-        - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
+        - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka,ssl
         - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
         - JHIPSTER_SLEEP=2
         - JHIPSTER_REGISTRY_PASSWORD=admin
     ports:
         - 8080:8080
+        - 8443:8443
     deploy:
         replicas: 1           
   myuaa-app:
