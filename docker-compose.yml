@@ -27,7 +27,7 @@ services:
         - JHIPSTER_SLEEP=2
         - JHIPSTER_REGISTRY_PASSWORD=admin
     ports:
-        - 8080:8080
+        - 8080:8443
         - 8443:8443
     deploy:
         replicas: 1           
