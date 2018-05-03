@@ -46,7 +46,7 @@ services:
       dockerfile: Dockerfile
     image: arturbrodzki/rso:mygateway
     volumes:
-      - "/root/ssl2:/ssl"    
+      - "/root/RSO/mygateway/ssl:/ssl"    
     environment:
         - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka,ssl
         - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
