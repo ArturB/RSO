@@ -15,10 +15,7 @@ env:
 # before build, decrypt encrypted data
 before_install:
 - openssl aes-256-cbc -K $encrypted_cd86557fd1a3_key -iv $encrypted_cd86557fd1a3_iv -in key.tar.enc -out key.tar -d
-- pwd
-- mkdir mygateway/ssl
 - tar xvf key.tar
-- openssl pkcs12 -export -in s_server/ssl/cert.pem -inkey s_server/ssl/private.key -out mygateway/ssl/keystore.p12 -name voting -password pass:mypassword
 
 # invoke build.sh script to build all services and generate docker-compose images, defined as in docker-compose.sh
 script:
