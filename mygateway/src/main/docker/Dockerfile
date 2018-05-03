@@ -3,6 +3,10 @@ FROM openjdk:8-jre-alpine
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JHIPSTER_SLEEP=0 \
     JAVA_OPTS=""
+		
+RUN apt-get -y install openssl
+
+CMD openssl pkcs12 -export -in ssl/cert.pem -inkey ssl/private.key -out ssl/keystore.p12 -name voting -password pass:mypassword		
 
 CMD echo "The application will start in ${JHIPSTER_SLEEP}s..." && \
     sleep ${JHIPSTER_SLEEP} && \
@@ -11,4 +15,3 @@ CMD echo "The application will start in ${JHIPSTER_SLEEP}s..." && \
 EXPOSE 8080 5701/udp
 
 ADD *.war /app.war
-ADD keystore.p12 keystore.p12
