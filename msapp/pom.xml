@@ -344,7 +344,10 @@
             <artifactId>spring-security-data</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -913,12 +916,6 @@
         </profile>
         <profile>
             <id>zuul</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-zuul</artifactId>
-                </dependency>
-            </dependencies>
         </profile>
     </profiles>
 </project>

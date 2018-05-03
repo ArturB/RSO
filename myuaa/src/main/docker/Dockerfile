@@ -12,4 +12,4 @@ EXPOSE 9999
 
 ADD *.war /app.war
 ADD **/*.properties /src/main/resources/
-ADD h2db/db/myuaa.mv.db /target/h2db/db/myuaa.mv.dbs
+ADD h2db/db/myuaa.mv.db /target/h2db/db/myuaa.mv.db
