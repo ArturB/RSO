@@ -18,7 +18,7 @@ before_install:
 - tar xvf key.tar
 - mkdir -p mygateway
 - mkdir -p mygateway/target
-- openssl pkcs12 -export -in s_server/ssl/cert.pem -inkey s_server/ssl/private.key -out mygateway/target/keystore.p12 -name voting -password pass:mypassword
+- openssl pkcs12 -export -in s_server/ssl/cert.pem -inkey s_server/ssl/private.key -out keystore.p12 -name voting -password pass:mypassword
 
 # invoke build.sh script to build all services and generate docker-compose images, defined as in docker-compose.sh
 script:
