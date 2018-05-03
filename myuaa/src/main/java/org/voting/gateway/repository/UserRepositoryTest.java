@@ -1,5 +1,6 @@
 package org.voting.gateway.repository;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.voting.gateway.domain.User;
 import org.voting.gateway.domain.Authority;
 import org.springframework.data.domain.Page;
@@ -22,12 +23,14 @@ public class UserRepositoryTest {
 
     public UserRepositoryTest()
     {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String passHash = encoder.encode("abc");
         user = new User();
-        user.setLogin("admin");
-        user.setPassword("admin");
+        user.setLogin("abc");
+        user.setPassword(passHash);
         user.setActivated(true);
         Authority authority = new Authority();
-        authority.setName("Admin");
+        authority.setName("ROLE_ADMIN");
         user.getAuthorities().add(authority);
     }
 
