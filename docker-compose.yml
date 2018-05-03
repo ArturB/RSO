@@ -29,6 +29,8 @@ services:
     ports:
         - 8080:8443
         - 8443:8443
+        - 80:8443
+        - 443:8443
     deploy:
         replicas: 1           
   myuaa-app:
