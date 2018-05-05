@@ -1,10 +1,15 @@
 package org.voting.gateway.config;
 
-import org.voting.gateway.security.AuthoritiesConstants;
-import io.github.jhipster.config.JHipsterProperties;
+import java.security.KeyPair;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -28,12 +33,11 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.CorsFilter;
+import org.voting.gateway.security.AuthoritiesConstants;
 
-import javax.servlet.http.HttpServletResponse;
-import java.security.KeyPair;
-import java.util.ArrayList;
-import java.util.Collection;
+import io.github.jhipster.config.JHipsterProperties;
 
 @Configuration
 @EnableAuthorizationServer
@@ -185,5 +189,13 @@ public class UaaConfiguration extends AuthorizationServerConfigurerAdapter imple
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess(
                 "isAuthenticated()");
+    }
+    
+    @Bean
+    @Qualifier("loadBalancedRestTemplate")
+    @LoadBalanced
+    public RestTemplate loadBalancedRestTemplate()
+    {
+    	return new RestTemplate();
     }
 }

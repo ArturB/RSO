@@ -14,6 +14,8 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.voting.gateway.service.dto.LoginDataDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,9 +31,12 @@ public class UserRepositoryTest {
 
     private final Logger log = LoggerFactory.getLogger(UserRepositoryTest.class);
 
-    final String url = "http://localhost:8081/api/loginData/";
+    final String url = "http://msapp/api/loginData/";
 
-    RestTemplate restTemplate = new RestTemplate();
+    
+    @Autowired
+    @Qualifier("loadBalancedRestTemplate")
+    RestTemplate restTemplate;
 
     private User user;
 
@@ -51,7 +56,7 @@ public class UserRepositoryTest {
 
 
 
-    public Optional<User> findOneWithAuthoritiesByLogin(String login)
+    public Optional<User> findUserDataByLogin(String login)
     {
         ResponseEntity<LoginDataDTO> responseEntity = restTemplate.getForEntity(url+login,LoginDataDTO.class);
         if (responseEntity.getStatusCode() != HttpStatus.OK)
