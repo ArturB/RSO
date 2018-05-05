@@ -26,26 +26,28 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(DomainUserDetailsService.class);
 
-    private final UserRepository userRepository;
+    //private final UserRepository userRepository;
+    //@Autowired
     private final UserRepositoryTest userRepositoryTest;
 
-    public DomainUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-        this.userRepositoryTest = new UserRepositoryTest();
+
+
+    public DomainUserDetailsService( UserRepositoryTest userRepositoryTest) {
+        //this.userRepository = userRepository;
+        this.userRepositoryTest = userRepositoryTest;
     }
+
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
         log.debug("Authenticating {}", login);
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-        Optional<User> userByEmailFromDatabase = userRepositoryTest.findOneWithAuthoritiesByEmail(lowercaseLogin);
-        return userByEmailFromDatabase.map(user -> createSpringSecurityUser(lowercaseLogin, user)).orElseGet(() -> {
-            Optional<User> userByLoginFromDatabase = userRepositoryTest.findOneWithAuthoritiesByLogin(lowercaseLogin);
-            return userByLoginFromDatabase.map(user -> createSpringSecurityUser(lowercaseLogin, user))
-                .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
-                    "database"));
-        });
+        Optional<User> userByLoginFromDatabase = userRepositoryTest.findOneWithAuthoritiesByLogin(lowercaseLogin);
+        return userByLoginFromDatabase.map(user -> createSpringSecurityUser(lowercaseLogin, user))
+            .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
+                "database"));
+
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String lowercaseLogin, User user) {
