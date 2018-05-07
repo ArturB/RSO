@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav navbar-nav">
                 <li ui-sref-active="active">
                     <a>
-                        <span class="hidden-sm">
+                        <span class="hidden-sm" ng-switch-when="true">
                             Witaj <b>{{vm.account.login}}</b>, z <b>{{vm.municipality.name}}</b>
                         </span>
                     </a>
@@ -36,7 +36,7 @@
                         <span>
                             <span class="glyphicon glyphicon-th-list"></span>
                             <span class="hidden-sm">
-                                Entities
+                                Encje
                             </span>
                             <b class="caret"></b>
                         </span>
@@ -51,7 +51,7 @@
                         <li ui-sref-active="active">
                             <a ui-sref="candidate" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>Candidate</span>
+                                <span>Kandydaci</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
@@ -69,31 +69,44 @@
                         <li ui-sref-active="active">
                             <a ui-sref="votes-from-district" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>Votes From District</span>
+                                <span>Głosy z okręgu</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
                             <a ui-sref="electoral-district" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>Electoral District</span>
+                                <span>Okręgi wyborcze</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
                             <a ui-sref="my-user" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>My User</span>
+                                <span>Użytkownicy</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
                             <a ui-sref="votes-designation" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>Votes designation</span>
+                                <span>Prześlij głosy</span>
                             </a>
                         </li>
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                     </ul>
                 </li>
-                <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer">
+                    <li ui-sref-active="active" ng-switch-when="true" ng-hide="FUN_THINGS">
+                        <a href="" ng-click="vm.logout()" id="logout2">
+                            <span class="glyphicon glyphicon-log-out"></span>&nbsp;
+                            <span>Sign out</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active" ng-switch-when="false" ng-hide="FUN_THINGS">
+                        <a href="" ng-click="vm.login()" id="login2">
+                            <span class="glyphicon glyphicon-log-in"></span>&nbsp;
+                            <span>Sign in</span>
+                        </a>
+                    </li>
+                <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer"
+                    ng-show="FUN_THINGS">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="account-menu">
                         <span>
                             <span class="glyphicon glyphicon-user"></span>
@@ -137,7 +150,7 @@
                     </ul>
                 </li>
                 <li ng-class="{active: vm.$state.includes('admin')}" ng-switch-when="true" has-authority="ROLE_ADMIN"
-                    uib-dropdown class="dropdown pointer">
+                    uib-dropdown class="dropdown pointer" ng-show="FUN_THINGS">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="admin-menu">
                         <span>
                             <span class="glyphicon glyphicon-tower"></span>

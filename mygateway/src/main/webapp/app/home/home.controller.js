@@ -16,6 +16,7 @@
         vm.register = register;
         $scope.$on('authenticationSuccess', function() {
             getAccount();
+            $state.go($state.current, {}, {reload: true});
         });
 
         getAccount();
