@@ -8,8 +8,8 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand logo" href="#/" ng-click="vm.collapseNavbar()">
-                <img class="logo-img" src="content/images/logo-jhipster.png" alt="logo"/>
-                <span>Gateway</span>
+                <img class="logo-img" src="content/images/poland-flag.png" alt="logo"/>
+                <span><b>System wyborczy</b></span>
             </a>
         </div>
         <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated">
@@ -26,12 +26,12 @@
                 <li ui-sref-active="active">
                     <a ui-sref="home" ng-click="vm.collapseNavbar()">
                         <span class="glyphicon glyphicon-home"></span>
-                        <span class="hidden-sm">Home</span>
+                        <span class="hidden-sm">Strona domowa</span>
                     </a>
                 </li>
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
                 <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown
-                    class="dropdown pointer">
+                    dropdown>
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">
                         <span>
                             <span class="glyphicon glyphicon-th-list"></span>
@@ -54,7 +54,7 @@
                                 <span>Kandydaci</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active">
+                        <li ui-sref-active="active" ng-show="FUN_THINGS">
                             <a ui-sref="my-group" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
                                 <span>My Group</span>
@@ -63,7 +63,7 @@
                         <li ui-sref-active="active">
                             <a ui-sref="municipality" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>Okręg Wyborczy</span>
+                                <span>Gminy</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
@@ -96,16 +96,16 @@
                     <li ui-sref-active="active" ng-switch-when="true" ng-hide="FUN_THINGS">
                         <a href="" ng-click="vm.logout()" id="logout2">
                             <span class="glyphicon glyphicon-log-out"></span>&nbsp;
-                            <span>Sign out</span>
+                            <span>Wyloguj</span>
                         </a>
                     </li>
                     <li ui-sref-active="active" ng-switch-when="false" ng-hide="FUN_THINGS">
                         <a href="" ng-click="vm.login()" id="login2">
                             <span class="glyphicon glyphicon-log-in"></span>&nbsp;
-                            <span>Sign in</span>
+                            <span>Zaloguj</span>
                         </a>
                     </li>
-                <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer"
+                <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown dropdown
                     ng-show="FUN_THINGS">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="account-menu">
                         <span>
@@ -150,7 +150,7 @@
                     </ul>
                 </li>
                 <li ng-class="{active: vm.$state.includes('admin')}" ng-switch-when="true" has-authority="ROLE_ADMIN"
-                    uib-dropdown class="dropdown pointer" ng-show="FUN_THINGS">
+                    uib-dropdown dropdown ng-show="FUN_THINGS">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="admin-menu">
                         <span>
                             <span class="glyphicon glyphicon-tower"></span>
