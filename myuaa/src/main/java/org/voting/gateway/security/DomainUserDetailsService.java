@@ -1,10 +1,7 @@
 package org.voting.gateway.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.voting.gateway.domain.User;
-import org.voting.gateway.repository.UserRepository;
-import org.voting.gateway.repository.UserRepositoryTest;
+import org.voting.gateway.repository.UserLoginDataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,13 +25,13 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     //private final UserRepository userRepository;
     //@Autowired
-    private final UserRepositoryTest userRepositoryTest;
+    private final UserLoginDataRepository userLoginDataRepository;
 
 
 
-    public DomainUserDetailsService( UserRepositoryTest userRepositoryTest) {
+    public DomainUserDetailsService( UserLoginDataRepository userLoginDataRepository) {
         //this.userRepository = userRepository;
-        this.userRepositoryTest = userRepositoryTest;
+        this.userLoginDataRepository = userLoginDataRepository;
     }
 
 
@@ -43,7 +40,7 @@ public class DomainUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String login) {
         log.debug("Authenticating {}", login);
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-        Optional<User> userByLoginFromDatabase = userRepositoryTest.findUserDataByLogin(lowercaseLogin);
+        Optional<User> userByLoginFromDatabase = userLoginDataRepository.findUserDataByLogin(lowercaseLogin);
         return userByLoginFromDatabase.map(user -> createSpringSecurityUser(lowercaseLogin, user))
             .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
                 "database"));

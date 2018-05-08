@@ -8,39 +8,31 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 import org.voting.gateway.domain.User;
 import org.voting.gateway.domain.Authority;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.voting.gateway.service.dto.LoginDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.util.List;
 import java.util.Optional;
-import java.time.Instant;
-import java.util.LinkedList;
-import java.util.Set;
 
 /**
  * Spring Data JPA repository for the User entity.
  */
 @Repository
-public class UserRepositoryTest {
+public class UserLoginDataRepository {
 
-    private final Logger log = LoggerFactory.getLogger(UserRepositoryTest.class);
+    private final Logger log = LoggerFactory.getLogger(UserLoginDataRepository.class);
 
     final String url = "http://msapp/api/loginData/";
 
-    
+
     @Autowired
     @Qualifier("loadBalancedRestTemplate")
     RestTemplate restTemplate;
 
     private User user;
 
-    public UserRepositoryTest()
+    public UserLoginDataRepository()
     {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String passHash = encoder.encode("abc");
