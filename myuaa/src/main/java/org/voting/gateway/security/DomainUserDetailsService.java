@@ -1,9 +1,7 @@
 package org.voting.gateway.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.voting.gateway.domain.User;
-import org.voting.gateway.repository.UserRepository;
+import org.voting.gateway.repository.UserLoginDataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,24 +23,28 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(DomainUserDetailsService.class);
 
-    private final UserRepository userRepository;
+    //private final UserRepository userRepository;
+    //@Autowired
+    private final UserLoginDataRepository userLoginDataRepository;
 
-    public DomainUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+
+
+    public DomainUserDetailsService( UserLoginDataRepository userLoginDataRepository) {
+        //this.userRepository = userRepository;
+        this.userLoginDataRepository = userLoginDataRepository;
     }
+
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
         log.debug("Authenticating {}", login);
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-        Optional<User> userByEmailFromDatabase = userRepository.findOneWithAuthoritiesByEmail(lowercaseLogin);
-        return userByEmailFromDatabase.map(user -> createSpringSecurityUser(lowercaseLogin, user)).orElseGet(() -> {
-            Optional<User> userByLoginFromDatabase = userRepository.findOneWithAuthoritiesByLogin(lowercaseLogin);
-            return userByLoginFromDatabase.map(user -> createSpringSecurityUser(lowercaseLogin, user))
-                .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
-                    "database"));
-        });
+        Optional<User> userByLoginFromDatabase = userLoginDataRepository.findUserDataByLogin(lowercaseLogin);
+        return userByLoginFromDatabase.map(user -> createSpringSecurityUser(lowercaseLogin, user))
+            .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
+                "database"));
+
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String lowercaseLogin, User user) {
