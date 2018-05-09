@@ -20,16 +20,16 @@
                 <tr>
                     <th><span>ID</span></th>
                     <th><span>Username</span></th>
-                    <th><span>Imię</span></th>
-                    <th><span>Nazwisko</span></th>
+                    <th><span>Name</span></th>
+                    <th><span>Surname</span></th>
                     <th><span>Document Type</span></th>
                     <th><span>Document Nr</span></th>
                     <th><span>Email</span></th>
                     <th><span>Birthdate</span></th>
                     <th><span>Pesel</span></th>
-                    <th><span>My Group</span></th>
+                    <th><span>Role</span></th>
                     <th><span>Electoral District</span></th>
-                    <th><span>Okręg Wyborczy</span></th>
+                    <th><span>Municipality</span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -44,9 +44,7 @@
                     <td>{{myUser.email}}</td>
                         <td>{{myUser.birthdate | date:'mediumDate'}}</td>
                     <td>{{myUser.pesel}}</td>
-                    <td>
-                        <a ui-sref="my-group-detail({id:myUser.myGroup.id})">{{myUser.myGroup.id}}</a>
-                    </td>
+                    <td>{{myUser.role}}</td>
                     <td>
                         <a ui-sref="electoral-district-detail({id:myUser.electoralDistrict.id})">{{myUser.electoralDistrict.id}}</a>
                     </td>

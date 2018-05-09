@@ -5,8 +5,6 @@
         .module('mygatewayApp')
         .config(bootstrapMaterialDesignConfig);
 
-    compileServiceConfig.$inject = [];
-
     function bootstrapMaterialDesignConfig() {
         $.material.init();
 

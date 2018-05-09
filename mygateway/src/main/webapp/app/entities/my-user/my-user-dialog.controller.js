@@ -5,9 +5,10 @@
         .module('mygatewayApp')
         .controller('MyUserDialogController', MyUserDialogController);
 
-    MyUserDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'MyUser', 'MyGroup', 'ElectoralDistrict', 'Municipality'];
+    MyUserDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity',
+        'MyUser', 'ElectoralDistrict', 'Municipality', 'preset'];
 
-    function MyUserDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, MyUser, MyGroup, ElectoralDistrict, Municipality) {
+    function MyUserDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, MyUser, ElectoralDistrict, Municipality, preset) {
         var vm = this;
 
         vm.myUser = entity;
@@ -15,9 +16,18 @@
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
-        vm.mygroups = MyGroup.query();
         vm.electoraldistricts = ElectoralDistrict.query();
         vm.municipalities = Municipality.query();
+        vm.preset=[];
+
+        if(preset.municipalityId){
+            vm.myUser.municipality = Municipality.get({id:preset.municipalityId});
+            vm.presetMunicipality = true;
+        }
+        if(preset.electoralDistrictId && preset.electoralDistrictId !== '-1'){
+            vm.myUser.electoralDistrict = ElectoralDistrict.get({id:preset.electoralDistrictId});
+            vm.presetElectoralDistrict = true;
+        }
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -50,6 +60,17 @@
 
         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
+        }
+
+        vm.generateUsername = function(){
+            var finalName = "";
+            if(vm.myUser.name){
+                finalName += vm.myUser.name.charAt(0);
+            }
+            if(vm.myUser.surname){
+                finalName += vm.myUser.surname;
+            }
+            return finalName.toLowerCase();
         }
     }
 })();

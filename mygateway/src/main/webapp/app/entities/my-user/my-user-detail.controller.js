@@ -5,9 +5,9 @@
         .module('mygatewayApp')
         .controller('MyUserDetailController', MyUserDetailController);
 
-    MyUserDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'MyUser', 'MyGroup', 'ElectoralDistrict', 'Municipality'];
+    MyUserDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'MyUser', 'ElectoralDistrict', 'Municipality'];
 
-    function MyUserDetailController($scope, $rootScope, $stateParams, previousState, entity, MyUser, MyGroup, ElectoralDistrict, Municipality) {
+    function MyUserDetailController($scope, $rootScope, $stateParams, previousState, entity, MyUser, ElectoralDistrict, Municipality) {
         var vm = this;
 
         vm.myUser = entity;

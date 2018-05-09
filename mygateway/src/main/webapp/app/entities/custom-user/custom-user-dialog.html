@@ -1,0 +1,62 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myCustomUserLabel">Create or edit a Custom User</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.customUser.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.customUser.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_username">Username</label>
+            <input type="text" class="form-control" name="username" id="field_username"
+                    ng-model="vm.customUser.username"
+                    required/>
+            <div ng-show="editForm.username.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.username.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_role">Role</label>
+            <input type="text" class="form-control" name="role" id="field_role"
+                    ng-model="vm.customUser.role"
+                    required/>
+            <div ng-show="editForm.role.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.role.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_electoralDistrict">Electoral District</label>
+            <select class="form-control" id="field_electoralDistrict" name="electoralDistrict" ng-model="vm.customUser.electoralDistrict" ng-options="electoralDistrict as electoralDistrict.id for electoralDistrict in vm.electoraldistricts track by electoralDistrict.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_municipality">Municipality</label>
+            <select class="form-control" id="field_municipality" name="municipality" ng-model="vm.customUser.municipality" ng-options="municipality as municipality.id for municipality in vm.municipalities track by municipality.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

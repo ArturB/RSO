@@ -2,9 +2,9 @@
 
 describe('Controller Tests', function() {
 
-    describe('MyUser Management Detail Controller', function() {
+    describe('CustomUser Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockPreviousState, MockMyUser, MockElectoralDistrict, MockMunicipality;
+        var MockEntity, MockPreviousState, MockCustomUser, MockElectoralDistrict, MockMunicipality;
         var createController;
 
         beforeEach(inject(function($injector) {
@@ -12,7 +12,7 @@ describe('Controller Tests', function() {
             $scope = $rootScope.$new();
             MockEntity = jasmine.createSpy('MockEntity');
             MockPreviousState = jasmine.createSpy('MockPreviousState');
-            MockMyUser = jasmine.createSpy('MockMyUser');
+            MockCustomUser = jasmine.createSpy('MockCustomUser');
             MockElectoralDistrict = jasmine.createSpy('MockElectoralDistrict');
             MockMunicipality = jasmine.createSpy('MockMunicipality');
             
@@ -22,19 +22,19 @@ describe('Controller Tests', function() {
                 '$rootScope': $rootScope,
                 'entity': MockEntity,
                 'previousState': MockPreviousState,
-                'MyUser': MockMyUser,
+                'CustomUser': MockCustomUser,
                 'ElectoralDistrict': MockElectoralDistrict,
                 'Municipality': MockMunicipality
             };
             createController = function() {
-                $injector.get('$controller')("MyUserDetailController", locals);
+                $injector.get('$controller')("CustomUserDetailController", locals);
             };
         }));
 
 
         describe('Root Scope Listening', function() {
             it('Unregisters root scope listener upon scope destruction', function() {
-                var eventType = 'mygatewayApp:myUserUpdate';
+                var eventType = 'mygatewayApp:customUserUpdate';
 
                 createController();
                 expect($rootScope.$$listenerCount[eventType]).toEqual(1);
