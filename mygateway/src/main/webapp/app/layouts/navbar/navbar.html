@@ -17,7 +17,7 @@
                 <li ui-sref-active="active">
                     <a>
                         <span class="hidden-sm" ng-switch-when="true">
-                            Witaj <b>{{vm.account.login}}</b>, z <b>{{vm.municipality.name}}</b>
+                            Witaj <b>{{vm.account.username}}</b> <span ng-show="vm.municipality">, z <b>{{vm.municipality.name}}</b> </span>
                         </span>
                     </a>
                 </li>
@@ -29,9 +29,33 @@
                         <span class="hidden-sm">Strona domowa</span>
                     </a>
                 </li>
+                <li ui-sref-active="active" has-authority="ROLE_GKW_MEMBER">
+                    <a ui-sref="custom-user" ng-click="vm.collapseNavbar()">
+                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                        <span>Zarządzaj użytkownikami</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="electoral-district" ng-click="vm.collapseNavbar()" has-authority="ROLE_GKW_MEMBER">
+                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                        <span>Okręgi wyborcze</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" has-authority="ROKE_GKW_MEMBER">
+                    <a ui-sref="candidate" ng-click="vm.collapseNavbar()">
+                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                        <span>Kandydaci</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" has-authority="ROLE_OKW_MEMBER">
+                    <a ui-sref="votes-designation" ng-click="vm.collapseNavbar()">
+                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                        <span>Wpisz głosy</span>
+                    </a>
+                </li>
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
                 <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown
-                    dropdown>
+                    dropdown has-authority="ROLE_ADMIN">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">
                         <span>
                             <span class="glyphicon glyphicon-th-list"></span>
@@ -93,9 +117,9 @@
                         <li ui-sref-active="active">
                                 <a ui-sref="custom-user" ng-click="vm.collapseNavbar()">
                                     <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                    <span>Custom User</span>
+                                    <span>Zarządzaj użytkownikami</span>
                                 </a>
-                            </li>
+                        </li>
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                     </ul>
                 </li>

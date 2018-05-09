@@ -8,7 +8,7 @@
     PasswordResetFinish.$inject = ['$resource'];
 
     function PasswordResetFinish($resource) {
-        var service = $resource('myuaa/api/account/reset-password/finish', {}, {});
+        var service = $resource('msapp/api/account/reset-password/finish', {}, {});
 
         return service;
     }

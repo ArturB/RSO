@@ -5,6 +5,7 @@ import org.voting.gateway.domain.MyUser;
 
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.MyUserRepository;
+import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -17,8 +18,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +36,17 @@ public class MyUserResource {
 
     public MyUserResource(MyUserRepository myUserRepository) {
         this.myUserRepository = myUserRepository;
+    }
+
+
+    @GetMapping("/account")
+    @Timed
+    public ResponseEntity<SmallUser> getAccount() {
+        log.debug("REST request to get account");
+        Optional<SmallUser> myUser = SecurityUtils.getCurrentUserLogin()
+            .flatMap(c -> myUserRepository.findByUsername(c).stream().findFirst())
+            .flatMap(c -> Optional.ofNullable(ToSmallUser(c)));
+        return ResponseUtil.wrapOrNotFound(myUser);
     }
 
     /**
@@ -155,6 +166,15 @@ public class MyUserResource {
         }
         smallUser.setRole(user.getRole());
         smallUser.setUsername(user.getUsername());
+        HashSet<String>  authorities = new HashSet<>(Arrays.asList(smallUser.getRole(), "ROLE_USER"));
+        if(smallUser.getRole().equals("ROLE_GKW_LEADER")){
+            authorities.add("ROLE_GKW_MEMBER");
+        }
+        if(smallUser.getRole().equals("ROLE_OKW_LEADER")){
+            authorities.add("ROLE_OKW_MEMBER");
+        }
+
+        smallUser.setAuthorities(authorities);
         return smallUser;
     }
 }

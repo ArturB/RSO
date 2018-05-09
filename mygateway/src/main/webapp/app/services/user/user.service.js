@@ -8,7 +8,7 @@
     User.$inject = ['$resource'];
 
     function User ($resource) {
-        var service = $resource('myuaa/api/users/:login', {}, {
+        var service = $resource('msapp/api/my-users/:login', {}, {
             'query': {method: 'GET', isArray: true},
             'get': {
                 method: 'GET',

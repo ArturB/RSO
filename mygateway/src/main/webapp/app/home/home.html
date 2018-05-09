@@ -9,7 +9,10 @@
 
             <div ng-switch="vm.isAuthenticated()">
                 <div class="alert alert-success" ng-switch-when="true">
-                    Jesteś zalogowany jako użytkownik "{{vm.account.login}}".
+                    Jesteś zalogowany jako użytkownik "{{vm.account.username}}".
+                    Pełnisz rolę <b>{{vm.role}}</b>
+                    <span ng-show="vm.municipality.name"> w gminię <b>{{vm.municipality.name}}</b></span>
+                    <span ng-show="vm.electoralDistrict.name"> i w okręgu <b>{{vm.electoralDistrict.name}}</b></span>
                 </div>
 
                 <div class="alert alert-warning" ng-switch-when="false">

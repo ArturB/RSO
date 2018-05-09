@@ -51,7 +51,9 @@
             vm.account = account;
             vm.isAuthenticated = Principal.isAuthenticated();
             if(account){
-                return Municipality.get({id : vm.account.municipalityId }).$promise;
+                if(account.role !== 'ROLE_ADMIN'){
+                    return Municipality.get({id : vm.account.municipalityId }).$promise;
+                }
             }
         }).then(function( municipality){
             vm.municipality = municipality;

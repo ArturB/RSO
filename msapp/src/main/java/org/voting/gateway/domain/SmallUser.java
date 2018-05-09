@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A SmallUser.
@@ -21,6 +22,7 @@ public class SmallUser implements Serializable {
     private Long electoralDistrictId;
     private Long municipalityId;
     private String role;
+    private Set<String> authorities;
 
     public Long getId() {
         return id;
@@ -87,6 +89,19 @@ public class SmallUser implements Serializable {
         return this;
     }
 
+    public Set<String> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<String> authorities) {
+        this.authorities = authorities;
+    }
+
+    public SmallUser authorities(Set<String> authorities) {
+        this.authorities = authorities;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,7 +115,8 @@ public class SmallUser implements Serializable {
             return false;
         if (municipalityId != null ? !municipalityId.equals(smallUser.municipalityId) : smallUser.municipalityId != null)
             return false;
-        return role != null ? role.equals(smallUser.role) : smallUser.role == null;
+        if (role != null ? !role.equals(smallUser.role) : smallUser.role != null) return false;
+        return authorities != null ? authorities.equals(smallUser.authorities) : smallUser.authorities == null;
     }
 
     @Override
@@ -110,6 +126,7 @@ public class SmallUser implements Serializable {
         result = 31 * result + (electoralDistrictId != null ? electoralDistrictId.hashCode() : 0);
         result = 31 * result + (municipalityId != null ? municipalityId.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (authorities != null ? authorities.hashCode() : 0);
         return result;
     }
 
@@ -121,6 +138,7 @@ public class SmallUser implements Serializable {
             ", electoralDistrictId=" + electoralDistrictId +
             ", municipalityId=" + municipalityId +
             ", role='" + role + '\'' +
+            ", authorities=" + authorities +
             '}';
     }
 }
