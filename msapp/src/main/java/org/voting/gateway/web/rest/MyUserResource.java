@@ -3,6 +3,7 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.MyUser;
 
+import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.MyUserRepository;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
@@ -18,6 +19,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing MyUser.
@@ -116,5 +118,43 @@ public class MyUserResource {
         log.debug("REST request to delete MyUser : {}", id);
         myUserRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+
+    @GetMapping("/municipalities/{municipalityId}/users")
+    @Timed
+    public List<SmallUser> getSmallUserByMunicipalityId(@PathVariable Long municipalityId) {
+        log.debug("REST request to get SmallUser by municipalityId : {}", municipalityId);
+        return myUserRepository.findAll()
+            .stream()
+            .filter(c -> c.getMunicipality() != null)
+            .filter(c -> c.getMunicipality().getId().equals(municipalityId))
+            .map(this::ToSmallUser).collect(Collectors.toList());
+    }
+
+    @GetMapping("/districts/{districtId}/users")
+    @Timed
+    public List<SmallUser> getSmallUserByDistrictId(@PathVariable Long districtId) {
+        log.debug("REST request to get SmallUser by districtId: {}", districtId);
+        return myUserRepository.findAll()
+            .stream()
+            .filter(c -> c.getMunicipality() != null)
+            .filter(c -> c.getElectoralDistrict() != null)
+            .filter(c -> c.getElectoralDistrict().getId().equals(districtId))
+            .map(this::ToSmallUser).collect(Collectors.toList());
+    }
+
+    private SmallUser ToSmallUser(MyUser user) {
+        SmallUser smallUser = new SmallUser();
+        smallUser.setId(user.getId());
+        if(user.getElectoralDistrict() != null ) {
+            smallUser.setElectoralDistrictId(user.getElectoralDistrict().getId());
+        }
+        if(user.getMunicipality() != null){
+            smallUser.setMunicipalityId(user.getMunicipality().getId());
+        }
+        smallUser.setRole(user.getRole());
+        smallUser.setUsername(user.getUsername());
+        return smallUser;
     }
 }

@@ -56,13 +56,14 @@ public class MyUser implements Serializable {
     private String pesel;
 
     @ManyToOne
-    private MyGroup myGroup;
-
-    @ManyToOne
     private ElectoralDistrict electoralDistrict;
 
     @ManyToOne
     private Municipality municipality;
+
+    @NotNull
+    @Column(name = "role", nullable = false)
+    private String role;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -177,17 +178,17 @@ public class MyUser implements Serializable {
         this.pesel = pesel;
     }
 
-    public MyGroup getMyGroup() {
-        return myGroup;
+    public String getRole() {
+        return role;
     }
 
-    public MyUser myGroup(MyGroup myGroup) {
-        this.myGroup = myGroup;
+    public MyUser role(String role) {
+        this.role = role;
         return this;
     }
 
-    public void setMyGroup(MyGroup myGroup) {
-        this.myGroup = myGroup;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public ElectoralDistrict getElectoralDistrict() {
@@ -249,6 +250,7 @@ public class MyUser implements Serializable {
             ", email='" + getEmail() + "'" +
             ", birthdate='" + getBirthdate() + "'" +
             ", pesel='" + getPesel() + "'" +
+            ", role='" + getRole() + "'" +
             "}";
     }
 }
