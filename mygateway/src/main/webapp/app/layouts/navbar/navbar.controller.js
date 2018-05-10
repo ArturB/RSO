@@ -5,9 +5,9 @@
         .module('mygatewayApp')
         .controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$state', 'Auth', 'Principal', 'ProfileService', 'LoginService', 'Municipality'];
+    NavbarController.$inject = ['$state', 'Auth', 'Principal', 'ProfileService', 'LoginService', 'Municipality', '$location'];
 
-    function NavbarController ($state, Auth, Principal, ProfileService, LoginService, Municipality) {
+    function NavbarController ($state, Auth, Principal, ProfileService, LoginService, Municipality, $location) {
         var vm = this;
 
         vm.isNavbarCollapsed = true;
@@ -27,13 +27,15 @@
         function login() {
             collapseNavbar();
             LoginService.open();
+            vm.isAuthenticated = Principal.isAuthenticated();
         }
 
         function logout() {
             collapseNavbar();
             Auth.logout();
-            $state.go('home');
-            $state.reload();
+            // $state.go('home', {reload:true});
+            $location.path('/');
+            vm.isAuthenticated = Principal.isAuthenticated();
         }
 
         function toggleNavbar() {
