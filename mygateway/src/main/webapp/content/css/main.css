@@ -32,6 +32,7 @@ Development Ribbon
     width: 15em;
     z-index: 9999;
     pointer-events: none;
+    opacity:0.2;
 }
 
 .ribbon a {
@@ -109,6 +110,14 @@ Main page styles
     width: 347px;
     height: 497px;
     background: url("../images/hipster.png") no-repeat center top;
+    background-size: contain;
+}
+
+.poland-img {
+    display: inline-block;
+    width: 347px;
+    height: 497px;
+    background: url("../images/poland.png") no-repeat center top;
     background-size: contain;
 }
 
@@ -338,5 +347,12 @@ ui bootstrap tweaks
 
 
 
+
+/* ==========================================================================
+Fix error field display
+========================================================================== */
+.form-group .help-block {
+    position: static;
+}
 
 /* jhipster-needle-css-add-main JHipster will add new css style */

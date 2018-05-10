@@ -8,11 +8,11 @@
         <dd>
             <span>{{vm.myUser.username}}</span>
         </dd>
-        <dt><span>Imię</span></dt>
+        <dt><span>Name</span></dt>
         <dd>
             <span>{{vm.myUser.name}}</span>
         </dd>
-        <dt><span>Nazwisko</span></dt>
+        <dt><span>Surname</span></dt>
         <dd>
             <span>{{vm.myUser.surname}}</span>
         </dd>
@@ -36,15 +36,15 @@
         <dd>
             <span>{{vm.myUser.pesel}}</span>
         </dd>
-        <dt><span>My Group</span></dt>
+        <dt><span>Role</span></dt>
         <dd>
-            <a ui-sref="my-group-detail({id:vm.myUser.myGroup.id})">{{vm.myUser.myGroup.id}}</a>
+            <span>{{vm.myUser.role}}</span>
         </dd>
-        <dt><span>Electoral District</span></dt>
+        <dt><span>Okręg wyborczy</span></dt>
         <dd>
             <a ui-sref="electoral-district-detail({id:vm.myUser.electoralDistrict.id})">{{vm.myUser.electoralDistrict.id}}</a>
         </dd>
-        <dt><span>Okręg Wyborczy</span></dt>
+        <dt><span>Municipality</span></dt>
         <dd>
             <a ui-sref="municipality-detail({id:vm.myUser.municipality.id})">{{vm.myUser.municipality.id}}</a>
         </dd>

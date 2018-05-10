@@ -3,7 +3,9 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.MyUser;
 
+import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.MyUserRepository;
+import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -16,8 +18,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing MyUser.
@@ -34,6 +36,17 @@ public class MyUserResource {
 
     public MyUserResource(MyUserRepository myUserRepository) {
         this.myUserRepository = myUserRepository;
+    }
+
+
+    @GetMapping("/account")
+    @Timed
+    public ResponseEntity<SmallUser> getAccount() {
+        log.debug("REST request to get account");
+        Optional<SmallUser> myUser = SecurityUtils.getCurrentUserLogin()
+            .flatMap(c -> myUserRepository.findByUsername(c).stream().findFirst())
+            .flatMap(c -> Optional.ofNullable(ToSmallUser(c)));
+        return ResponseUtil.wrapOrNotFound(myUser);
     }
 
     /**
@@ -116,5 +129,52 @@ public class MyUserResource {
         log.debug("REST request to delete MyUser : {}", id);
         myUserRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+
+    @GetMapping("/municipalities/{municipalityId}/users")
+    @Timed
+    public List<SmallUser> getSmallUserByMunicipalityId(@PathVariable Long municipalityId) {
+        log.debug("REST request to get SmallUser by municipalityId : {}", municipalityId);
+        return myUserRepository.findAll()
+            .stream()
+            .filter(c -> c.getMunicipality() != null)
+            .filter(c -> c.getMunicipality().getId().equals(municipalityId))
+            .map(this::ToSmallUser).collect(Collectors.toList());
+    }
+
+    @GetMapping("/districts/{districtId}/users")
+    @Timed
+    public List<SmallUser> getSmallUserByDistrictId(@PathVariable Long districtId) {
+        log.debug("REST request to get SmallUser by districtId: {}", districtId);
+        return myUserRepository.findAll()
+            .stream()
+            .filter(c -> c.getMunicipality() != null)
+            .filter(c -> c.getElectoralDistrict() != null)
+            .filter(c -> c.getElectoralDistrict().getId().equals(districtId))
+            .map(this::ToSmallUser).collect(Collectors.toList());
+    }
+
+    private SmallUser ToSmallUser(MyUser user) {
+        SmallUser smallUser = new SmallUser();
+        smallUser.setId(user.getId());
+        if(user.getElectoralDistrict() != null ) {
+            smallUser.setElectoralDistrictId(user.getElectoralDistrict().getId());
+        }
+        if(user.getMunicipality() != null){
+            smallUser.setMunicipalityId(user.getMunicipality().getId());
+        }
+        smallUser.setRole(user.getRole());
+        smallUser.setUsername(user.getUsername());
+        HashSet<String>  authorities = new HashSet<>(Arrays.asList(smallUser.getRole(), "ROLE_USER"));
+        if(smallUser.getRole().equals("ROLE_GKW_LEADER")){
+            authorities.add("ROLE_GKW_MEMBER");
+        }
+        if(smallUser.getRole().equals("ROLE_OKW_LEADER")){
+            authorities.add("ROLE_OKW_MEMBER");
+        }
+
+        smallUser.setAuthorities(authorities);
+        return smallUser;
     }
 }

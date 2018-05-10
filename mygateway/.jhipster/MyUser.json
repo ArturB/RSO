@@ -3,12 +3,6 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "myGroup",
-            "otherEntityName": "myGroup",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "many-to-one",
             "relationshipName": "electoralDistrict",
             "otherEntityName": "electoralDistrict",
             "otherEntityField": "id"
@@ -82,7 +76,14 @@
             ],
             "fieldValidateRulesMinlength": 11,
             "fieldValidateRulesMaxlength": 11
-        }
+        },
+        {
+            "fieldName": "role",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }		
     ],
     "changelogDate": "20180403173350",
     "entityTableName": "my_user",
