@@ -27,6 +27,23 @@
         if(preset.electoralDistrictId && preset.electoralDistrictId !== '-1'){
             vm.myUser.electoralDistrict = ElectoralDistrict.get({id:preset.electoralDistrictId});
             vm.presetElectoralDistrict = true;
+
+            vm.roles = [
+                {name:"Przewodniczący okręgowej komisji wyborczej", code:"ROLE_OKW_LEADER"}  ,
+                {name:"Członek okręgowej komisji wyborczej", code:"ROLE_OKW_MEMBER"}
+            ];
+        }else if(preset.municipalityId) {
+            vm.roles = [
+                {name:"Przewodniczący gminnej komisji wyborczej", code:"ROLE_GKW_LEADER"}  ,
+                {name:"Członek gminnej komisji wyborczej", code:"ROLE_GKW_MEMBER"}  ,
+            ];
+        } else{
+            vm.roles = [
+                {name:"Przewodniczący gminnej komisji wyborczej", code:"ROLE_GKW_LEADER"}  ,
+                {name:"Członek gminnej komisji wyborczej", code:"ROLE_GKW_MEMBER"}  ,
+                {name:"Przewodniczący okręgowej komisji wyborczej", code:"ROLE_OKW_LEADER"}  ,
+                {name:"Członek okręgowej komisji wyborczej", code:"ROLE_OKW_MEMBER"}
+            ];
         }
 
         $timeout(function (){
