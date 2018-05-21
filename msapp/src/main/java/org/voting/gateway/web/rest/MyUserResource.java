@@ -155,6 +155,22 @@ public class MyUserResource {
             .map(this::ToSmallUser).collect(Collectors.toList());
     }
 
+    @GetMapping("/custom-users/{id}")
+    @Timed
+    public ResponseEntity<SmallUser> getSmallUser(@PathVariable Long id) {
+        log.debug("REST request to get  SmallUser: {}", id);
+        MyUser myUser = myUserRepository.findOne(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(ToSmallUser(myUser)));
+    }
+
+    @DeleteMapping("/custom-users/{id}")
+    @Timed
+    public ResponseEntity<SmallUser> deleteSmallUser(@PathVariable Long id) {
+        log.debug("REST request to delete SmallUser: {}", id);
+        myUserRepository.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
     private SmallUser ToSmallUser(MyUser user) {
         SmallUser smallUser = new SmallUser();
         smallUser.setId(user.getId());

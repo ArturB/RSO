@@ -192,7 +192,7 @@
                         }
                     }
                 }).result.then(function() {
-                    $state.go('custom-user', null, { reload: 'my-user' });
+                    $state.go('custom-user', null, { reload: 'custom-user' });
                 }, function() {
                     $state.go('custom-user');
                 });

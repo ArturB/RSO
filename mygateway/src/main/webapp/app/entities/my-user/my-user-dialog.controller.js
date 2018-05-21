@@ -56,6 +56,7 @@
 
         function save () {
             vm.isSaving = true;
+            vm.myUser.username = vm.generateUsername();
             if (vm.myUser.id !== null) {
                 MyUser.update(vm.myUser, onSaveSuccess, onSaveError);
             } else {

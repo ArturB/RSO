@@ -22,7 +22,7 @@
             <div ng-show="editForm.login.$invalid">
                 <p class="help-block"
                    ng-show="editForm.login.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
 
                 <p class="help-block"
@@ -66,7 +66,7 @@
             <div ng-show="editForm.email.$invalid">
                 <p class="help-block"
                    ng-show="editForm.email.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
 
                 <p class="help-block"
@@ -97,10 +97,10 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
-           >Cancel</span>
+           >Anuluj</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Zapisz</span>
         </button>
     </div>
 </form>
