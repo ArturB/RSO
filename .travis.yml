@@ -16,6 +16,7 @@ env:
 before_install:
 - openssl aes-256-cbc -K $encrypted_cd86557fd1a3_key -iv $encrypted_cd86557fd1a3_iv -in key.tar.enc -out key.tar -d
 - tar xvf key.tar
+- ls .ssh
 
 # invoke build.sh script to build all services and generate docker-compose images, defined as in docker-compose.sh
 script:
