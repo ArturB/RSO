@@ -1,6 +1,7 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
 
 import org.voting.gateway.domain.SmallUser;
@@ -18,6 +19,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -192,5 +195,24 @@ public class MyUserResource {
 
         smallUser.setAuthorities(authorities);
         return smallUser;
+    }
+
+
+    @GetMapping("/electoral-periods")
+    @Timed
+    public List<ElectoralPeriod> getElectoralPeriods() {
+        log.debug("REST request to get electoralPeriods");
+        return Arrays.asList(
+            new ElectoralPeriod().name("PreElectionPeriod").startDate(LocalDate.now().minusDays(1)).endDate
+                (LocalDate.now().plusDays(1)),
+            new ElectoralPeriod().name("FirstRoundPeriod").startDate(LocalDate.now().plusDays(1)).endDate(LocalDate
+                .now() .plusDays(3)),
+            new ElectoralPeriod().name("MidRoundPeriod").startDate(LocalDate.now().plusDays(3)).endDate(LocalDate
+                .now() .plusDays(5)),
+            new ElectoralPeriod().name("SecondRoundPeriod").startDate(LocalDate.now().plusDays(5)).endDate(LocalDate
+                .now() .plusDays(7)),
+            new ElectoralPeriod().name("PostElectionPeriod").startDate(LocalDate.now().plusDays(7)).endDate(LocalDate
+                .MAX)
+        );
     }
 }
