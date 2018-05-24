@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -121,8 +122,28 @@ public class CandidateResource {
 
     @GetMapping("/municipalities/{municipalityId}/candidates")
     @Timed
-    public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable Long municipalityId){
+    public List<Candidate> getCandidatesByMunicipalityId(@PathVariable Long municipalityId){
         return candidateRepository.findAll()
             .stream().filter(c -> c.getMunicipality().getId().equals(municipalityId)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/municipalities/{municipalityId}/{round}/candidates")
+    @Timed
+    public List<Candidate> getCandidatesByMunicipalityIdWithRound(@PathVariable Long municipalityId,
+                                                                          @PathVariable Long round){
+        log.debug("REST request to get Candidates from municipality of id : {} and from round {}", municipalityId,
+            round);
+        if(round == 1 ){
+            return getCandidatesByMunicipalityId(municipalityId);
+        }else if( round == 2 ) {
+            return candidateRepository.findAll()
+                .stream()
+                .filter(c -> c.getMunicipality().getId().equals(municipalityId))
+                .sorted(Comparator.comparing(Candidate::getSurname))
+                .limit(2)
+                .collect(Collectors.toList());
+        } else {
+             throw new RuntimeException("Unsuppoerted round value: "+round);
+        }
     }
 }

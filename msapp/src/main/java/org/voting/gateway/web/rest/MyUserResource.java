@@ -52,6 +52,12 @@ public class MyUserResource {
         return ResponseUtil.wrapOrNotFound(myUser);
     }
 
+    @PostMapping(path = "/account/change-password")
+    @Timed
+    public void changePassword(@RequestBody String password) {
+        throw new RuntimeException("TODO NOT IMPLEMENTED!!!");
+    }
+
     /**
      * POST  /my-users : Create a new myUser.
      *
@@ -215,4 +221,5 @@ public class MyUserResource {
                 .MAX)
         );
     }
+
 }

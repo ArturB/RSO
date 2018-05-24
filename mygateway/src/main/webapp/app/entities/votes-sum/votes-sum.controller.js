@@ -1,16 +1,16 @@
 /**
- * Created by defacto on 4/22/2018.
+ * Created by defacto on 5/22/2018.
  */
 (function() {
     'use strict';
 
     angular
         .module('mygatewayApp')
-        .controller('VotesDesignationController', VotesDesignationController);
+        .controller('VotesSumController', VotesAcceptanceController);
 
-    VotesDesignationController.$inject = ['$scope', 'VotesDesignation', 'Candidate', '$q', 'Principal', 'ElectoralPeriod'];
+    VotesAcceptanceController.$inject = ['$scope', 'VotesAcceptance', 'Candidate', '$q', 'Principal', 'ElectoralPeriod'];
 
-    function VotesDesignationController($scope, VotesDesignation, Candidate, $q, Principal, ElectoralPeriod) {
+    function VotesAcceptanceController($scope, VotesAcceptance, Candidate, $q, Principal, ElectoralPeriod) {
         var vm = this;
 
         vm.candidatesVotes = [];
