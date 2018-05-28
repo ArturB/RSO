@@ -7,6 +7,9 @@ else
   git clone https://github.com/ArturB/RSO && cd RSO
 fi
 
+# initialize docker-swarm if not initialized
+sudo docker swarm init
+
 # deploy all docker-compose containers. 
 # sudo password is securely kept at the remote host. 
 cat ~/password | sudo -S docker stack deploy -c docker-compose.yml rso
