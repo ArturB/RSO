@@ -19,7 +19,7 @@
         loadAll();
 
         function loadAll() {
-            Principal.hasAuthority('ROLE_GKW_MEMBER').then(function(authorityOk){
+            Principal.hasAuthority('ROLE_OKW_MEMBER').then(function(authorityOk){
                 if(!authorityOk) {
                     return $q.reject();
                 }

@@ -8,6 +8,6 @@
     Register.$inject = ['$resource'];
 
     function Register ($resource) {
-        return $resource('myuaa/api/register', {}, {});
+        return $resource('msapp/api/register', {}, {});
     }
 })();

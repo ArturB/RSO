@@ -103,7 +103,8 @@
                                 email: null,
                                 birthdate: null,
                                 pesel: null,
-                                id: null
+                                role: null,
+                                id: null,
                             };
                         }
                     }

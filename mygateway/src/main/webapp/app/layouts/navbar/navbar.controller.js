@@ -33,6 +33,7 @@
             collapseNavbar();
             Auth.logout();
             $state.go('home');
+            $state.reload();
         }
 
         function toggleNavbar() {
@@ -49,7 +50,11 @@
         Principal.identity().then(function(account) {
             vm.account = account;
             vm.isAuthenticated = Principal.isAuthenticated();
-            return Municipality.get({id : vm.account.municipalityId }).$promise;
+            if(account){
+                if(account.role !== 'ROLE_ADMIN'){
+                    return Municipality.get({id : vm.account.municipalityId }).$promise;
+                }
+            }
         }).then(function( municipality){
             vm.municipality = municipality;
         });

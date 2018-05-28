@@ -2,7 +2,7 @@ package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.Candidate;
-
+import org.voting.gateway.repository.CandidateDatastax;
 import org.voting.gateway.repository.CandidateRepository;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
@@ -32,6 +32,8 @@ public class CandidateResource {
     private static final String ENTITY_NAME = "candidate";
 
     private final CandidateRepository candidateRepository;
+    
+    private final CandidateDatastax candidateDatastax = new CandidateDatastax(); 
 
     public CandidateResource(CandidateRepository candidateRepository) {
         this.candidateRepository = candidateRepository;
@@ -87,9 +89,17 @@ public class CandidateResource {
     @GetMapping("/candidates")
     @Timed
     public List<Candidate> getAllCandidates() {
-        log.debug("REST request to get all Candidates");
-        return candidateRepository.findAll();
-        }
+        //log.debug("REST request to get all Candidates");
+        //return candidateRepository.findAll();
+    	
+    	return candidateDatastax.findAll();
+    	
+    	
+    	
+    			
+    	
+    			
+    }
 
     /**
      * GET  /candidates/:id : get the "id" candidate.

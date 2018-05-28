@@ -8,7 +8,7 @@
     Password.$inject = ['$resource'];
 
     function Password($resource) {
-        var service = $resource('myuaa/api/account/change-password', {}, {});
+        var service = $resource('msapp/api/account/change-password', {}, {});
 
         return service;
     }

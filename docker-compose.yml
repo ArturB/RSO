@@ -13,7 +13,7 @@ services:
     ports:
         - 8081:8081    
     deploy:
-        replicas: 1                
+        replicas: 2                
   mygateway-app:
     build:
       context: mygateway/target 
@@ -32,7 +32,7 @@ services:
         - 80:8443
         - 443:8443
     deploy:
-        replicas: 1           
+        replicas: 2           
   myuaa-app:
     build:
       context: myuaa/target 
@@ -46,4 +46,4 @@ services:
     ports:
         - 9999:9999 
     deploy:
-        replicas: 1       
+        replicas: 2       

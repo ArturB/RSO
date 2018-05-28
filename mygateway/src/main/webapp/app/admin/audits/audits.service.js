@@ -8,7 +8,7 @@
     AuditsService.$inject = ['$resource'];
 
     function AuditsService ($resource) {
-        var service = $resource('myuaa/api/audits/:id', {}, {
+        var service = $resource('msapp/api/audits/:id', {}, {
             'get': {
                 method: 'GET',
                 isArray: true
