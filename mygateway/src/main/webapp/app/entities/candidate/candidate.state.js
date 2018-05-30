@@ -14,7 +14,7 @@
             url: '/candidate',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Candidates'
+                pageTitle: 'Kandydaci'
             },
             views: {
                 'content@': {
@@ -31,7 +31,7 @@
             url: '/candidate/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Candidate'
+                pageTitle: 'Kandydaci'
             },
             views: {
                 'content@': {

@@ -16,7 +16,6 @@
             acceptVotesFromDistrict: {
                 url: 'msapp/api/districts/:districtId/:round/acceptVotes',
                 method: 'POST',
-                isArray: true,
                 params: {
                     districtId: '@districtId',
                     round: '@round'

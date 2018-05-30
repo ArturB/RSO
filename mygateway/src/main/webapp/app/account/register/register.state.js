@@ -13,7 +13,7 @@
             url: '/register',
             data: {
                 authorities: [],
-                pageTitle: 'Registration'
+                pageTitle: 'Rejestracja'
             },
             views: {
                 'content@': {

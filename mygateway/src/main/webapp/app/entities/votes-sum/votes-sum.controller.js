@@ -6,63 +6,85 @@
 
     angular
         .module('mygatewayApp')
-        .controller('VotesSumController', VotesAcceptanceController);
+        .controller('VotesSumController', VotesSumController);
 
-    VotesAcceptanceController.$inject = ['$scope', 'VotesAcceptance', 'Candidate', '$q', 'Principal', 'ElectoralPeriod'];
+    VotesSumController.$inject = ['$scope', 'Municipality', 'ElectoralDistrict', 'ElectoralPeriod',
+        'VotesSum', 'Candidate'];
 
-    function VotesAcceptanceController($scope, VotesAcceptance, Candidate, $q, Principal, ElectoralPeriod) {
+    function VotesSumController($scope, Municipality, ElectoralDistrict, ElectoralPeriod, VotesSum, Candidate) {
         var vm = this;
-
-        vm.candidatesVotes = [];
+        vm.municipalities = Municipality.query();
+        vm.electoralDistricts = [];
+        vm.selectedDistrictId = null;
         vm.invalidVotes = 0;
-        vm.isSaving= false;
 
-        loadAll();
+        vm.selectedRound = 1;
+        vm.rounds = [];
+        ElectoralPeriod.getCurrentRound().then(function(round ){
+           if(round === 0 ){
+               vm.rounds = [1]; //todo
+           } else if (round === 1){
+               vm.rounds = [1];
+           }else {
+               vm.rounds = [1,2];
+           }
+        });
 
-        function loadAll() {
-            var round = -1;
-            ElectoralPeriod.getCurrentPeriod().then(function (result){
-                if(result.name === 'MidRoundPeriod'){
-                    round = 1;
-                }else if (result.name === 'PostElectionPeriod'){
-                    round = 2;
+        vm.idOfLastMunicipality = null;
+        vm.electoralDistrictsCache = null;
+        vm.getDistricts = function(municipality){
+            if(municipality){
+                if(vm.idOfLastMunicipality === municipality.id){
+                    return vm.electoralDistrictsCache;
                 }else{
-                    round = 1;
-                    console.error('!!! Wrong period to pass votes: '+result.name);
+                    vm.idOfLastMunicipality = municipality.id;
+                    vm.electoralDistrictsCache = ElectoralDistrict.findByMunicipalityId({municipalityId:municipality.id});
+                    return vm.electoralDistrictsCache;
                 }
-            }); //todo principal must be computed after getting round!!
-
-            Principal.hasAuthority('ROLE_OKW_MEMBER').then(function(authorityOk){
-                if(!authorityOk) {
-                    return $q.reject();
-                }
-                return Principal.identity();
-            }).then(function(account){
-                return Candidate.findByMunicipalityIdAndRound(
-                    {
-                        municipalityId:account.municipalityId,
-                        round:round
-                    }).$promise;
-            }).then(function(result){
-                angular.forEach(result, function(candidate){
-                    vm.candidatesVotes.push({
-                        candidate:candidate,
-                        votesCount:0
-                    });
-                });
-            });
-        }
-
-        vm.save = function(){
-            Candidate.save(vm.candidate, onSaveSuccess, onSaveError);
+            } else{
+                vm.idOfLastMunicipality = null;
+                vm.electoralDistrictsCache = null;
+            }
         };
 
-        function onSaveSuccess (result) {
-            vm.isSaving = false;
-        }
 
-        function onSaveError () {
-            vm.isSaving = false;
-        }
+        vm.idOfLastDistrict = null;
+        vm.votesCache = null;
+        vm.getVotesFromDisctict = function(district) {
+            if(district){
+                if(vm.idOfLastDistrict === district.id){
+                    return vm.votesCache;
+                }else{
+                    vm.idOfLastDistrict = district.id;
+                    vm.votesCache = [];
+                    VotesSum.votesSumFromDistrict(
+                    {
+                            districtId: district.id,
+                            round: vm.selectedRound
+                    }).$promise.then(function(result){
+                        angular.forEach(result, function(votePerCandidate){
+                            if(votePerCandidate.candidate_id !== -1){
+                                vm.votesCache.push({
+                                    candidate:Candidate.get({id:votePerCandidate.candidate_id}),
+                                    votesCount:votePerCandidate.number_of_votes
+                                });
+                            }
+                        });
+                    });
+                    return vm.votesCache;
+                }
+            }else{
+                vm.idOfLastDistrict = null;
+                vm.votesCache = null;
+            }
+        };
+
+        vm.getVotesSumTableClass = function(){
+            if(vm.selectedRound === 1){
+                return "votesSumIntroRoundTable";
+            }else{
+                return "votesSumFinalRoundTable";
+            }
+        };
     }
 })();

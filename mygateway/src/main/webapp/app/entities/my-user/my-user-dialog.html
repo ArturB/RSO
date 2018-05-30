@@ -4,7 +4,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myMyUserLabel">Utwórz bądz zmień My User</h4>
+        <h4 class="modal-title" id="myMyUserLabel">Utwórz bądz zmień użytkownika</h4>
     </div>
     <div class="modal-body">
         <div class="form-group" ng-show="vm.myUser.id">
@@ -87,7 +87,6 @@
                     Błędny adres e-mail
                 </p>
             </div>
-            <p>{{edit.birthdate.$error}}</p>
         </div>
         <div class="form-group">
             <label class="control-label" for="field_birthdate">Data urodzenia</label>
@@ -111,7 +110,6 @@
                     Data jest w złym formacie
                 </p>
             </div>
-            <p>{{editForm.birthdate}}</p>
         </div>
         <div class="form-group">
             <label class="control-label" for="field_pesel">Pesel</label>

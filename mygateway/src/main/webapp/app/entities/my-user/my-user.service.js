@@ -37,6 +37,14 @@
                     copy.role = copy.role.code;
                     return angular.toJson(copy);
                 }
+            },
+            'disable': {
+                method: 'POST',
+                isArray: false,
+                url: 'msapp/api/my-users/:id/disable',
+                params: {
+                    id: '@id'
+                }
             }
         });
     }

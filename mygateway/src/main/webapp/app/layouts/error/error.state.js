@@ -14,7 +14,7 @@
                 url: '/error',
                 data: {
                     authorities: [],
-                    pageTitle: 'Error page!'
+                    pageTitle: 'Błąd'
                 },
                 views: {
                     'content@': {

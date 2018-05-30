@@ -34,7 +34,7 @@
             ];
         }else if(preset.municipalityId) {
             vm.roles = [
-                {name:"Przewodniczący gminnej komisji wyborczej", code:"ROLE_GKW_LEADER"}  ,
+                // {name:"Przewodniczący gminnej komisji wyborczej", code:"ROLE_GKW_LEADER"}  ,
                 {name:"Członek gminnej komisji wyborczej", code:"ROLE_GKW_MEMBER"}  ,
             ];
         } else{

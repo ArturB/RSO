@@ -5,7 +5,7 @@
  * Copyright (c) 2017 Adrian Wardell
  * Licensed MIT <https://github.com/siddii/angular-timer/blob/master/LICENSE.txt>
  */
-var timerModule = angular.module('mygatewayApp', [])
+var timerModule = angular.module('timer', [])
   .directive('timer', ['$compile', function ($compile) {
     return  {
       restrict: 'EA',
@@ -35,7 +35,6 @@ var timerModule = angular.module('mygatewayApp', [])
       },
       controller: ['$scope', '$element', '$attrs', '$timeout', 'I18nService', '$interpolate', 'progressBarService', function ($scope, $element, $attrs, $timeout, I18nService, $interpolate, progressBarService) {
 
-          console.log("AAAASSd")
         // Checking for trim function since IE8 doesn't have it
         // If not a function, create tirm with RegEx to mimic native trim
         if (typeof String.prototype.trim !== 'function') {
@@ -432,7 +431,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
   module.exports = timerModule;
 }
 
-var app = angular.module('mygatewayApp');
+var app = angular.module('timer');
 
 app.factory('I18nService', function() {
 
@@ -498,7 +497,7 @@ app.factory('I18nService', function() {
     return I18nService;
 });
 
-var app = angular.module('mygatewayApp');
+var app = angular.module('timer');
 
 app.factory('progressBarService', function() {
 

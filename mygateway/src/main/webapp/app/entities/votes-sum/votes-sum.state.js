@@ -16,8 +16,8 @@
             parent: 'entity',
             url: '/votes-sum',
             data: {
-                authorities: ['ROLE_OKW_LEADER'],
-                pageTitle: 'Votes sum'
+                authorities: ['ROLE_USER'],
+                pageTitle: 'Suma głosów'
             },
             views: {
                 'content@': {

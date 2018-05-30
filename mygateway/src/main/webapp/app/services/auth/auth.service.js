@@ -5,9 +5,13 @@
         .module('mygatewayApp')
         .factory('Auth', Auth);
 
-    Auth.$inject = ['$rootScope', '$state', '$sessionStorage', '$q', 'Principal', 'AuthServerProvider', 'Account', 'LoginService', 'Register', 'Activate', 'Password', 'PasswordResetInit', 'PasswordResetFinish'];
+    Auth.$inject = ['$rootScope', '$state', '$sessionStorage', '$q', 'Principal',
+        'AuthServerProvider', 'Account', 'LoginService', 'Register', 'Activate',
+        'Password', 'PasswordResetInit', 'PasswordResetFinish', '$timeout'];
 
-    function Auth ($rootScope, $state, $sessionStorage, $q, Principal, AuthServerProvider, Account, LoginService, Register, Activate, Password, PasswordResetInit, PasswordResetFinish) {
+    function Auth ($rootScope, $state, $sessionStorage, $q, Principal,
+                   AuthServerProvider, Account, LoginService, Register, Activate,
+                   Password, PasswordResetInit, PasswordResetFinish, $timeout) {
         var service = {
             activateAccount: activateAccount,
             authorize: authorize,
@@ -99,17 +103,21 @@
                 }.bind(this)).$promise;
         }
 
-        function login (credentials, callback) {
+
+        function login (credentials, callback, timeoutAmount) {
+            var otherThis = this;
             var cb = callback || angular.noop;
             var deferred = $q.defer();
 
-            AuthServerProvider.login(credentials)
+            // $timeout(function(){
+            AuthServerProvider.login(credentials,timeoutAmount)
                 .then(loginThen)
                 .catch(function (err) {
-                    this.logout();
+                    otherThis.logout();
                     deferred.reject(err);
                     return cb(err);
                 }.bind(this));
+            // }, 5000);
 
             function loginThen (data) {
                 Principal.identity(true).then(function(account) {

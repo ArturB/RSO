@@ -17,11 +17,11 @@
             url: '/votes-acceptance',
             data: {
                 authorities: ['ROLE_OKW_LEADER'],
-                pageTitle: 'Votes acceptance'
+                pageTitle: 'Zatwierdzanie głosów'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/votes-acceptance/votes-sum.html',
+                    templateUrl: 'app/entities/votes-acceptance/votes-acceptance.html',
                     controller: 'VotesAcceptanceController',
                     controllerAs: 'vm'
                 }

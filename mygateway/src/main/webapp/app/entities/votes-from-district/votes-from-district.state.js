@@ -14,7 +14,7 @@
             url: '/votes-from-district',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'VotesFromDistricts'
+                pageTitle: 'Głosy z okregów'
             },
             views: {
                 'content@': {
@@ -31,7 +31,7 @@
             url: '/votes-from-district/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'VotesFromDistrict'
+                pageTitle: 'Głosy z okręgów'
             },
             views: {
                 'content@': {

@@ -8,57 +8,70 @@
         .module('mygatewayApp')
         .controller('VotesAcceptanceController', VotesAcceptanceController);
 
-    VotesAcceptanceController.$inject = ['$scope', 'VotesAcceptance', 'Candidate', '$q', 'Principal', 'ElectoralPeriod'];
+    VotesAcceptanceController.$inject = ['$scope', 'VotesAcceptance', 'VotesSum', 'Candidate', '$q', 'Principal', 'ElectoralPeriod'];
 
-    function VotesAcceptanceController($scope, VotesAcceptance, Candidate, $q, Principal, ElectoralPeriod) {
+    function VotesAcceptanceController($scope, VotesAcceptance, VotesSum, Candidate, $q, Principal,
+                                       ElectoralPeriod) {
         var vm = this;
 
         vm.candidatesVotes = [];
         vm.invalidVotes = 0;
         vm.isSaving= false;
+        vm.saved=false;
+        vm.round = -1;
+        vm.districtId = -1;
+        vm.invalidVotes = -1;
 
         loadAll();
 
         function loadAll() {
-            var round = -1;
             ElectoralPeriod.getCurrentPeriod().then(function (result){
                 if(result.name === 'MidRoundPeriod'){
-                    round = 1;
+                    vm.round = 1;
                 }else if (result.name === 'PostElectionPeriod'){
-                    round = 2;
+                    vm.round = 2;
                 }else{
-                    round = 1;
+                    vm.round = 1;
                     console.error('!!! Wrong period to pass votes: '+result.name);
                 }
             }); //todo principal must be computed after getting round!!
 
-            Principal.hasAuthority('ROLE_OKW_MEMBER').then(function(authorityOk){
+            Principal.hasAuthority('ROLE_OKW_LEADER').then(function(authorityOk){
                 if(!authorityOk) {
                     return $q.reject();
                 }
                 return Principal.identity();
             }).then(function(account){
-                return Candidate.findByMunicipalityIdAndRound(
+                vm.districtId = account.electoralDistrictId;
+                return VotesSum.votesSumFromDistrict(
                     {
-                        municipalityId:account.municipalityId,
-                        round:round
+                        districtId:account.electoralDistrictId,
+                        round:vm.round
                     }).$promise;
             }).then(function(result){
-                angular.forEach(result, function(candidate){
+                angular.forEach(result, function(votePerCandidate){
+                    if(votePerCandidate.candidate_id === -1){
+                        vm.invalidVotes = votePerCandidate.number_of_votes;
+                    }
                     vm.candidatesVotes.push({
-                        candidate:candidate,
-                        votesCount:0
+                        candidate:Candidate.get({id:votePerCandidate.candidate_id}),
+                        votesCount:votePerCandidate.number_of_votes
                     });
                 });
             });
         }
 
         vm.save = function(){
-            Candidate.save(vm.candidate, onSaveSuccess, onSaveError);
+            vm.isSaving = true;
+            VotesAcceptance.acceptVotesFromDistrict({
+                    round:vm.round,
+                    districtId:vm.districtId
+            }, onSaveSuccess, onSaveError);
         };
 
         function onSaveSuccess (result) {
             vm.isSaving = false;
+            vm.saved = true;
         }
 
         function onSaveError () {

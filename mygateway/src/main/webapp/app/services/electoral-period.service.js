@@ -39,6 +39,9 @@
 
         service.getCurrentPeriod = function() {
             var deferred = $q.defer();
+            // _debugPeriod = {
+            //     name:'PostElectionPeriod'
+            // };
             if(_debugPeriod){
                 deferred.resolve(angular.copy(_debugPeriod));
             }else if(_periods){
@@ -51,6 +54,18 @@
             }
             return deferred.promise;
         };
+
+        service.getCurrentRound = function(){
+            return service.getCurrentPeriod().then(function (result){
+                if(result.name === 'MidRoundPeriod'){
+                    return 1;
+                }else if (result.name === 'PostElectionPeriod'){
+                    return 2;
+                }else{
+                    return 0;
+                }
+            });
+        }
 
         service.translatePeriod = function(name){
             if(name === "PreElectionPeriod"){

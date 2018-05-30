@@ -14,7 +14,7 @@
             url: '/municipality',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Municipalities'
+                pageTitle: 'Gminy'
             },
             views: {
                 'content@': {
@@ -31,7 +31,7 @@
             url: '/municipality/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Municipality'
+                pageTitle: 'Gmina'
             },
             views: {
                 'content@': {
