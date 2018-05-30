@@ -32,11 +32,12 @@ public class CandidateResource {
     private static final String ENTITY_NAME = "candidate";
 
     private final CandidateRepository candidateRepository;
-    
-    private final CandidateDatastax candidateDatastax = new CandidateDatastax(); 
 
-    public CandidateResource(CandidateRepository candidateRepository) {
+    private final CandidateDatastax candidateDatastax;
+
+    public CandidateResource(CandidateRepository candidateRepository, CandidateDatastax candidateDatastax) {
         this.candidateRepository = candidateRepository;
+        this.candidateDatastax = candidateDatastax;
     }
 
     /**
@@ -91,14 +92,14 @@ public class CandidateResource {
     public List<Candidate> getAllCandidates() {
         //log.debug("REST request to get all Candidates");
         //return candidateRepository.findAll();
-    	
+
     	return candidateDatastax.findAll();
-    	
-    	
-    	
-    			
-    	
-    			
+
+
+
+
+
+
     }
 
     /**

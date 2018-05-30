@@ -1,7 +1,11 @@
 package org.voting.gateway.domain;
 
 
-import javax.persistence.*;
+//import javax.persistence.*;
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
+
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
@@ -10,41 +14,47 @@ import java.util.Objects;
 /**
  * A Candidate.
  */
-@Entity
-@Table(name = "candidate")
+//@Entity
+@Table(name = "candidate",keyspace = "rso",
+    readConsistency = "QUORUM",
+    writeConsistency = "QUORUM",
+    caseSensitiveKeyspace = false,
+    caseSensitiveTable = false)
 public class Candidate implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    //@Id
+    @PartitionKey
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cantdidate_id")
+    private Integer id;
 
     @NotNull
-    @Column(name = "name", nullable = false)
+   // @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
-    @Column(name = "surname", nullable = false)
+    //@Column(name = "surname", nullable = false)
     private String surname;
 
     @NotNull
-    @Min(value = 18)
-    @Column(name = "age", nullable = false)
-    private Integer age;
+    //@Min(value = 18)
+    //@Column(name = "age", nullable = false)
+    private Short age;
 
-    @ManyToOne
-    private Party party;
+    //@ManyToOne
+    //private Party party;
 
-    @ManyToOne
-    private Municipality municipality;
+    //@ManyToOne
+    //private Municipality municipality;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -74,45 +84,45 @@ public class Candidate implements Serializable {
         this.surname = surname;
     }
 
-    public Integer getAge() {
+    public Short getAge() {
         return age;
     }
 
-    public Candidate age(Integer age) {
+    public Candidate age(Short age) {
         this.age = age;
         return this;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(Short age) {
         this.age = age;
     }
 
-    public Party getParty() {
-        return party;
-    }
+//    public Party getParty() {
+//        return party;
+//    }
 
-    public Candidate party(Party party) {
-        this.party = party;
-        return this;
-    }
+//    public Candidate party(Party party) {
+//        this.party = party;
+//        return this;
+//    }
 
-    public void setParty(Party party) {
-        this.party = party;
-    }
-
-    public Municipality getMunicipality() {
-        return municipality;
-    }
-
-    public Candidate municipality(Municipality municipality) {
-        this.municipality = municipality;
-        return this;
-    }
-
-    public void setMunicipality(Municipality municipality) {
-        this.municipality = municipality;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+//    public void setParty(Party party) {
+//        this.party = party;
+//    }
+//
+//    public Municipality getMunicipality() {
+//        return municipality;
+//    }
+//
+//    public Candidate municipality(Municipality municipality) {
+//        this.municipality = municipality;
+//        return this;
+//    }
+//
+//    public void setMunicipality(Municipality municipality) {
+//        this.municipality = municipality;
+//    }
+//    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
