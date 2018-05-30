@@ -3,10 +3,7 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.voting.gateway.domain.PerCandidateVotes;
 import org.voting.gateway.repository.ElectoralDistrictRepository;
 import org.voting.gateway.repository.MunicipalityRepository;
@@ -71,5 +68,11 @@ public class VotesSumResource {
                 vote.setType("Zwykły");
                 return vote;
             }).collect(Collectors.toList());
+    }
+
+    @PostMapping("/districts/{districtId}/{round}/acceptVotes")
+    @Timed
+    public void acceptVotes(@PathVariable long districtId, @PathVariable long round){
+        log.debug("REST request to accept votes from district: {} and round {}", districtId, round);
     }
 }

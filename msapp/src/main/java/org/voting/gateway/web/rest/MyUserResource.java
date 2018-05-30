@@ -8,6 +8,7 @@ import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.MyUserRepository;
 import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
+import org.voting.gateway.web.rest.errors.InvalidPasswordException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -140,6 +141,13 @@ public class MyUserResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
+    @PostMapping("/my-users/{id}/disable")
+    @Timed
+    public ResponseEntity<Void> disableMyUser(@PathVariable Long id) {
+        log.debug("REST request to disable MyUser : {}", id);
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("Zablokowano konto użytkownika o id "+id, id.toString()))
+            .build();
+    }
 
     @GetMapping("/municipalities/{municipalityId}/users")
     @Timed
