@@ -14,7 +14,7 @@
             url: '/my-user',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'MyUsers'
+                pageTitle: 'Użytkownicy'
             },
             views: {
                 'content@': {
@@ -31,7 +31,7 @@
             url: '/my-user/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'MyUser'
+                pageTitle: 'Użytkownicy'
             },
             views: {
                 'content@': {

@@ -356,3 +356,42 @@ Fix error field display
 }
 
 /* jhipster-needle-css-add-main JHipster will add new css style */
+.navbar-collapse { padding: 0; } /* forces the nav to take full container with */
+.navbar-nav.wide > li > a { text-transform: uppercase; }
+.navbar-nav.wide > li:first-child { text-align: left; } /* alligns first element to the left border */
+.navbar-nav.wide > li:last-child { text-align: right; } /* similar for right border */
+.navbar-nav.wide > li:first-child > a, .navbar-nav > li:last-child > a { padding: 0; }
+.navbar-nav.wide { display: table; width: 100%; margin: 0; }
+.navbar-nav.wide > li { display: table-cell; text-align: center; float: none; }
+
+.debug-border{
+    padding: 1em;
+    border: 10px dashed orange;
+    width:40%;
+}
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+
+.votesSumIntroRoundTable > tbody > tr:nth-child(1){
+    background-color: lightsteelblue
+}
+
+.votesSumIntroRoundTable > tbody > tr:nth-child(2) {
+    background-color: lightsteelblue
+}
+
+.votesSumFinalRoundTable > tbody > tr:nth-child(1){
+    background-color: lightyellow
+}

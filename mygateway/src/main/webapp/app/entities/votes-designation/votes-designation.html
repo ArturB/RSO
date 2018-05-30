@@ -1,5 +1,8 @@
 <div>
-    <h2>Prześlij głosy</h2>
+    <h2>Prześlij głosy z tury
+        <b is-period="MidRoundPeriod">Pierwszej</b>
+        <b is-period="PostElectionPeriod">Drugiej</b>
+    </h2>
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
     <br/>
@@ -40,9 +43,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" >
+                <button class="btn btn-primary" ng-disabled="vm.isSaving" ng-click="vm.save()">
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span >
+                    <span>
                         Prześlij!
                     </span>
                 </button>

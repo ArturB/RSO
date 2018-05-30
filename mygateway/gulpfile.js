@@ -95,7 +95,9 @@ gulp.task('ngconstant:dev', function () {
         constants: {
             VERSION: util.parseVersion(),
             DEBUG_INFO_ENABLED: true,
-            BUILD_TIMESTAMP: ''
+            BUILD_TIMESTAMP: '',
+            FUN_THINGS: false,
+            PERIOD_FILTERING: true
         },
         template: config.constantTemplate,
         stream: true
@@ -110,7 +112,9 @@ gulp.task('ngconstant:prod', function () {
         constants: {
             VERSION: util.parseVersion(),
             DEBUG_INFO_ENABLED: false,
-            BUILD_TIMESTAMP: new Date().getTime()
+            BUILD_TIMESTAMP: new Date().getTime(),
+            FUN_THINGS: false,
+            PERIOD_FILTERING: true
         },
         template: config.constantTemplate,
         stream: true

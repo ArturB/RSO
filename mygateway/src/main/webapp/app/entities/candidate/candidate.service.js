@@ -26,7 +26,16 @@
                 method: 'GET',
                 isArray: true,
                 params: {
+                    municipalityId: '@municipalityId'
+                }
+            },
+            findByMunicipalityIdAndRound: {
+                url: 'msapp/api/municipalities/:municipalityId/:round/candidates',
+                method: 'GET',
+                isArray: true,
+                params: {
                     municipalityId: '@municipalityId',
+                    round: '@round'
                 }
             }
         });

@@ -38,13 +38,13 @@ public class UserLoginDataRepository {
     {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String passHash = encoder.encode("abc");
-        user = new User();
-        user.setLogin("abc");
+        this.user = new User();
+        this.user.setLogin("abc");
         //user.setPassword(passHash);
-        user.setActivated(true);
+        this.user.setActivated(true);
         Authority authority = new Authority();
         authority.setName("ROLE_ADMIN");
-        user.getAuthorities().add(authority);
+        this.user.getAuthorities().add(authority);
     }
 
 

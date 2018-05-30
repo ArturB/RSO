@@ -4,7 +4,9 @@
     angular
         .module('mygatewayApp')
         .constant('VERSION', "0.0.1-SNAPSHOT")
-        .constant('DEBUG_INFO_ENABLED', true)
-        .constant('BUILD_TIMESTAMP', "")
+        .constant('DEBUG_INFO_ENABLED', false)
+        .constant('BUILD_TIMESTAMP', 1527700148386)
+        .constant('FUN_THINGS', false)
+        .constant('PERIOD_FILTERING', true)
 ;
 })();

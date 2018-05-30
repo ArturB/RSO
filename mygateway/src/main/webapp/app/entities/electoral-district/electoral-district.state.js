@@ -14,7 +14,7 @@
             url: '/electoral-district',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'ElectoralDistricts'
+                pageTitle: 'Okręgi wyborcze'
             },
             views: {
                 'content@': {
@@ -31,7 +31,7 @@
             url: '/electoral-district/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'ElectoralDistrict'
+                pageTitle: 'Okręg wyborczy'
             },
             views: {
                 'content@': {

@@ -17,7 +17,7 @@
             url: '/votes-designation',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Votes designation'
+                pageTitle: 'Wpisanie głosów'
             },
             views: {
                 'content@': {

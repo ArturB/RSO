@@ -21,15 +21,15 @@
             <div ng-show="editForm.nrOfVotes.$invalid">
                 <p class="help-block"
                     ng-show="editForm.nrOfVotes.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
                 <p class="help-block"
                     ng-show="editForm.nrOfVotes.$error.min" translate-value-min="0">
-                    This field should be at least 0.
+                    Minimalna liczba głosów to 0
                 </p>
                 <p class="help-block"
                     ng-show="editForm.nrOfVotes.$error.number">
-                    This field should be a number.
+                    Pole powinno być liczbą
                 </p>
             </div>
         </div>
@@ -45,7 +45,7 @@
             <div ng-show="editForm.date.$invalid">
                 <p class="help-block"
                     ng-show="editForm.date.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
             </div>
         </div>
@@ -57,7 +57,7 @@
             <div ng-show="editForm.type.$invalid">
                 <p class="help-block"
                     ng-show="editForm.type.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
             </div>
         </div>
@@ -83,10 +83,10 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Anuluj</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Zapisz</span>
         </button>
     </div>
 </form>

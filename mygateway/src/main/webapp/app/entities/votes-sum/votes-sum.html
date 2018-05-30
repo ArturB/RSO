@@ -1,0 +1,72 @@
+<div>
+    <h2>Wyniki wyborów:</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+{{vm.rounds}}
+        <div ng-hide="vm.rounds">
+            <h2>Wybory się jeszcze nie skończyły!</h2>
+        </div>
+
+        <div ng-show="vm.rounds">
+            <div ng-show="vm.rounds.length > 1">
+                <h3>Tura wyborów:</h3>
+                <select class="form-control" id="field_round" name="round" ng-model="vm.selectedRound" ng-init="1"
+                        ng-options="round  for round in vm.rounds track by round">
+                </select>
+            </div>
+            <div ng-show="vm.rounds.length === 1">
+                <h3>Pierwsza tura</h3>
+            </div>
+
+            <h3>Gmina:</h3>
+            <select class="form-control" id="field_municipality" name="municipality" ng-model="vm.selectedMunicipality"
+                    ng-options="municipality as municipality.name for municipality in vm.municipalities track by municipality.id"
+                    >
+                <option value=""></option>
+            </select>
+
+            <div ng-show="vm.selectedMunicipality">
+                <h4>Okręg:</h4>
+                <select class="form-control" id="field_district" name="district" ng-model="vm.selectedDistrictId"
+                        ng-options="district as district.name for district in vm.getDistricts(vm.selectedMunicipality) track by district.id"
+                        >
+                    <option value=""></option>
+                </select>
+                <br/>
+
+                <div class="table-responsive" ng-show="vm.selectedDistrictId">
+
+                    <table class="jh-table table table-striped" ng-class="vm.getVotesSumTableClass()">
+                        <thead>
+                        <tr>
+                            <th class="col col-lg-1" ><span>Ilość głosów</span></th>
+                            <th><span>Kandydat</span></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="candidateVote in vm.getVotesFromDisctict(vm.selectedDistrictId)
+                            | orderBy:'votesCount':true"
+                            ng-class='{in:$first}'
+                        >
+                            <td>
+                                {{candidateVote.votesCount}}
+                            </td>
+                            <td>
+                                <strong>
+                                    {{candidateVote.candidate.name}} {{candidateVote.candidate.surname}}
+                                </strong>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3>Głosy nieważne</h3>
+                <input type="number" class="form-control" name="invalidVotes" id="field_invalidVotes"
+                       ng-model="vm.invalidVotes" disabled/>
+            </div>
+
+
+        </div>
+    </div>
+</div>

@@ -25,7 +25,9 @@
                 animation: true,
                 templateUrl: 'app/components/login/login.html',
                 controller: 'LoginController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                backdrop  : 'static',
+                keyboard  : false
             });
             modalInstance.result.then(
                 resetModal,

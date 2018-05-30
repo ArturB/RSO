@@ -25,7 +25,8 @@
     "swagger-ui": "2.1.5",
     "angular-filter": "0.5.17",
     "arrive": "2.3.0",
-    "bootstrap-material-design": "0.5.10"
+    "bootstrap-material-design": "0.5.10",
+    "angular-timer" : "latest"
   },
   "devDependencies": {
     "angular-mocks": "1.5.8"

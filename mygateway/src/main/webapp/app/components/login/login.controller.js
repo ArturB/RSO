@@ -5,12 +5,13 @@
         .module('mygatewayApp')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$rootScope', '$state', '$timeout', 'Auth', '$uibModalInstance'];
+    LoginController.$inject = ['$rootScope', '$window', '$state', '$timeout', 'Auth', '$uibModalInstance'];
 
-    function LoginController ($rootScope, $state, $timeout, Auth, $uibModalInstance) {
+    function LoginController ($rootScope, $window, $state, $timeout, Auth, $uibModalInstance) {
         var vm = this;
 
         vm.authenticationError = false;
+        vm.timeoutError = false;
         vm.cancel = cancel;
         vm.credentials = {};
         vm.login = login;
@@ -19,6 +20,8 @@
         vm.rememberMe = true;
         vm.requestResetPassword = requestResetPassword;
         vm.username = null;
+        vm.isLoging = false;
+        vm.loginTimeoutTime = 8000;
 
         $timeout(function (){angular.element('#username').focus();});
 
@@ -34,12 +37,15 @@
 
         function login (event) {
             event.preventDefault();
+            vm.isLoging = true;
             Auth.login({
                 username: vm.username,
                 password: vm.password,
                 rememberMe: vm.rememberMe
-            }).then(function () {
+            }, angular.noop(), vm.loginTimeoutTime).then(function () {
+                vm.isLoging = false;
                 vm.authenticationError = false;
+                vm.timeoutError = false;
                 $uibModalInstance.close();
                 if ($state.current.name === 'register' || $state.current.name === 'activate' ||
                     $state.current.name === 'finishReset' || $state.current.name === 'requestReset') {
@@ -56,7 +62,15 @@
                     // $state.go(previousState.name, previousState.params);
                     $state.go('home');
                 }
-            }).catch(function () {
+            }, function (xx) {
+                if(xx.status == -1){
+                    vm.timeoutError = true;
+                    vm.loginTimeoutTime = undefined;
+                }
+                vm.isLoging = false;
+                vm.authenticationError = true;
+            }).catch(function (xx) {
+                vm.isLoging = false;
                 vm.authenticationError = true;
             });
         }

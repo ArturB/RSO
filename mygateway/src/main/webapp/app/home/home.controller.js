@@ -5,19 +5,26 @@
         .module('mygatewayApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Municipality', 'ElectoralDistrict'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Municipality', 'ElectoralDistrict', 'ElectoralPeriod'];
 
-    function HomeController ($scope, Principal, LoginService, $state, Municipality, ElectoralDistrict) {
+    function HomeController ($scope, Principal, LoginService, $state, Municipality, ElectoralDistrict, ElectoralPeriod) {
         var vm = this;
 
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
+        vm.period = null;
+        ElectoralPeriod.getCurrentPeriod().then(function (result){
+            vm.period = result;
+            vm.period.name = ElectoralPeriod.translatePeriod(result.name);
+        });
+
         vm.register = register;
         $scope.$on('authenticationSuccess', function() {
             getAccount();
             $state.go($state.current, {}, {reload: true});
         });
+        vm.changePeriod = changePeriod;
 
         getAccount();
 
@@ -52,5 +59,11 @@
         function register () {
             $state.go('register');
         }
+
+        function changePeriod(periodName){
+            ElectoralPeriod.setDebugPeriod(periodName);
+            $state.reload();
+        }
+
     }
 })();

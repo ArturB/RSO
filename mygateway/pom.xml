@@ -381,6 +381,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zuul</artifactId>
         </dependency>
+<dependency>
+  <groupId>javax.xml.bind</groupId>
+  <artifactId>jaxb-api</artifactId>
+  <version>2.3.0</version>
+</dependency>
     </dependencies>
 
     <build>
@@ -745,6 +750,15 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-undertow</artifactId>
                 </dependency>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-devtools</artifactId>
+                    <optional>true</optional>
+                </dependency>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
             </dependencies>
             <build>
                 <plugins>
@@ -834,16 +848,16 @@
                                     <arguments>build --no-notification</arguments>
                                 </configuration>
                             </execution>
-                            <execution>
-                                <id>gulp test</id>
-                                <goals>
-                                    <goal>gulp</goal>
-                                </goals>
-                                <phase>test</phase>
-                                <configuration>
-                                    <arguments>test --no-notification</arguments>
-                                </configuration>
-                            </execution>
+                            <!--<execution>-->
+                                <!--<id>gulp test</id>-->
+                                <!--<goals>-->
+                                    <!--<goal>gulp</goal>-->
+                                <!--</goals>-->
+                                <!--<phase>test</phase>-->
+                                <!--<configuration>-->
+                                    <!--<arguments>test &#45;&#45;no-notification</arguments>-->
+                                <!--</configuration>-->
+                            <!--</execution>-->
                         </executions>
                     </plugin>
                     <plugin>

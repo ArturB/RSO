@@ -14,7 +14,7 @@
             url: '/party',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Parties'
+                pageTitle: 'Partie'
             },
             views: {
                 'content@': {
@@ -31,7 +31,7 @@
             url: '/party/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Party'
+                pageTitle: 'Partia'
             },
             views: {
                 'content@': {

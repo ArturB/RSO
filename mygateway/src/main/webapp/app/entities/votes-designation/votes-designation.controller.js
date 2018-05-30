@@ -8,24 +8,41 @@
         .module('mygatewayApp')
         .controller('VotesDesignationController', VotesDesignationController);
 
-    VotesDesignationController.$inject = ['VotesDesignation', 'Candidate', '$q', 'Principal'];
+    VotesDesignationController.$inject = ['$scope', 'VotesDesignation', 'Candidate', '$q', 'Principal', 'ElectoralPeriod'];
 
-    function VotesDesignationController(VotesDesignation, Candidate, $q, Principal) {
+    function VotesDesignationController($scope, VotesDesignation, Candidate, $q, Principal, ElectoralPeriod) {
         var vm = this;
 
         vm.candidatesVotes = [];
         vm.invalidVotes = 0;
+        vm.isSaving= false;
 
         loadAll();
 
         function loadAll() {
+            var round = -1;
+            ElectoralPeriod.getCurrentPeriod().then(function (result){
+                if(result.name === 'MidRoundPeriod'){
+                    round = 1;
+                }else if (result.name === 'PostElectionPeriod'){
+                    round = 2;
+                }else{
+                    round = 1;
+                    console.error('!!! Wrong period to pass votes: '+result.name);
+                }
+            }); //todo principal must be computed after getting round!!
+
             Principal.hasAuthority('ROLE_OKW_MEMBER').then(function(authorityOk){
                 if(!authorityOk) {
                     return $q.reject();
                 }
                 return Principal.identity();
             }).then(function(account){
-                return Candidate.findByMunicipalityId({municipalityId:account.municipalityId}).$promise;
+                return Candidate.findByMunicipalityIdAndRound(
+                    {
+                        municipalityId:account.municipalityId,
+                        round:round
+                    }).$promise;
             }).then(function(result){
                 angular.forEach(result, function(candidate){
                     vm.candidatesVotes.push({
@@ -34,6 +51,18 @@
                     });
                 });
             });
+        }
+
+        vm.save = function(){
+            Candidate.save(vm.candidate, onSaveSuccess, onSaveError);
+        };
+
+        function onSaveSuccess (result) {
+            vm.isSaving = false;
+        }
+
+        function onSaveError () {
+            vm.isSaving = false;
         }
     }
 })();
