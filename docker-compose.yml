@@ -11,9 +11,7 @@ services:
         - JHIPSTER_REGISTRY_PASSWORD=admin  
         - JHIPSTER_SLEEP=2
     ports:
-        - 8081:8081    
-    deploy:
-        replicas: 2                
+        - 8081:8081                 
   mygateway-app:
     build:
       context: mygateway/target 
@@ -30,9 +28,7 @@ services:
         - 8080:8443
         - 8443:8443
         - 80:8443
-        - 443:8443
-    deploy:
-        replicas: 2           
+        - 443:8443         
   myuaa-app:
     build:
       context: myuaa/target 
@@ -44,6 +40,4 @@ services:
         - JHIPSTER_SLEEP=2
         - JHIPSTER_REGISTRY_PASSWORD=admin    
     ports:
-        - 9999:9999 
-    deploy:
-        replicas: 2       
+        - 9999:9999        
