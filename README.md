@@ -2,17 +2,6 @@
 
 # RSO 2018L
 
-## Funkcjonalność
-Na chwilę obecną, projekt zawiera dwie usługi sieciowe:
- - serwer HTTPS (s_server z OpenSSL), który wypisuje trochę informacji o samym sobie
- - serwer HTTPS ncat, który przekierowuje do HTTPS
- 
-oraz dwa projekty Mavena:
- - service1
- - service2
-
-jako szablon do dalszej rozbudowy.
-
 ## Continuous Integration
 CI z użyciem Travisa. W celu zbudowania projektu, Travis wykonuje skrypt build.sh.  
 
@@ -28,5 +17,6 @@ CD również z użyciem Travisa i Dockera, przez SSH. Po zalogowaniu na hoście 
  - klucze SSH do autoryzacji przechowywane są w pliku keys.tar.enc, w formie zaszyfrowanej. Może je odczytać tylko Travis. 
  - klucze SSL używane podczas stawiania serwera HTTPS przechowywane są na docelowym serwerze i są dynamicznie wczytywane przez Dockera (za pomocą mechanizmu woluminów) podczas uruchamiania usług. Nie ma możliwości ich odczytania z poziomu użytkownia rso. 
  - klucze RSA używane przez Travisa do obsługi szyfrowania są zapisane w polach "secure".
-
+ ## Issues
+ W zakładce issues są problemy do rozwiązania dotyczące projektu. Ponieważ sposób działania systemu może znacząco się różnić w zależności od zalogowanego użytkownika, przyjmuje się zasadę, że każdy issue jest tagowany nazwą konta, na którym pojawił się błąd. Jeśli błąd występuje na wszystkich kontach, piszemy tag [all]. 
  
