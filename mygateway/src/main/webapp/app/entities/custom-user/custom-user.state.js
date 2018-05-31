@@ -8,12 +8,13 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
+
         $stateProvider
             .state('custom-user', {
                 parent: 'entity',
                 url: '/custom-user',
                 data: {
-                    authorities: ['ROLE_USER'],
+                    authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
                     pageTitle: 'Użytkownicy'
                 },
                 views: {
@@ -29,7 +30,7 @@
                 parent: 'custom-user',
                 url: '/custom-user/{id}',
                 data: {
-                    authorities: ['ROLE_USER'],
+                    authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
                     pageTitle: 'CustomUser'
                 },
                 views: {
@@ -57,7 +58,7 @@
                 parent: 'custom-user-detail',
                 url: '/detail/edit',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
@@ -82,7 +83,7 @@
                 parent: 'custom-user',
                 url: '/new',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
@@ -111,7 +112,7 @@
                 parent: 'custom-user',
                 url: '/{id}/edit',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
@@ -136,7 +137,7 @@
                 parent: 'custom-user',
                 url: '/{id}/delete',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
@@ -160,7 +161,7 @@
                 parent: 'custom-user',
                 url: '/{id}/disable',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
@@ -184,7 +185,7 @@
                 parent: 'custom-user',
                 url: '/bignew/{municipalityId}/{electoralDistrictId}',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
@@ -224,7 +225,7 @@
                 parent: 'custom-user',
                 url: '/bigEdit/{userId}',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({

@@ -23,8 +23,9 @@
             </thead>
             <tbody>
             <tr ng-repeat="candidateVote in value track by candidateVote.candidate.id ">
-                <td><a ui-sref="candidate-detail({id:candidateVote.candidate.id})">
-                    {{candidateVote.candidate.name}} {{candidateVote.candidate.surname}}</a></td>
+                <td>
+                    {{candidateVote.candidate.name}} {{candidateVote.candidate.surname}}
+                </td>
                 <td>
                     <input type="number" class="form-control" name="votesCount" id="field_votesCount"
                            ng-model="candidateVote.votesCount"

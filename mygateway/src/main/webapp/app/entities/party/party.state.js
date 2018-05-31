@@ -13,7 +13,7 @@
             parent: 'entity',
             url: '/party',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
                 pageTitle: 'Partie'
             },
             views: {
@@ -30,7 +30,7 @@
             parent: 'party',
             url: '/party/{id}',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
                 pageTitle: 'Partia'
             },
             views: {
@@ -58,7 +58,7 @@
             parent: 'party-detail',
             url: '/detail/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -83,7 +83,7 @@
             parent: 'party',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -112,7 +112,7 @@
             parent: 'party',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -137,7 +137,7 @@
             parent: 'party',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
