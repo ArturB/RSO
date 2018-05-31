@@ -4,8 +4,11 @@ package org.voting.gateway.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.datastax.driver.mapping.annotations.PartitionKey;
+
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Party.
@@ -16,27 +19,34 @@ public class Party implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private Long id;
 
+    @PartitionKey
     @NotNull
-    @Column(name = "abbreviation", nullable = false)
+    @Column(name = "party_id")
+    private UUID id;    
+    
+    @Column(name = "abbreviation")
     private String abbreviation;
 
-    @NotNull
-    @Column(name = "name", nullable = false)
+    @Column(name = "party_name")
     private String name;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+    
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
+    public Party id(UUID id) {
+    	this.id = id;
+    	return this;
+    }
+    
     public String getAbbreviation() {
         return abbreviation;
     }
@@ -49,7 +59,7 @@ public class Party implements Serializable {
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
     }
-
+    
     public String getName() {
         return name;
     }
@@ -62,7 +72,6 @@ public class Party implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -72,11 +81,11 @@ public class Party implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Party party = (Party) o;
-        if (party.getId() == null || getId() == null) {
+        Municipality municipality = (Municipality) o;
+        if (municipality.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), party.getId());
+        return Objects.equals(getId(), municipality.getId());
     }
 
     @Override
@@ -86,10 +95,10 @@ public class Party implements Serializable {
 
     @Override
     public String toString() {
-        return "Party{" +
-            "id=" + getId() +
-            ", abbreviation='" + getAbbreviation() + "'" +
-            ", name='" + getName() + "'" +
+        return "Municipality{" +
+            "id=" + getId() + "'" +
+            ", abbreviation=" + getAbbreviation() + "'" +
+            ", name='" + getName() +
             "}";
     }
 }

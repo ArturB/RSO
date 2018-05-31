@@ -2,9 +2,13 @@ package org.voting.gateway.domain;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import com.datastax.driver.mapping.annotations.PartitionKey;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Municipality.
@@ -15,22 +19,34 @@ public class Municipality implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private Long id;
 
-    @Column(name = "name")
+    @PartitionKey
+    @NotNull
+    @Column(name = "municipality_id")
+    private UUID id;    
+    
+    @Column(name = "municipality_name")
     private String name;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+    @Column(name = "municipality_position_name")
+    private String positionName;
+    
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
+    public Municipality id(UUID id) {
+    	this.id = id;
+    	return this;
+    }
+    
     public String getName() {
         return name;
     }
@@ -43,8 +59,20 @@ public class Municipality implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public Municipality positionName(String positionName) {
+        this.positionName = positionName;
+        return this;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -68,8 +96,9 @@ public class Municipality implements Serializable {
     @Override
     public String toString() {
         return "Municipality{" +
-            "id=" + getId() +
+            "id=" + getId() + "'" +
             ", name='" + getName() + "'" +
+            ", positionName='" + getPositionName() +
             "}";
     }
 }

@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Candidate.
@@ -27,21 +28,41 @@ public class Candidate implements Serializable {
     //@Id
     @PartitionKey
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cantdidate_id")
-    private Integer id;
-
     @NotNull
-   // @Column(name = "name", nullable = false)
-    private String name;
-
-    @NotNull
-    //@Column(name = "surname", nullable = false)
-    private String surname;
-
-    @NotNull
+    @Column(name = "candidate_id")
+    private UUID id;    
+    
+    //@NotNull
     //@Min(value = 18)
     //@Column(name = "age", nullable = false)
+    @Column(name = "age")
     private Short age;
+    
+    @NotNull
+    @Column(name = "municipality_id")
+    private Short municipalityId;
+    
+    // @NotNull
+    // @Column(name = "name", nullable = false)
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "occupation")
+    private String occupation;
+    
+    @NotNull
+    @Column(name = "party_id")
+    private Short partyId;
+    
+    @Column(name = "round")
+    private Short round;
+    
+    //@NotNull
+    //@Column(name = "surname", nullable = false)
+    @Column(name = "surname")
+    private String surname;
+
+    
 
     //@ManyToOne
     //private Party party;
@@ -50,38 +71,17 @@ public class Candidate implements Serializable {
     //private Municipality municipality;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public Candidate name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public Candidate surname(String surname) {
-        this.surname = surname;
-        return this;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    
+    public Candidate id(UUID id) {
+    	this.id = id;
+    	return this;
     }
 
     public Short getAge() {
@@ -95,6 +95,89 @@ public class Candidate implements Serializable {
 
     public void setAge(Short age) {
         this.age = age;
+    }
+    
+    public Short getManicipalityId() {
+        return manicipalityId;
+    }
+
+    public Candidate municipalityId(Short municipalityId) {
+        this.municipalityId = municipalityId;
+        return this;
+    }
+
+    public void setMunicipalityId(Short municipalityId {
+        this.municipalityId = municipalityId;
+    }
+    
+    
+    public String getName() {
+        return name;
+    }
+
+    public Candidate name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public Candidate Occupation(String occupation) {
+        this.occupation = occupation;
+        return this;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+    
+    public Short getPartyId() {
+        return partyId;
+    }
+
+    public Candidate partyId(Short partyId) {
+        this.partyId = partyId;
+        return this;
+    }
+
+    public void setPartyId(Short partyId) {
+        this.partyId = partyId;
+    }
+    
+    public Short getRound() {
+        return round;
+    }
+
+    public Candidate round(Short round) {
+        this.round = round;
+        return this;
+    }
+
+    public void setRound(Short round) {
+        this.round = round;
+    }
+    
+    public Short getRound() {
+        return round;
+    }
+
+    public Candidate surname(String surname) {
+        this.surname = surname;
+        return this;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getSurname() {
+    	return surname;
     }
 
 //    public Party getParty() {
@@ -148,9 +231,13 @@ public class Candidate implements Serializable {
     public String toString() {
         return "Candidate{" +
             "id=" + getId() +
+            ", age='" + getAge() + "'" +
+            ", municipalityId='" + getMunicipalityId() + "'" +
             ", name='" + getName() + "'" +
-            ", surname='" + getSurname() + "'" +
-            ", age=" + getAge() +
+            ", occupation='" + getOccupation() + "'" +
+            ", partyId = '" + getPartyId() + "'" +
+            ", round = '" + getRound() + "'" +
+            ", surname='" + getSurname() +
             "}";
     }
 }

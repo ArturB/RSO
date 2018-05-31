@@ -4,8 +4,11 @@ package org.voting.gateway.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.datastax.driver.mapping.annotations.PartitionKey;
+
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A ElectoralDistrict.
@@ -16,105 +19,59 @@ public class ElectoralDistrict implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @PartitionKey
+    @NotNull
+    @Column(name = "electoral_district_id")
+    private UUID id;
 
     @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @NotNull
-    @Column(name = "nr_can_vote", nullable = false)
-    private Integer nrCanVote;
-
-    @NotNull
-    @Column(name = "nr_cards_used", nullable = false)
-    private Integer nrCardsUsed;
-
-    @NotNull
-    @Column(name = "voting_finished", nullable = false)
-    private Boolean votingFinished;
-
-    @ManyToOne
-    @NotNull
-    private Municipality municipality;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+    @Column(name = "municipality_id")
+    private UUID municipalityId;
+    
+    @Column(name = "electoral_district_name")
+    private String electoralDistrictName;
+        
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public ElectoralDistrict id(UUID id) {
+        this.id = id;
+        return this;
+    }
+
+    public void setId(UUID id) {
         this.id = id;
     }
-
-    public String getName() {
-        return name;
+    
+    public UUID getMunicipalityId() {
+        return municipalityId;
     }
 
-    public ElectoralDistrict name(String name) {
-        this.name = name;
+    public ElectoralDistrict municipalityId(UUID municipalityId) {
+        this.municipalityId = municipalityId;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMunicipalityId(UUID municipalityId) {
+        this.municipalityId = municipalityId;
+    }
+    
+    public String getElectoralDistrictName() {
+        return electoralDistrictName;
     }
 
-    public Integer getNrCanVote() {
-        return nrCanVote;
-    }
-
-    public ElectoralDistrict nrCanVote(Integer nrCanVote) {
-        this.nrCanVote = nrCanVote;
+    public ElectoralDistrict electoralDistrictName(String electoralDistrictName) {
+        this.electoralDistrictName = electoralDistrictName;
         return this;
     }
 
-    public void setNrCanVote(Integer nrCanVote) {
-        this.nrCanVote = nrCanVote;
+    public void setElectoralDistrictName(String electoralDistrictName) {
+        this.electoralDistrictName = electoralDistrictName;
     }
-
-    public Integer getNrCardsUsed() {
-        return nrCardsUsed;
-    }
-
-    public ElectoralDistrict nrCardsUsed(Integer nrCardsUsed) {
-        this.nrCardsUsed = nrCardsUsed;
-        return this;
-    }
-
-    public void setNrCardsUsed(Integer nrCardsUsed) {
-        this.nrCardsUsed = nrCardsUsed;
-    }
-
-    public Boolean isVotingFinished() {
-        return votingFinished;
-    }
-
-    public ElectoralDistrict votingFinished(Boolean votingFinished) {
-        this.votingFinished = votingFinished;
-        return this;
-    }
-
-    public void setVotingFinished(Boolean votingFinished) {
-        this.votingFinished = votingFinished;
-    }
-
-    public Municipality getMunicipality() {
-        return municipality;
-    }
-
-    public ElectoralDistrict municipality(Municipality municipality) {
-        this.municipality = municipality;
-        return this;
-    }
-
-    public void setMunicipality(Municipality municipality) {
-        this.municipality = municipality;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -139,10 +96,8 @@ public class ElectoralDistrict implements Serializable {
     public String toString() {
         return "ElectoralDistrict{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", nrCanVote=" + getNrCanVote() +
-            ", nrCardsUsed=" + getNrCardsUsed() +
-            ", votingFinished='" + isVotingFinished() + "'" +
+            ", municipalityId='" + getMunicipalityId() + "'" +
+            ", electoralDistrictName='" + getElectoralDistrictName() +
             "}";
     }
 }

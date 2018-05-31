@@ -4,9 +4,13 @@ package org.voting.gateway.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.datastax.driver.mapping.annotations.PartitionKey;
+
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A VotesFromDistrict.
@@ -17,119 +21,146 @@ public class VotesFromDistrict implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private Long id;
 
+    @PartitionKey
+    @NotNull
+    @Column(name = "electoral_district_id")
+    private UUID id;    
+    
+    @Column(name = "accepted")
+    private boolean isAccepted;
+    
+    @NotNull
+    @Column(name = "candidate_id")
+    private UUID candidateId;
+    
+    // ??? nie wiem jak data bedzie
+    @Column(name = "date")
+    private Date date;
+
+    @NotNull
+    @Column(name = "municipality_id")
+    private UUID municipalityId;
+    
     @NotNull
     @Min(value = 0)
-    @Column(name = "nr_of_votes", nullable = false)
-    private Integer nrOfVotes;
-
-    @NotNull
-    @Column(name = "jhi_date", nullable = false)
-    private LocalDate date;
-
-    @NotNull
-    @Column(name = "jhi_type", nullable = false)
+    @Column(name = "number_of_votes")
+    private Integer numberOfVotes;
+    
+    @Column(name = "type")
     private String type;
+    
+    @NotNull
+    @Column(name = "user_id")
+    private UUID userId;
 
-    @ManyToOne
-    private ElectoralDistrict electoralDistrict;
-
-    @ManyToOne
-    private Candidate candidate;
-
-    @ManyToOne
-    private MyUser user;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
-
-    public Integer getNrOfVotes() {
-        return nrOfVotes;
+    
+    public VotesFromDistrict id(UUID id){
+    	this.id = id;
+    	return this;
+    }
+    
+    public void setIsAccepted(Boolean isAccepted) {
+        this.isAccepted = isAccepted;
     }
 
-    public VotesFromDistrict nrOfVotes(Integer nrOfVotes) {
-        this.nrOfVotes = nrOfVotes;
-        return this;
+    public Boolean getIsAccepted() {
+        return isAccepted;
+    }
+    
+    public VotesFromDistrict isAccepted(Boolean isAccepted) {
+    	this.isAccepted = isAccepted;
+    	return this;
+    }
+    
+    public void setCandidateId(UUID candidateId) {
+        this.candidateId = candidateId;
     }
 
-    public void setNrOfVotes(Integer nrOfVotes) {
-        this.nrOfVotes = nrOfVotes;
+    public UUID getCandidateId() {
+        return candidateId;
+    }
+    
+    public VotesFromDistrict candidateId(UUID candidateId) {
+    	this.candidateId = candidateId;
+    	return this;
+    }
+    
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public LocalDate getDate() {
+    public Date getDate1() {
         return date;
     }
-
-    public VotesFromDistrict date(LocalDate date) {
-        this.date = date;
-        return this;
+    
+    public VotesFromDistrict date(Date date) {
+    	this.date = date;
+    	return this;
+    }
+    
+    public void setMunicipalityId(UUID municipalityId) {
+        this.municipalityId = municipalityId;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public UUID getMunicipalityId() {
+        return municipalityId;
+    }
+    
+    public VotesFromDistrict municipalityId(UUID municipalityId) {
+    	this.municipalityId = municipalityId;
+    	return this;
+    }
+    
+    public void setNumberOfVotes(Integer numberOfVotes) {
+        this.numberOfVotes = numberOfVotes;
+    }
+
+    public Integer getNumberOfVotes() {
+        return numberOfVotes;
+    }
+    
+    public VotesFromDistrict numberOfVotes(Integer numberOfVotes) {
+    	this.numberOfVotes = numberOfVotes;
+    	return this;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getType() {
         return type;
     }
-
+    
     public VotesFromDistrict type(String type) {
-        this.type = type;
-        return this;
+    	this.type = type;
+    	return this;
+    }
+    
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public UUID getUserId() {
+        return userId;
     }
-
-    public ElectoralDistrict getElectoralDistrict() {
-        return electoralDistrict;
+    
+    public VotesFromDistrict userId(UUID userId) {
+    	this.userId = userId;
+    	return this;
     }
-
-    public VotesFromDistrict electoralDistrict(ElectoralDistrict electoralDistrict) {
-        this.electoralDistrict = electoralDistrict;
-        return this;
-    }
-
-    public void setElectoralDistrict(ElectoralDistrict electoralDistrict) {
-        this.electoralDistrict = electoralDistrict;
-    }
-
-    public Candidate getCandidate() {
-        return candidate;
-    }
-
-    public VotesFromDistrict candidate(Candidate candidate) {
-        this.candidate = candidate;
-        return this;
-    }
-
-    public void setCandidate(Candidate candidate) {
-        this.candidate = candidate;
-    }
-
-    public MyUser getUser() {
-        return user;
-    }
-
-    public VotesFromDistrict user(MyUser myUser) {
-        this.user = myUser;
-        return this;
-    }
-
-    public void setUser(MyUser myUser) {
-        this.user = myUser;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+    
 
     @Override
     public boolean equals(Object o) {
@@ -154,10 +185,14 @@ public class VotesFromDistrict implements Serializable {
     @Override
     public String toString() {
         return "VotesFromDistrict{" +
-            "id=" + getId() +
-            ", nrOfVotes=" + getNrOfVotes() +
-            ", date='" + getDate() + "'" +
+            "id=" + getId() + "'" +
+        	", isAccepted=" + getIsAccepted() + "'" +
+            ", candidateId=" + getCandidateId() + "'" +
+        	", date=" + getDate1() + "'" +
+            ", municipalityId=" + getMunicipalityId() + "'" +
+        	", numberOfVotes=" + getNumberOfVotes() + "'" +
             ", type='" + getType() + "'" +
+            ", userId=" + getUserId() +
             "}";
     }
 }
