@@ -18,14 +18,12 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span>ID</span></th>
                     <th><span>Nazwa</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="municipality in vm.municipalities track by municipality.id">
-                    <td><a ui-sref="municipality-detail({id:municipality.id})">{{municipality.id}}</a></td>
                     <td>{{municipality.name}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
