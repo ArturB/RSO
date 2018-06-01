@@ -3,7 +3,7 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.ElectoralDistrict;
 
-import org.voting.gateway.repository.ElectoralDistrictRepository;
+import org.voting.gateway.repository.ElectoralDistrictRepository_old;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -31,9 +31,9 @@ public class ElectoralDistrictResource {
 
     private static final String ENTITY_NAME = "electoralDistrict";
 
-    private final ElectoralDistrictRepository electoralDistrictRepository;
+    private final ElectoralDistrictRepository_old electoralDistrictRepository;
 
-    public ElectoralDistrictResource(ElectoralDistrictRepository electoralDistrictRepository) {
+    public ElectoralDistrictResource(ElectoralDistrictRepository_old electoralDistrictRepository) {
         this.electoralDistrictRepository = electoralDistrictRepository;
     }
 

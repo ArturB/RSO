@@ -13,6 +13,6 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MyUserRepository extends JpaRepository<MyUser, Long> {
+public interface MyUserRepository_old extends JpaRepository<MyUser, Long> {
     List<MyUser> findByUsername(String username);
 }

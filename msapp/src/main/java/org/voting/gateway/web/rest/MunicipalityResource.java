@@ -3,7 +3,7 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.Municipality;
 
-import org.voting.gateway.repository.MunicipalityRepository;
+import org.voting.gateway.repository.MunicipalityRepository_old;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -29,9 +29,9 @@ public class MunicipalityResource {
 
     private static final String ENTITY_NAME = "municipality";
 
-    private final MunicipalityRepository municipalityRepository;
+    private final MunicipalityRepository_old municipalityRepository;
 
-    public MunicipalityResource(MunicipalityRepository municipalityRepository) {
+    public MunicipalityResource(MunicipalityRepository_old municipalityRepository) {
         this.municipalityRepository = municipalityRepository;
     }
 

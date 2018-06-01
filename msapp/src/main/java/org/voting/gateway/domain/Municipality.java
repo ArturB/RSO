@@ -1,39 +1,41 @@
 package org.voting.gateway.domain;
 
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
+
+import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+
 /**
  * A Municipality.
  */
-@Entity
-@Table(name = "municipality")
+
+@Table(name = "municipality",
+    keyspace = "rso",
+    caseSensitiveKeyspace = false,
+    caseSensitiveTable = false)
 public class Municipality implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //private Long id;
+
 
     @PartitionKey
-    @NotNull
     @Column(name = "municipality_id")
-    private UUID id;    
-    
+    private UUID id;
+
     @Column(name = "municipality_name")
     private String name;
 
     @Column(name = "municipality_position_name")
     private String positionName;
-    
+
     public UUID getId() {
         return id;
     }
@@ -46,7 +48,7 @@ public class Municipality implements Serializable {
     	this.id = id;
     	return this;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -72,7 +74,7 @@ public class Municipality implements Serializable {
     public void setPositionName(String positionName) {
         this.positionName = positionName;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.*;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface VotesFromDistrictRepository extends JpaRepository<VotesFromDistrict, Long> {
+public interface VotesFromDistrictRepository_old extends JpaRepository<VotesFromDistrict, Long> {
 
 }

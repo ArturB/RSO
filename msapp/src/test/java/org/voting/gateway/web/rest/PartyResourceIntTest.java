@@ -5,7 +5,7 @@ import org.voting.gateway.MsappApp;
 import org.voting.gateway.config.SecurityBeanOverrideConfiguration;
 
 import org.voting.gateway.domain.Party;
-import org.voting.gateway.repository.PartyRepository;
+import org.voting.gateway.repository.PartyRepository_old;
 import org.voting.gateway.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -47,7 +47,7 @@ public class PartyResourceIntTest {
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     @Autowired
-    private PartyRepository partyRepository;
+    private PartyRepository_old partyRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

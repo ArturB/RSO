@@ -1,7 +1,7 @@
 package org.voting.gateway.domain;
 
 
-//import javax.persistence.*;
+
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
@@ -9,68 +9,54 @@ import com.datastax.driver.mapping.annotations.Table;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * A Candidate.
  */
-//@Entity
+
 @Table(name = "candidate",keyspace = "rso",
-    readConsistency = "QUORUM",
-    writeConsistency = "QUORUM",
+    //readConsistency = "QUORUM",
+    //writeConsistency = "QUORUM",
     caseSensitiveKeyspace = false,
     caseSensitiveTable = false)
 public class Candidate implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //@Id
+
     @PartitionKey
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "candidate_id")
-    private UUID id;    
-    
-    //@NotNull
-    //@Min(value = 18)
-    //@Column(name = "age", nullable = false)
+    private UUID id;
+
+
     @Column(name = "age")
     private Short age;
-    
-    @NotNull
-    @Column(name = "municipality_id")
+
+
+    @Column(name = "commune")
     private Short municipalityId;
-    
-    // @NotNull
-    // @Column(name = "name", nullable = false)
+
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "occupation")
     private String occupation;
-    
-    @NotNull
+
+
     @Column(name = "party_id")
     private Short partyId;
-    
-    @Column(name = "round")
-    private Short round;
-    
-    //@NotNull
-    //@Column(name = "surname", nullable = false)
+
     @Column(name = "surname")
     private String surname;
 
-    
+    @Column(name = "turns")
+    private List<UUID> turns;
 
-    //@ManyToOne
-    //private Party party;
 
-    //@ManyToOne
-    //private Municipality municipality;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public UUID getId() {
         return id;
     }
@@ -78,7 +64,7 @@ public class Candidate implements Serializable {
     public void setId(UUID id) {
         this.id = id;
     }
-    
+
     public Candidate id(UUID id) {
     	this.id = id;
     	return this;
@@ -96,9 +82,9 @@ public class Candidate implements Serializable {
     public void setAge(Short age) {
         this.age = age;
     }
-    
-    public Short getManicipalityId() {
-        return manicipalityId;
+
+    public Short getMunicipalityId() {
+        return municipalityId;
     }
 
     public Candidate municipalityId(Short municipalityId) {
@@ -106,11 +92,12 @@ public class Candidate implements Serializable {
         return this;
     }
 
-    public void setMunicipalityId(Short municipalityId {
+    public void setMunicipalityId(Short municipalityId)
+    {
         this.municipalityId = municipalityId;
     }
-    
-    
+
+
     public String getName() {
         return name;
     }
@@ -136,7 +123,7 @@ public class Candidate implements Serializable {
     public void setOccupation(String occupation) {
         this.occupation = occupation;
     }
-    
+
     public Short getPartyId() {
         return partyId;
     }
@@ -149,22 +136,13 @@ public class Candidate implements Serializable {
     public void setPartyId(Short partyId) {
         this.partyId = partyId;
     }
-    
-    public Short getRound() {
-        return round;
+
+    public List<UUID> getTurns() {
+        return turns;
     }
 
-    public Candidate round(Short round) {
-        this.round = round;
-        return this;
-    }
-
-    public void setRound(Short round) {
-        this.round = round;
-    }
-    
-    public Short getRound() {
-        return round;
+    public void setTurns(List<UUID> turns) {
+        this.turns = turns;
     }
 
     public Candidate surname(String surname) {
@@ -180,32 +158,7 @@ public class Candidate implements Serializable {
     	return surname;
     }
 
-//    public Party getParty() {
-//        return party;
-//    }
 
-//    public Candidate party(Party party) {
-//        this.party = party;
-//        return this;
-//    }
-
-//    public void setParty(Party party) {
-//        this.party = party;
-//    }
-//
-//    public Municipality getMunicipality() {
-//        return municipality;
-//    }
-//
-//    public Candidate municipality(Municipality municipality) {
-//        this.municipality = municipality;
-//        return this;
-//    }
-//
-//    public void setMunicipality(Municipality municipality) {
-//        this.municipality = municipality;
-//    }
-//    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -236,7 +189,6 @@ public class Candidate implements Serializable {
             ", name='" + getName() + "'" +
             ", occupation='" + getOccupation() + "'" +
             ", partyId = '" + getPartyId() + "'" +
-            ", round = '" + getRound() + "'" +
             ", surname='" + getSurname() +
             "}";
     }

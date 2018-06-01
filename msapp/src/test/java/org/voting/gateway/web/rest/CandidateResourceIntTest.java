@@ -5,7 +5,7 @@ import org.voting.gateway.MsappApp;
 import org.voting.gateway.config.SecurityBeanOverrideConfiguration;
 
 import org.voting.gateway.domain.Candidate;
-import org.voting.gateway.repository.CandidateRepository;
+import org.voting.gateway.repository.CandidateRepository_old;
 import org.voting.gateway.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -50,7 +50,7 @@ public class CandidateResourceIntTest {
     private static final Integer UPDATED_AGE = 19;
 
     @Autowired
-    private CandidateRepository candidateRepository;
+    private CandidateRepository_old candidateRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

@@ -1,10 +1,12 @@
 package org.voting.gateway.domain;
 
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
 
+
+
+import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,27 +15,27 @@ import java.util.UUID;
 /**
  * A Party.
  */
-@Entity
-@Table(name = "party")
+
+@Table(name = "party",
+    keyspace = "rso",
+    caseSensitiveKeyspace = false,
+    caseSensitiveTable = false)
 public class Party implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //private Long id;
+
 
     @PartitionKey
-    @NotNull
     @Column(name = "party_id")
-    private UUID id;    
-    
+    private UUID id;
+
     @Column(name = "abbreviation")
     private String abbreviation;
 
     @Column(name = "party_name")
     private String name;
-    
+
     public UUID getId() {
         return id;
     }
@@ -46,7 +48,7 @@ public class Party implements Serializable {
     	this.id = id;
     	return this;
     }
-    
+
     public String getAbbreviation() {
         return abbreviation;
     }
@@ -59,7 +61,7 @@ public class Party implements Serializable {
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
     }
-    
+
     public String getName() {
         return name;
     }

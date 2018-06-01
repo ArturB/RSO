@@ -1,30 +1,34 @@
 package org.voting.gateway.domain;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
 
+
+import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "electoral_district")
+
+@Table(name = "electoral_district",
+    keyspace = "rso",
+    caseSensitiveKeyspace = false,
+    caseSensitiveTable = false)
 public class ElectoralPeriod implements Serializable {
-	
+
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    @NotNull
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "enddate")
     private String enddate;
-    
+
     @Column(name = "startdate")
     private String startdate;
-        
+
     public String getName() {
     	return name;
     }
@@ -32,12 +36,12 @@ public class ElectoralPeriod implements Serializable {
     public void setName (String name) {
         this.name = name;
     }
-    
+
     public ElectoralPeriod name(String name) {
     	this.name = name;
     	return this;
     }
-    
+
     public String getEnddate() {
         return enddate;
     }
@@ -50,7 +54,7 @@ public class ElectoralPeriod implements Serializable {
     public void setEnddate(String enddate) {
         this.enddate = enddate;
     }
-    
+
     public String getStartdate() {
         return startdate;
     }
@@ -63,7 +67,7 @@ public class ElectoralPeriod implements Serializable {
     public void setStartdate(String startdate) {
         this.startdate = startdate;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -92,6 +96,6 @@ public class ElectoralPeriod implements Serializable {
             ", startdate=" + getStartdate() +
             "}";
     }
-    
+
 
 }

@@ -3,7 +3,7 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.MyGroup;
 
-import org.voting.gateway.repository.MyGroupRepository;
+import org.voting.gateway.repository.MyGroupRepository_old;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -30,9 +30,9 @@ public class MyGroupResource {
 
     private static final String ENTITY_NAME = "myGroup";
 
-    private final MyGroupRepository myGroupRepository;
+    private final MyGroupRepository_old myGroupRepository;
 
-    public MyGroupResource(MyGroupRepository myGroupRepository) {
+    public MyGroupResource(MyGroupRepository_old myGroupRepository) {
         this.myGroupRepository = myGroupRepository;
     }
 

@@ -5,7 +5,7 @@ import org.voting.gateway.MsappApp;
 import org.voting.gateway.config.SecurityBeanOverrideConfiguration;
 
 import org.voting.gateway.domain.VotesFromDistrict;
-import org.voting.gateway.repository.VotesFromDistrictRepository;
+import org.voting.gateway.repository.VotesFromDistrictRepository_old;
 import org.voting.gateway.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -52,7 +52,7 @@ public class VotesFromDistrictResourceIntTest {
     private static final String UPDATED_TYPE = "BBBBBBBBBB";
 
     @Autowired
-    private VotesFromDistrictRepository votesFromDistrictRepository;
+    private VotesFromDistrictRepository_old votesFromDistrictRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

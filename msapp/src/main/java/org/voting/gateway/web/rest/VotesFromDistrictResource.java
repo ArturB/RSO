@@ -3,7 +3,7 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.VotesFromDistrict;
 
-import org.voting.gateway.repository.VotesFromDistrictRepository;
+import org.voting.gateway.repository.VotesFromDistrictRepository_old;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -30,9 +30,9 @@ public class VotesFromDistrictResource {
 
     private static final String ENTITY_NAME = "votesFromDistrict";
 
-    private final VotesFromDistrictRepository votesFromDistrictRepository;
+    private final VotesFromDistrictRepository_old votesFromDistrictRepository;
 
-    public VotesFromDistrictResource(VotesFromDistrictRepository votesFromDistrictRepository) {
+    public VotesFromDistrictResource(VotesFromDistrictRepository_old votesFromDistrictRepository) {
         this.votesFromDistrictRepository = votesFromDistrictRepository;
     }
 

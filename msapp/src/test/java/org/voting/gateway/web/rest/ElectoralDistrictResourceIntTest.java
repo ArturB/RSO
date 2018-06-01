@@ -5,7 +5,7 @@ import org.voting.gateway.MsappApp;
 import org.voting.gateway.config.SecurityBeanOverrideConfiguration;
 
 import org.voting.gateway.domain.ElectoralDistrict;
-import org.voting.gateway.repository.ElectoralDistrictRepository;
+import org.voting.gateway.repository.ElectoralDistrictRepository_old;
 import org.voting.gateway.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -53,7 +53,7 @@ public class ElectoralDistrictResourceIntTest {
     private static final Boolean UPDATED_VOTING_FINISHED = true;
 
     @Autowired
-    private ElectoralDistrictRepository electoralDistrictRepository;
+    private ElectoralDistrictRepository_old electoralDistrictRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

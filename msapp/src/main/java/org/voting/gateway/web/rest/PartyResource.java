@@ -3,7 +3,7 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.Party;
 
-import org.voting.gateway.repository.PartyRepository;
+import org.voting.gateway.repository.PartyRepository_old;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -30,9 +30,9 @@ public class PartyResource {
 
     private static final String ENTITY_NAME = "party";
 
-    private final PartyRepository partyRepository;
+    private final PartyRepository_old partyRepository;
 
-    public PartyResource(PartyRepository partyRepository) {
+    public PartyResource(PartyRepository_old partyRepository) {
         this.partyRepository = partyRepository;
     }
 

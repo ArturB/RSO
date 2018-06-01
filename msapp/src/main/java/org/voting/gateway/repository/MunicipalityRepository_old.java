@@ -1,16 +1,16 @@
 package org.voting.gateway.repository;
 
-import org.voting.gateway.domain.MyGroup;
+import org.voting.gateway.domain.Municipality;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
 
 
 /**
- * Spring Data JPA repository for the MyGroup entity.
+ * Spring Data JPA repository for the Municipality entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MyGroupRepository extends JpaRepository<MyGroup, Long> {
+public interface MunicipalityRepository_old extends JpaRepository<Municipality, Long> {
 
 }

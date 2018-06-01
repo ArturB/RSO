@@ -5,7 +5,7 @@ import org.voting.gateway.MsappApp;
 import org.voting.gateway.config.SecurityBeanOverrideConfiguration;
 
 import org.voting.gateway.domain.MyGroup;
-import org.voting.gateway.repository.MyGroupRepository;
+import org.voting.gateway.repository.MyGroupRepository_old;
 import org.voting.gateway.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -44,7 +44,7 @@ public class MyGroupResourceIntTest {
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     @Autowired
-    private MyGroupRepository myGroupRepository;
+    private MyGroupRepository_old myGroupRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

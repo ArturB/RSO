@@ -5,7 +5,7 @@ import org.voting.gateway.MsappApp;
 import org.voting.gateway.config.SecurityBeanOverrideConfiguration;
 
 import org.voting.gateway.domain.MyUser;
-import org.voting.gateway.repository.MyUserRepository;
+import org.voting.gateway.repository.MyUserRepository_old;
 import org.voting.gateway.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -67,7 +67,7 @@ public class MyUserResourceIntTest {
     private static final String UPDATED_PESEL = "BBBBBBBBBBB";
 
     @Autowired
-    private MyUserRepository myUserRepository;
+    private MyUserRepository_old myUserRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

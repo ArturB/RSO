@@ -4,7 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.MyUser;
 
 import org.voting.gateway.domain.SmallUser;
-import org.voting.gateway.repository.MyUserRepository;
+import org.voting.gateway.repository.MyUserRepository_old;
 import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
@@ -32,9 +32,9 @@ public class MyUserResource {
 
     private static final String ENTITY_NAME = "myUser";
 
-    private final MyUserRepository myUserRepository;
+    private final MyUserRepository_old myUserRepository;
 
-    public MyUserResource(MyUserRepository myUserRepository) {
+    public MyUserResource(MyUserRepository_old myUserRepository) {
         this.myUserRepository = myUserRepository;
     }
 

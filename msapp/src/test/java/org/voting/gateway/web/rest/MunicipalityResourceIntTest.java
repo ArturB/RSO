@@ -5,7 +5,7 @@ import org.voting.gateway.MsappApp;
 import org.voting.gateway.config.SecurityBeanOverrideConfiguration;
 
 import org.voting.gateway.domain.Municipality;
-import org.voting.gateway.repository.MunicipalityRepository;
+import org.voting.gateway.repository.MunicipalityRepository_old;
 import org.voting.gateway.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -44,7 +44,7 @@ public class MunicipalityResourceIntTest {
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     @Autowired
-    private MunicipalityRepository municipalityRepository;
+    private MunicipalityRepository_old municipalityRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

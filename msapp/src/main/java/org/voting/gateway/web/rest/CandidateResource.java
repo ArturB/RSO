@@ -3,7 +3,7 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.Candidate;
 import org.voting.gateway.repository.CandidateDatastax;
-import org.voting.gateway.repository.CandidateRepository;
+import org.voting.gateway.repository.CandidateRepository_old;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -31,11 +32,11 @@ public class CandidateResource {
 
     private static final String ENTITY_NAME = "candidate";
 
-    private final CandidateRepository candidateRepository;
+    private final CandidateRepository_old candidateRepository;
 
     private final CandidateDatastax candidateDatastax;
 
-    public CandidateResource(CandidateRepository candidateRepository, CandidateDatastax candidateDatastax) {
+    public CandidateResource(CandidateRepository_old candidateRepository, CandidateDatastax candidateDatastax) {
         this.candidateRepository = candidateRepository;
         this.candidateDatastax = candidateDatastax;
     }
@@ -110,7 +111,7 @@ public class CandidateResource {
      */
     @GetMapping("/candidates/{id}")
     @Timed
-    public ResponseEntity<Candidate> getCandidate(@PathVariable Long id) {
+    public ResponseEntity<Candidate> getCandidate(@PathVariable UUID id) {
         log.debug("REST request to get Candidate : {}", id);
         Candidate candidate = candidateRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(candidate));
@@ -124,7 +125,7 @@ public class CandidateResource {
      */
     @DeleteMapping("/candidates/{id}")
     @Timed
-    public ResponseEntity<Void> deleteCandidate(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCandidate(@PathVariable UUID id) {
         log.debug("REST request to delete Candidate : {}", id);
         candidateRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -132,8 +133,8 @@ public class CandidateResource {
 
     @GetMapping("/municipalities/{municipalityId}/candidates")
     @Timed
-    public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable Long municipalityId){
-        return candidateRepository.findAll()
+    public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId){
+        return candidateRepository.findInMunicipality(municipalityId)
             .stream().filter(c -> c.getMunicipality().getId().equals(municipalityId)).collect(Collectors.toList());
     }
 }
