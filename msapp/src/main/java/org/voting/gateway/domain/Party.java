@@ -30,7 +30,7 @@ public class Party implements Serializable {
     @Column(name = "party_id")
     private UUID id;
 
-    @Column(name = "abbreviation")
+    @Column(name = "party_abbreviation")
     private String abbreviation;
 
     @Column(name = "party_name")

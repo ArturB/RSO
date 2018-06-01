@@ -8,9 +8,10 @@ import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 
-@Table(name = "electoral_district",
+@Table(name = "electoral_period",
     keyspace = "rso",
     caseSensitiveKeyspace = false,
     caseSensitiveTable = false)
@@ -19,15 +20,26 @@ public class ElectoralPeriod implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
+    @Column(name = "period_id")
+    private UUID id;
 
-    @Column(name = "name")
+
+    @Column(name = "period_name")
     private String name;
 
-    @Column(name = "enddate")
+    @Column(name = "date_to")
     private String enddate;
 
-    @Column(name = "startdate")
+    @Column(name = "date_from")
     private String startdate;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getName() {
     	return name;

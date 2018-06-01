@@ -2,8 +2,8 @@ package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.Candidate;
-import org.voting.gateway.repository.CandidateDatastax;
-import org.voting.gateway.repository.CandidateRepository_old;
+
+import org.voting.gateway.repository.CandidateRepository;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -32,13 +32,11 @@ public class CandidateResource {
 
     private static final String ENTITY_NAME = "candidate";
 
-    private final CandidateRepository_old candidateRepository;
+    private final CandidateRepository candidateRepository;
 
-    private final CandidateDatastax candidateDatastax;
-
-    public CandidateResource(CandidateRepository_old candidateRepository, CandidateDatastax candidateDatastax) {
+    public CandidateResource(CandidateRepository candidateRepository) {
         this.candidateRepository = candidateRepository;
-        this.candidateDatastax = candidateDatastax;
+
     }
 
     /**
@@ -91,16 +89,8 @@ public class CandidateResource {
     @GetMapping("/candidates")
     @Timed
     public List<Candidate> getAllCandidates() {
-        //log.debug("REST request to get all Candidates");
-        //return candidateRepository.findAll();
-
-    	return candidateDatastax.findAll();
-
-
-
-
-
-
+        log.debug("REST request to get all Candidates");
+    	return candidateRepository.findAll();
     }
 
     /**
@@ -134,7 +124,13 @@ public class CandidateResource {
     @GetMapping("/municipalities/{municipalityId}/candidates")
     @Timed
     public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId){
-        return candidateRepository.findInMunicipality(municipalityId)
-            .stream().filter(c -> c.getMunicipality().getId().equals(municipalityId)).collect(Collectors.toList());
+        return candidateRepository.findInMunicipality(municipalityId);
     }
+
+    @GetMapping("/municipalities/{municipalityId}/{turn}/candidates")
+    @Timed
+    public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId, @PathVariable UUID turn){
+        return candidateRepository.findInMunicipalityByTurn(municipalityId,turn);
+    }
+
 }

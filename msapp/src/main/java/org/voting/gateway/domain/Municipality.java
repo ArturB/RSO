@@ -16,7 +16,7 @@ import java.util.UUID;
  * A Municipality.
  */
 
-@Table(name = "municipality",
+@Table(name = "commune",
     keyspace = "rso",
     caseSensitiveKeyspace = false,
     caseSensitiveTable = false)
@@ -27,13 +27,13 @@ public class Municipality implements Serializable {
 
 
     @PartitionKey
-    @Column(name = "municipality_id")
+    @Column(name = "commune_id")
     private UUID id;
 
-    @Column(name = "municipality_name")
+    @Column(name = "commune_name")
     private String name;
 
-    @Column(name = "municipality_position_name")
+    @Column(name = "position_name")
     private String positionName;
 
     public UUID getId() {

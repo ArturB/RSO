@@ -11,13 +11,13 @@ import java.util.UUID;
 
 
 @Repository
-public class CanditateRepository {
+public class CandidateRepository {
 
     private Mapper<Candidate> mapper;
     private final CassandraSession cassandraSession;
 
 
-    public CanditateRepository(CassandraSession cassandraSession) {
+    public CandidateRepository(CassandraSession cassandraSession) {
         this.cassandraSession = cassandraSession;
         mapper = cassandraSession.getMappingManager().mapper(Candidate.class);
     }
@@ -56,5 +56,12 @@ public class CanditateRepository {
     }
 
 
-
+    public List<Candidate> findInMunicipalityByTurn(UUID municipalityId, UUID turn) {
+        ResultSet results = cassandraSession.getSession()
+            .execute("SELECT * FROM candidate " +
+                "WHERE municipality_id = " + municipalityId +
+                "AND turns CONTAINS " + turn);
+        Result<Candidate> candidates = mapper.map(results);
+        return candidates.all();
+    }
 }

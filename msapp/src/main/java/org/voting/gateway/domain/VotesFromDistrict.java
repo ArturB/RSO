@@ -17,7 +17,7 @@ import java.util.UUID;
  * A VotesFromDistrict.
  */
 
-@Table(name = "votes_from_district",
+@Table(name = "votes_from_ward",
     keyspace = "rso",
     caseSensitiveKeyspace = false,
     caseSensitiveTable = false)
@@ -27,14 +27,12 @@ public class VotesFromDistrict implements Serializable {
 
 
     @PartitionKey
-    @Column(name = "electoral_district_id")
+    @Column(name = "votes_id")
     private UUID id;
 
-    @Column(name = "accepted")
-    private boolean isAccepted;
 
 
-    @Column(name = "candidate_id")
+    @Column(name = "candidate")
     private UUID candidateId;
 
 
@@ -42,18 +40,18 @@ public class VotesFromDistrict implements Serializable {
     private Date date;
 
 
-    @Column(name = "municipality_id")
-    private UUID municipalityId;
+    @Column(name = "voting_data")
+    private UUID votingDataId;
 
 
-    @Column(name = "number_of_votes")
+    @Column(name = "no_votes")
     private Integer numberOfVotes;
 
     @Column(name = "type")
     private String type;
 
 
-    @Column(name = "user_id")
+    @Column(name = "user")
     private UUID userId;
 
     public UUID getId() {
@@ -69,18 +67,9 @@ public class VotesFromDistrict implements Serializable {
     	return this;
     }
 
-    public void setIsAccepted(Boolean isAccepted) {
-        this.isAccepted = isAccepted;
-    }
 
-    public Boolean getIsAccepted() {
-        return isAccepted;
-    }
 
-    public VotesFromDistrict isAccepted(Boolean isAccepted) {
-    	this.isAccepted = isAccepted;
-    	return this;
-    }
+
 
     public void setCandidateId(UUID candidateId) {
         this.candidateId = candidateId;
@@ -108,17 +97,12 @@ public class VotesFromDistrict implements Serializable {
     	return this;
     }
 
-    public void setMunicipalityId(UUID municipalityId) {
-        this.municipalityId = municipalityId;
+    public UUID getVotingDataId() {
+        return votingDataId;
     }
 
-    public UUID getMunicipalityId() {
-        return municipalityId;
-    }
-
-    public VotesFromDistrict municipalityId(UUID municipalityId) {
-    	this.municipalityId = municipalityId;
-    	return this;
+    public void setVotingDataId(UUID votingDataId) {
+        this.votingDataId = votingDataId;
     }
 
     public void setNumberOfVotes(Integer numberOfVotes) {
@@ -181,17 +165,5 @@ public class VotesFromDistrict implements Serializable {
         return Objects.hashCode(getId());
     }
 
-    @Override
-    public String toString() {
-        return "VotesFromDistrict{" +
-            "id=" + getId() + "'" +
-        	", isAccepted=" + getIsAccepted() + "'" +
-            ", candidateId=" + getCandidateId() + "'" +
-        	", date=" + getDate1() + "'" +
-            ", municipalityId=" + getMunicipalityId() + "'" +
-        	", numberOfVotes=" + getNumberOfVotes() + "'" +
-            ", type='" + getType() + "'" +
-            ", userId=" + getUserId() +
-            "}";
-    }
+  
 }

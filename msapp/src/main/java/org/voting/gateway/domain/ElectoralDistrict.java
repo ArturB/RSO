@@ -16,7 +16,7 @@ import java.util.UUID;
  * A ElectoralDistrict.
  */
 
-@Table(name = "electoral_district",keyspace = "rso",
+@Table(name = "ward",keyspace = "rso",
     caseSensitiveKeyspace = false,
     caseSensitiveTable = false)
 public class ElectoralDistrict implements Serializable {
@@ -24,15 +24,17 @@ public class ElectoralDistrict implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
+
+
     @PartitionKey
 
-    @Column(name = "electoral_district_id")
+    @Column(name = "ward_id")
     private UUID id;
 
-    @Column(name = "municipality_id")
+    @Column(name = "commune")
     private UUID municipalityId;
 
-    @Column(name = "electoral_district_name")
+    @Column(name = "ward_name")
     private String electoralDistrictName;
 
     public UUID getId() {
