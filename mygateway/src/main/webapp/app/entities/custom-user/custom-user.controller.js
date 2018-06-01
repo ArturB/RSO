@@ -55,14 +55,6 @@
             return vm.electoralDistrictNamesCache[id].name;
         };
 
-        vm.toEdNumber = function(id){
-            if(id){
-                return id;
-            }else{
-                return -1;
-            }
-        };
-
         $scope.minRole = function (arr) {
             return $filter('min')
             ($filter('map')(arr, 'role'));
@@ -82,6 +74,7 @@
             }
             return true;
         };
+
     }
 
 })();

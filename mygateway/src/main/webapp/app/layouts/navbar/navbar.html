@@ -13,7 +13,7 @@
             </a>
             <span class="nav navbar-brand" style="left:30%" ng-show="vm.isAuthenticated">
                 <span>
-                    Witaj <b>{{vm.account.username}}</b> <span ng-show="vm.municipality">, z <b>{{vm.municipality.name}}</b> </span>
+                    Witaj <b>{{vm.account.username}}</b><span ng-show="vm.municipality">, z <b>{{vm.municipality.name}}</b> </span>
                 </span>
             </span>
         </div>
@@ -76,7 +76,7 @@
                         <span>
                             <span class="glyphicon glyphicon-th-list"></span>
                             <span class="hidden-sm">
-                                Encje
+                                Zarządzanie systemem
                             </span>
                             <b class="caret"></b>
                         </span>
@@ -94,22 +94,10 @@
                                 <span>Kandydaci</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-show="FUN_THINGS">
-                            <a ui-sref="my-group" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>My Group</span>
-                            </a>
-                        </li>
                         <li ui-sref-active="active">
                             <a ui-sref="municipality" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
                                 <span>Gminy</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active">
-                            <a ui-sref="votes-from-district" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>Głosy z okręgu</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
@@ -123,18 +111,6 @@
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
                                 <span>Użytkownicy</span>
                             </a>
-                        </li>
-                        <li ui-sref-active="active">
-                            <a ui-sref="votes-designation" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>Prześlij głosy</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active">
-                                <a ui-sref="custom-user" ng-click="vm.collapseNavbar()">
-                                    <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                    <span>Zarządzaj użytkownikami</span>
-                                </a>
                         </li>
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                     </ul>

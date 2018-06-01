@@ -8,11 +8,6 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.electoralDistrict.id">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.electoralDistrict.id" readonly />
-        </div>
         <div class="form-group">
             <label class="control-label" for="field_name">Nazwa</label>
             <input type="text" class="form-control" name="name" id="field_name"
@@ -24,6 +19,7 @@
                     Pole jest wymagane.
                 </p>
             </div>
+            {{editForm.name}}
         </div>
         <div class="form-group" has-authority="ROLE_ADMIN">
             <label for="field_municipality">Okręg Wyborczy</label>

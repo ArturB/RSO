@@ -16,7 +16,7 @@
             parent: 'entity',
             url: '/votes-designation',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: ['ROLE_OKW_MEMBER'],
                 pageTitle: 'Wpisanie głosów'
             },
             views: {

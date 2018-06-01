@@ -3,19 +3,22 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="table-responsive" ng-repeat="(key, value) in vm.customUsers | groupBy:'electoralDistrictId' | toArray:true | orderBy:minRole " >
-        <h2 ng-show="key">Członkowie okręgowej komisji wyborczej {{vm.GetElectoralDistrictName(key)}}</h2>
-        <h2 ng-hide="key">Członkowie gminnej komisji wyborczej gminy {{vm.municipality.name}}</h2>
+        <h2 ng-show="value[0].electoralDistrictId">
+            Członkowie okręgowej komisji wyborczej {{vm.GetElectoralDistrictName(value[0].electoralDistrictId)}}</h2>
+        <h2 ng-hide="value[0].electoralDistrictId">
+            Członkowie gminnej komisji wyborczej gminy {{vm.municipality .name}}</h2>
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-4 no-padding-left" ng-show="key">
+                <div class="col-xs-4 no-padding-left" ng-show="value[0].electoralDistrictId">
                     <button class="btn btn-primary"
-                            ui-sref="custom-user.bigNew({municipalityId:vm.municipality.id,electoralDistrictId:vm.toEdNumber(key)})" >
+                            ui-sref="custom-user.bigNew({municipalityId:vm.municipality.id,electoralDistrictId:value[0].electoralDistrictId})" >
                         <span class="glyphicon glyphicon-plus"></span>
                         <span> Dodaj użytkownika okręgu</span>
                     </button>
                 </div>
-                <div class="col-xs-4 no-padding-left" ng-hide="key" has-authority="ROLE_GKW_LEADER">
+                <div class="col-xs-4 no-padding-left" ng-hide="value[0].electoralDistrictId"
+                     has-authority="ROLE_GKW_LEADER">
                     <button class="btn btn-primary"
                             ui-sref="custom-user.bigNew({municipalityId:vm.municipality.id})" >
                         <span class="glyphicon glyphicon-plus"></span>

@@ -1,5 +1,5 @@
 <div>
-    <h2>My Users</h2>
+    <h2>Użytkownicy</h2>
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
         <div class="row">
@@ -7,7 +7,7 @@
                 <button class="btn btn-primary" ui-sref="my-user.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span >
-                        Create new My User
+                        Utwórz nowego użytkownika
                     </span>
                 </button>
             </div>
@@ -18,24 +18,50 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span>ID</span></th>
-                    <th><span>Username</span></th>
-                    <th><span>Name</span></th>
-                    <th><span>Surname</span></th>
-                    <th><span>Document Type</span></th>
-                    <th><span>Document Nr</span></th>
+                    <th></th>
+                    <th><span>Login</span></th>
+                    <th><span>Imie</span></th>
+                    <th><span>Nazwisko</span></th>
+                    <th><span>Rodzaj dokumentu</span></th>
+                    <th><span>Numer dokumentu</span></th>
                     <th><span>Email</span></th>
-                    <th><span>Birthdate</span></th>
+                    <th><span>Data urodzenia</span></th>
                     <th><span>Pesel</span></th>
                     <th><span>Role</span></th>
                     <th><span>Okręg wyborczy</span></th>
-                    <th><span>Municipality</span></th>
-                    <th></th>
+                    <th><span>Gmina</span></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="myUser in vm.myUsers track by myUser.id">
-                    <td><a ui-sref="my-user-detail({id:myUser.id})">{{myUser.id}}</a></td>
+                    <td >
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="my-user-detail({id:myUser.id})"
+                                    class="btn btn-info btn-xs">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="my-user.edit({id:myUser.id})"
+                                    class="btn btn-primary btn-xs">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="my-user.disable({id:myUser.id})"
+                                    class="btn btn-info btn-xs">
+                                <span class="glyphicon glyphicon-minus-sign"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="my-user.delete({id:myUser.id})"
+                                    class="btn btn-danger btn-xs">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                        </div>
+                    </td>
                     <td>{{myUser.username}}</td>
                     <td>{{myUser.name}}</td>
                     <td>{{myUser.surname}}</td>
@@ -45,34 +71,8 @@
                         <td>{{myUser.birthdate | date:'mediumDate'}}</td>
                     <td>{{myUser.pesel}}</td>
                     <td>{{myUser.role}}</td>
-                    <td>
-                        <a ui-sref="electoral-district-detail({id:myUser.electoralDistrict.id})">{{myUser.electoralDistrict.id}}</a>
-                    </td>
-                    <td>
-                        <a ui-sref="municipality-detail({id:myUser.municipality.id})">{{myUser.municipality.id}}</a>
-                    </td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="my-user-detail({id:myUser.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="my-user.edit({id:myUser.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="my-user.delete({id:myUser.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                        </div>
-                    </td>
+                    <td>{{myUser.electoralDistrict.name}}</td>
+                    <td>{{myUser.municipality.name}}</td>
                 </tr>
             </tbody>
         </table>
