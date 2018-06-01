@@ -5,10 +5,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.datastax.driver.mapping.annotations.PartitionKey;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * A SmallUser.
@@ -17,22 +21,33 @@ public class SmallUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    @PartitionKey
+    @Column(name = "user_id")
+    private UUID id;
+    
+    @Column(name = "commune")
+    private Short municipalityId;
+    
+    @Column(name = "wart")
+    private Short electoralDistrictId;
+    
+    @Column(name = "username")
     private String username;
-    private Long electoralDistrictId;
-    private Long municipalityId;
+    
+    @Column(name = "group")
     private String role;
-    private Set<String> authorities;
+    
+    //private Set<String> authorities;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public SmallUser id(Long id) {
+    public SmallUser id(UUID id) {
         this.id = id;
         return this;
     }
@@ -63,35 +78,37 @@ public class SmallUser implements Serializable {
         this.role = role;
     }
 
-    public Long getElectoralDistrictId() {
+    public Short getElectoralDistrictId() {
         return electoralDistrictId;
     }
 
-    public Long getMunicipalityId() {
+    public Short getMunicipalityId() {
         return municipalityId;
     }
 
-    public void setElectoralDistrictId(Long electoralDistrictId) {
+    public void setElectoralDistrictId(Short electoralDistrictId) {
         this.electoralDistrictId = electoralDistrictId;
     }
 
-    public void setMunicipalityId(Long municipalityId) {
+    public void setMunicipalityId(Short municipalityId) {
         this.municipalityId = municipalityId;
     }
 
-    public SmallUser electoralDistrictId(Long electoralDistrictId) {
+    public SmallUser electoralDistrictId(Short electoralDistrictId) {
         this.electoralDistrictId = electoralDistrictId;
         return this;
     }
 
-    public SmallUser municipalityId(Long municipalityId) {
+    public SmallUser municipalityId(Short municipalityId) {
         this.municipalityId = municipalityId;
         return this;
     }
 
+    /*
     public Set<String> getAuthorities() {
         return authorities;
     }
+    
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
@@ -101,7 +118,8 @@ public class SmallUser implements Serializable {
         this.authorities = authorities;
         return this;
     }
-
+	*/
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -116,7 +134,8 @@ public class SmallUser implements Serializable {
         if (municipalityId != null ? !municipalityId.equals(smallUser.municipalityId) : smallUser.municipalityId != null)
             return false;
         if (role != null ? !role.equals(smallUser.role) : smallUser.role != null) return false;
-        return authorities != null ? authorities.equals(smallUser.authorities) : smallUser.authorities == null;
+        //return authorities != null ? authorities.equals(smallUser.authorities) : smallUser.authorities == null;
+        return true;
     }
 
     @Override
@@ -126,7 +145,7 @@ public class SmallUser implements Serializable {
         result = 31 * result + (electoralDistrictId != null ? electoralDistrictId.hashCode() : 0);
         result = 31 * result + (municipalityId != null ? municipalityId.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
-        result = 31 * result + (authorities != null ? authorities.hashCode() : 0);
+        //result = 31 * result + (authorities != null ? authorities.hashCode() : 0);
         return result;
     }
 
@@ -137,8 +156,8 @@ public class SmallUser implements Serializable {
             ", username='" + username + '\'' +
             ", electoralDistrictId=" + electoralDistrictId +
             ", municipalityId=" + municipalityId +
-            ", role='" + role + '\'' +
-            ", authorities=" + authorities +
+            ", role='" + role + //'\'' +
+            //", authorities=" + authorities +
             '}';
     }
 }
