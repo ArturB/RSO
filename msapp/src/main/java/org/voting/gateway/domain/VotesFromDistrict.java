@@ -165,5 +165,5 @@ public class VotesFromDistrict implements Serializable {
         return Objects.hashCode(getId());
     }
 
-  
+
 }

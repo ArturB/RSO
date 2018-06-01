@@ -3,7 +3,8 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.ElectoralDistrict;
 
-import org.voting.gateway.repository.ElectoralDistrictRepository_old;
+import org.voting.gateway.repository.ElectoralDistrictRepository;
+
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -18,6 +19,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -31,9 +33,9 @@ public class ElectoralDistrictResource {
 
     private static final String ENTITY_NAME = "electoralDistrict";
 
-    private final ElectoralDistrictRepository_old electoralDistrictRepository;
+    private final ElectoralDistrictRepository electoralDistrictRepository;
 
-    public ElectoralDistrictResource(ElectoralDistrictRepository_old electoralDistrictRepository) {
+    public ElectoralDistrictResource(ElectoralDistrictRepository electoralDistrictRepository) {
         this.electoralDistrictRepository = electoralDistrictRepository;
     }
 
@@ -99,7 +101,7 @@ public class ElectoralDistrictResource {
      */
     @GetMapping("/electoral-districts/{id}")
     @Timed
-    public ResponseEntity<ElectoralDistrict> getElectoralDistrict(@PathVariable Long id) {
+    public ResponseEntity<ElectoralDistrict> getElectoralDistrict(@PathVariable UUID id) {
         log.debug("REST request to get ElectoralDistrict : {}", id);
         ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(electoralDistrict));
@@ -113,7 +115,7 @@ public class ElectoralDistrictResource {
      */
     @DeleteMapping("/electoral-districts/{id}")
     @Timed
-    public ResponseEntity<Void> deleteElectoralDistrict(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteElectoralDistrict(@PathVariable UUID id) {
         log.debug("REST request to delete ElectoralDistrict : {}", id);
         electoralDistrictRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -121,8 +123,7 @@ public class ElectoralDistrictResource {
 
     @GetMapping("/municipalities/{municipalityId}/electoral_districts")
     @Timed
-    public List<ElectoralDistrict> getElectoralDistrictsByMunicipalityId(@PathVariable Long municipalityId){
-        return electoralDistrictRepository.findAll()
-            .stream().filter(c -> c.getMunicipality().getId().equals(municipalityId)).collect(Collectors.toList());
+    public List<ElectoralDistrict> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId){
+        return electoralDistrictRepository.findInMunicipality(municipalityId);
     }
 }

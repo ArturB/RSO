@@ -1,12 +1,14 @@
 package org.voting.gateway.domain;
 
 
-import javax.persistence.*;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,6 +19,10 @@ import java.util.UUID;
 /**
  * A SmallUser.
  */
+
+@Table(name = "ward",keyspace = "rso",
+    caseSensitiveKeyspace = false,
+    caseSensitiveTable = false)
 public class SmallUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,19 +30,19 @@ public class SmallUser implements Serializable {
     @PartitionKey
     @Column(name = "user_id")
     private UUID id;
-    
+
     @Column(name = "commune")
     private Short municipalityId;
-    
+
     @Column(name = "wart")
     private Short electoralDistrictId;
-    
+
     @Column(name = "username")
     private String username;
-    
+
     @Column(name = "group")
     private String role;
-    
+
     //private Set<String> authorities;
 
     public UUID getId() {
@@ -108,7 +114,7 @@ public class SmallUser implements Serializable {
     public Set<String> getAuthorities() {
         return authorities;
     }
-    
+
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
@@ -119,7 +125,7 @@ public class SmallUser implements Serializable {
         return this;
     }
 	*/
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

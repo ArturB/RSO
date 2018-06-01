@@ -3,7 +3,8 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.Municipality;
 
-import org.voting.gateway.repository.MunicipalityRepository_old;
+import org.voting.gateway.repository.MunicipalityRepository;
+
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -17,6 +18,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * REST controller for managing Municipality.
@@ -29,9 +31,9 @@ public class MunicipalityResource {
 
     private static final String ENTITY_NAME = "municipality";
 
-    private final MunicipalityRepository_old municipalityRepository;
+    private final MunicipalityRepository municipalityRepository;
 
-    public MunicipalityResource(MunicipalityRepository_old municipalityRepository) {
+    public MunicipalityResource(MunicipalityRepository municipalityRepository) {
         this.municipalityRepository = municipalityRepository;
     }
 
@@ -42,7 +44,7 @@ public class MunicipalityResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new municipality, or with status 400 (Bad Request) if the municipality has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/municipalities")
+   /* @PostMapping("/municipalities")
     @Timed
     public ResponseEntity<Municipality> createMunicipality(@RequestBody Municipality municipality) throws URISyntaxException {
         log.debug("REST request to save Municipality : {}", municipality);
@@ -53,7 +55,7 @@ public class MunicipalityResource {
         return ResponseEntity.created(new URI("/api/municipalities/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
-    }
+    }*/
 
     /**
      * PUT  /municipalities : Updates an existing municipality.
@@ -64,7 +66,7 @@ public class MunicipalityResource {
      * or with status 500 (Internal Server Error) if the municipality couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/municipalities")
+   /* @PutMapping("/municipalities")
     @Timed
     public ResponseEntity<Municipality> updateMunicipality(@RequestBody Municipality municipality) throws URISyntaxException {
         log.debug("REST request to update Municipality : {}", municipality);
@@ -75,7 +77,7 @@ public class MunicipalityResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, municipality.getId().toString()))
             .body(result);
-    }
+    }*/
 
     /**
      * GET  /municipalities : get all the municipalities.
@@ -97,7 +99,7 @@ public class MunicipalityResource {
      */
     @GetMapping("/municipalities/{id}")
     @Timed
-    public ResponseEntity<Municipality> getMunicipality(@PathVariable Long id) {
+    public ResponseEntity<Municipality> getMunicipality(@PathVariable UUID id) {
         log.debug("REST request to get Municipality : {}", id);
         Municipality municipality = municipalityRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(municipality));
@@ -109,11 +111,11 @@ public class MunicipalityResource {
      * @param id the id of the municipality to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/municipalities/{id}")
+    /*@DeleteMapping("/municipalities/{id}")
     @Timed
     public ResponseEntity<Void> deleteMunicipality(@PathVariable Long id) {
         log.debug("REST request to delete Municipality : {}", id);
         municipalityRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
+    }*/
 }
