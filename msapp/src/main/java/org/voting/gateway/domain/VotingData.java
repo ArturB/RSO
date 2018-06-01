@@ -6,11 +6,11 @@ import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
-@Table(name = "candidate",keyspace = "rso",
+@Table(name = "voting_data",keyspace = "rso",
 caseSensitiveKeyspace = false,
 caseSensitiveTable = false)
 public class VotingData {
-	
+
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
@@ -19,16 +19,16 @@ public class VotingData {
 
     @Column(name = "is_voting_finished")
     private boolean isVotingFinished;
-    
+
     @Column(name = "no_can_vote")
     private int noCanVote;
-    
+
     @Column(name = "no_cards_used")
     private int noCardsUsed;
-    
+
     @Column(name = "turn")
     private short turn;
-    
+
     @Column(name = "ward")
     private short ward;
 
@@ -83,6 +83,6 @@ public class VotingData {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-    
-    
+
+
 }

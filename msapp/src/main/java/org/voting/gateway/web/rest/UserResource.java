@@ -4,7 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.MyUser;
 
 import org.voting.gateway.domain.SmallUser;
-import org.voting.gateway.repository.MyUserRepository_old;
+import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
@@ -26,16 +26,16 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api")
-public class MyUserResource {
+public class UserResource {
 
-    private final Logger log = LoggerFactory.getLogger(MyUserResource.class);
+    private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
     private static final String ENTITY_NAME = "myUser";
 
-    private final MyUserRepository_old myUserRepository;
+    private final SmallUserRepository smallUserRepository;
 
-    public MyUserResource(MyUserRepository_old myUserRepository) {
-        this.myUserRepository = myUserRepository;
+    public UserResource(SmallUserRepository smallUserRepository) {
+        this.smallUserRepository = smallUserRepository;
     }
 
 

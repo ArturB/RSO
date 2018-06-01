@@ -7,7 +7,7 @@ import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
-@Table(name = "candidate",keyspace = "rso",
+@Table(name = "turn",keyspace = "rso",
 caseSensitiveKeyspace = false,
 caseSensitiveTable = false)
 public class Turn {
@@ -20,13 +20,13 @@ public class Turn {
 
     @Column(name = "commune")
     private Short commune;
-    
+
     @Column(name = "date_from")
     private Date dateFrom;
-    
+
     @Column(name = "date_to")
     private Date dateTo;
-    
+
     @Column(name = "no_turn")
     private Integer noTurn;
 
@@ -73,6 +73,6 @@ public class Turn {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-    
-    
+
+
 }

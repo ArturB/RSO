@@ -20,7 +20,7 @@ import java.util.UUID;
  * A SmallUser.
  */
 
-@Table(name = "ward",keyspace = "rso",
+@Table(name = "user",keyspace = "rso",
     caseSensitiveKeyspace = false,
     caseSensitiveTable = false)
 public class SmallUser implements Serializable {

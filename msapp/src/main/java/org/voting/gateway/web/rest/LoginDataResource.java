@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.voting.gateway.domain.MyUser;
 import org.voting.gateway.repository.MyUserRepository_old;
+import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.service.LoginDataDTO;
 
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.Optional;
 public class LoginDataResource {
 
     private final Logger log = LoggerFactory.getLogger(LoginDataResource.class);
-    private final MyUserRepository_old myUserRepository;
+    private final SmallUserRepository myUserRepository;
 
     public LoginDataResource(MyUserRepository_old myUserRepository) {
         this.myUserRepository = myUserRepository;

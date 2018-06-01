@@ -7,45 +7,45 @@ import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
-@Table(name = "candidate",keyspace = "rso",
+@Table(name = "voting_results",keyspace = "rso",
 caseSensitiveKeyspace = false,
 caseSensitiveTable = false)
 public class VotingResults {
-	
+
     @PartitionKey
     @Column(name = "result_id")
     private UUID id;
 
     @Column(name = "candidate_id")
     private Short candidateId;
-    
+
     @Column(name = "candidate_name")
     private String candidateName;
-    
+
     @Column(name = "candidate_surname")
     private String candidateSurname;
-    
+
     @Column(name = "commune_name")
     private String communeName;
-    
+
     @Column(name = "date_generated")
     private Date dateGenerated;
-    
+
     @Column(name = "is_voting_finished")
     private boolean isVotingFinished;
-    
+
     @Column(name = "no_can_vote")
     private int noCanVote;
-    
+
     @Column(name = "no_cards_used")
     private int noCardsUsed;
-    
+
     @Column(name = "no_of_votes")
     private int noOfVotes;
-    
+
     @Column(name = "no_turn")
     private int noTurn;
-    
+
     @Column(name = "vote_type")
     private String voteType;
 
@@ -144,5 +144,5 @@ public class VotingResults {
 	public void setVoteType(String voteType) {
 		this.voteType = voteType;
 	}
-    
+
 }
