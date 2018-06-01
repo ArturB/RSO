@@ -105,8 +105,9 @@
                                 pesel: null,
                                 role: null,
                                 id: null,
-                            };
-                        }
+                            }
+                        },
+                        preset: {}
                     }
                 }).result.then(function() {
                     $state.go('my-user', null, { reload: 'my-user' });
@@ -131,7 +132,8 @@
                     resolve: {
                         entity: ['MyUser', function(MyUser) {
                             return MyUser.get({id : $stateParams.id}).$promise;
-                        }]
+                        }],
+                        preset:{}
                     }
                 }).result.then(function() {
                     $state.go('my-user', null, { reload: 'my-user' });
@@ -163,7 +165,32 @@
                     $state.go('^');
                 });
             }]
-        });
+        })
+            .state('my-user.disable', {
+                parent: 'my-user',
+                url: '/{id}/disable',
+                data: {
+                    authorities: [ 'ROLE_ADMIN']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        templateUrl: 'app/entities/custom-user/custom-user-disable-dialog.html',
+                        controller: 'CustomUserDisableController',
+                        controllerAs: 'vm',
+                        size: 'md',
+                        resolve: {
+                            entity: ['CustomUser', function (CustomUser) {
+                                return CustomUser.get({id: $stateParams.id}).$promise;
+                            }]
+                        }
+                    }).result.then(function () {
+                        $state.go('my-user', null, {reload: 'my-user'});
+                    }, function () {
+                        $state.go('^');
+                    });
+                }]
+            })
+        ;
     }
 
 })();

@@ -18,6 +18,7 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
+                    <th></th>
                     <th><span>Login</span></th>
                     <th><span>Imie</span></th>
                     <th><span>Nazwisko</span></th>
@@ -29,11 +30,38 @@
                     <th><span>Role</span></th>
                     <th><span>Okręg wyborczy</span></th>
                     <th><span>Gmina</span></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="myUser in vm.myUsers track by myUser.id">
+                    <td >
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="my-user-detail({id:myUser.id})"
+                                    class="btn btn-info btn-xs">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="my-user.edit({id:myUser.id})"
+                                    class="btn btn-primary btn-xs">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="my-user.disable({id:myUser.id})"
+                                    class="btn btn-info btn-xs">
+                                <span class="glyphicon glyphicon-minus-sign"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="my-user.delete({id:myUser.id})"
+                                    class="btn btn-danger btn-xs">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                        </div>
+                    </td>
                     <td>{{myUser.username}}</td>
                     <td>{{myUser.name}}</td>
                     <td>{{myUser.surname}}</td>
@@ -43,30 +71,8 @@
                         <td>{{myUser.birthdate | date:'mediumDate'}}</td>
                     <td>{{myUser.pesel}}</td>
                     <td>{{myUser.role}}</td>
-                    <td>{{myUser.electoralDistrict.id}}</td>
-                    <td>{{myUser.municipality.id}}</td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="my-user-detail({id:myUser.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="my-user.edit({id:myUser.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="my-user.delete({id:myUser.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                        </div>
-                    </td>
+                    <td>{{myUser.electoralDistrict.name}}</td>
+                    <td>{{myUser.municipality.name}}</td>
                 </tr>
             </tbody>
         </table>
