@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.voting.gateway.domain.MyUser;
 import org.voting.gateway.domain.SmallUser;
-import org.voting.gateway.repository.MyUserRepository_old;
 import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.service.LoginDataDTO;
 

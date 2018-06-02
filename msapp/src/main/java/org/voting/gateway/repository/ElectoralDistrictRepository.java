@@ -45,7 +45,7 @@ public class ElectoralDistrictRepository {
     }
 
     public List<ElectoralDistrict> findInMunicipality(UUID municipalityId) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM ward WHERE municipality_id = " + municipalityId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM ward WHERE municipality_id = ?", municipalityId);
         Result<ElectoralDistrict> districts = mapper.map(results);
         return districts.all();
     }

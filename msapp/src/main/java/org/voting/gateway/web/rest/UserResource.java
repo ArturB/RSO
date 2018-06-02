@@ -154,10 +154,12 @@ public class UserResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    @PostMapping("/my-users/{id}/disable")
+    @PostMapping("/users/{id}/disable")
     @Timed
     public ResponseEntity<Void> disableMyUser(@PathVariable Long id) {
         log.debug("REST request to disable MyUser : {}", id);
+
+        
         return ResponseEntity.ok().headers(HeaderUtil.createAlert("Zablokowano konto użytkownika o id "+id, id.toString()))
             .build();
     }

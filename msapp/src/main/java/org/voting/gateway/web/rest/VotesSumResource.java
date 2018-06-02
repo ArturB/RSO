@@ -30,7 +30,7 @@ public class VotesSumResource {
         this.electoralDistrictRepository = electoralDistrictRepository;
     }
 
-    @GetMapping("municipalities/{municipalityId}/{round}/votesSum")
+    /*@GetMapping("municipalities/{municipalityId}/{round}/votesSum")
     @Timed
     public List<PerCandidateVotes> getVotesFromMuniciplity(@PathVariable Long municipalityId,
                                                            @PathVariable Long round) {
@@ -68,7 +68,7 @@ public class VotesSumResource {
                 vote.setType("Zwykły");
                 return vote;
             }).collect(Collectors.toList());
-    }
+    }*/
 
     @PostMapping("/districts/{districtId}/{round}/acceptVotes")
     @Timed

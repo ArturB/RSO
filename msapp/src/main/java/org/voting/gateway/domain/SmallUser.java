@@ -32,10 +32,10 @@ public class SmallUser implements Serializable {
     private UUID id;
 
     @Column(name = "commune")
-    private Short municipalityId;
+    private UUID municipalityId;
 
-    @Column(name = "wart")
-    private Short electoralDistrictId;
+    @Column(name = "ward")
+    private UUID electoralDistrictId;
 
     @Column(name = "username")
     private String username;
@@ -84,33 +84,23 @@ public class SmallUser implements Serializable {
         this.role = role;
     }
 
-    public Short getElectoralDistrictId() {
-        return electoralDistrictId;
-    }
-
-    public Short getMunicipalityId() {
+    public UUID getMunicipalityId() {
         return municipalityId;
     }
 
-    public void setElectoralDistrictId(Short electoralDistrictId) {
-        this.electoralDistrictId = electoralDistrictId;
-    }
-
-    public void setMunicipalityId(Short municipalityId) {
+    public void setMunicipalityId(UUID municipalityId) {
         this.municipalityId = municipalityId;
     }
 
-    public SmallUser electoralDistrictId(Short electoralDistrictId) {
+    public UUID getElectoralDistrictId() {
+        return electoralDistrictId;
+    }
+
+    public void setElectoralDistrictId(UUID electoralDistrictId) {
         this.electoralDistrictId = electoralDistrictId;
-        return this;
     }
 
-    public SmallUser municipalityId(Short municipalityId) {
-        this.municipalityId = municipalityId;
-        return this;
-    }
-
-    /*
+   /*
     public Set<String> getAuthorities() {
         return authorities;
     }

@@ -47,7 +47,7 @@ public class Candidate implements Serializable {
     private String occupation;
 
 
-    @Column(name = "party_id")
+    @Column(name = "party")
     private Short partyId;
 
     @Column(name = "surname")

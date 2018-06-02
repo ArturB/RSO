@@ -11,13 +11,13 @@ import java.util.Objects;
 /**
  * A MyUser.
  */
-@Entity
-@Table(name = "my_user")
+//@Entity
+//@Table(name = "my_user")
 public class MyUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
+  /*  @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -252,5 +252,5 @@ public class MyUser implements Serializable {
             ", pesel='" + getPesel() + "'" +
             ", role='" + getRole() + "'" +
             "}";
-    }
+    }*/
 }

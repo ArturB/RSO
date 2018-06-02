@@ -1,6 +1,8 @@
 package org.voting.gateway.repository;
 
 import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.SimpleStatement;
+import com.datastax.driver.core.Statement;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.Result;
 import org.springframework.stereotype.Repository;
@@ -50,17 +52,17 @@ public class CandidateRepository {
 
     public List<Candidate> findInMunicipality(UUID municipalityId)
     {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM candidate WHERE commune = " + municipalityId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM candidate WHERE commune = '" + municipalityId + "'");
         Result<Candidate> candidates = mapper.map(results);
         return candidates.all();
     }
 
 
     public List<Candidate> findInMunicipalityByTurn(UUID municipalityId, UUID turn) {
-        ResultSet results = cassandraSession.getSession()
-            .execute("SELECT * FROM candidate " +
-                "WHERE municipality_id = " + municipalityId +
-                "AND turns CONTAINS " + turn);
+        Statement statement = new SimpleStatement("SELECT * FROM candidate " +
+            "WHERE municipality_id = ? AND turns CONTAINS ?", municipalityId, turn);
+
+        ResultSet results = cassandraSession.getSession().execute(statement);
         Result<Candidate> candidates = mapper.map(results);
         return candidates.all();
     }
