@@ -2,6 +2,7 @@ package org.voting.gateway.domain;
 
 
 
+import com.datastax.driver.core.LocalDate;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
@@ -17,7 +18,7 @@ import java.util.UUID;
     caseSensitiveTable = false)
 public class ElectoralPeriod implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+
 
     @PartitionKey
     @Column(name = "period_id")
@@ -28,10 +29,10 @@ public class ElectoralPeriod implements Serializable {
     private String name;
 
     @Column(name = "date_to")
-    private String enddate;
+    private LocalDate endDate;
 
     @Column(name = "date_from")
-    private String startdate;
+    private LocalDate startDate;
 
     public UUID getId() {
         return id;
@@ -50,63 +51,34 @@ public class ElectoralPeriod implements Serializable {
     }
 
     public ElectoralPeriod name(String name) {
-    	this.name = name;
-    	return this;
-    }
-
-    public String getEnddate() {
-        return enddate;
-    }
-
-    public ElectoralPeriod enddate(String enddate) {
-        this.enddate = enddate;
+        this.name = name;
         return this;
     }
 
-    public void setEnddate(String enddate) {
-        this.enddate = enddate;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public String getStartdate() {
-        return startdate;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    public ElectoralPeriod startdate(String startdate) {
-        this.startdate = startdate;
+    public ElectoralPeriod startDate(LocalDate startDate) {
+        this.startDate = startDate;
         return this;
     }
 
-    public void setStartdate(String startdate) {
-        this.startdate = startdate;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ElectoralPeriod electoralPeriod = (ElectoralPeriod) o;
-        if (electoralPeriod.getName() == null || getName() == null) {
-            return false;
-        }
-        return Objects.equals(getName(), electoralPeriod.getName());
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getName());
-    }
-
-    @Override
-    public String toString() {
-        return "ElectoralDistrict{" +
-            "name=" + getName() + "'" +
-            ", enddate=" + getEnddate() + "'" +
-            ", startdate=" + getStartdate() +
-            "}";
+    public ElectoralPeriod endDate(LocalDate endDate) {
+        this.endDate = endDate;
+        return this;
     }
 
 

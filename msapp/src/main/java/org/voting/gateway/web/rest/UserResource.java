@@ -1,15 +1,19 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+
 import com.datastax.driver.core.utils.UUIDs;
+import com.datastax.driver.core.LocalDate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
 
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
+import org.voting.gateway.web.rest.errors.InvalidPasswordException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -21,6 +25,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -57,6 +63,12 @@ public class UserResource {
              }
         }
         return ResponseUtil.wrapOrNotFound(user);
+    }
+
+    @PostMapping("/account/change-password")
+    @Timed
+    public void changePassword(@RequestBody String password) {
+        throw new RuntimeException("TODO NOT IMPLEMENTED!!!");
     }
 
     /**
@@ -142,6 +154,13 @@ public class UserResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
+    @PostMapping("/my-users/{id}/disable")
+    @Timed
+    public ResponseEntity<Void> disableMyUser(@PathVariable Long id) {
+        log.debug("REST request to disable MyUser : {}", id);
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("Zablokowano konto użytkownika o id "+id, id.toString()))
+            .build();
+    }
 
     @GetMapping("/municipalities/{municipalityId}/users")
     @Timed
@@ -159,13 +178,32 @@ public class UserResource {
 
     }
 
+
     @GetMapping("/users/small/{id}")
     @Timed
     public ResponseEntity<SmallUser> getSmallUser(@PathVariable UUID id) {
         return getMyUser(id);
     }
 
-    /*private SmallUser ToSmallUser(MyUser user) {
+   /*
+    @GetMapping("/custom-users/{id}")
+    @Timed
+    public ResponseEntity<SmallUser> getSmallUser(@PathVariable Long id) {
+        log.debug("REST request to get  SmallUser: {}", id);
+        MyUser myUser = myUserRepository.findOne(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(ToSmallUser(myUser)));
+    }
+
+    @DeleteMapping("/custom-users/{id}")
+    @Timed
+    public ResponseEntity<SmallUser> deleteSmallUser(@PathVariable Long id) {
+        log.debug("REST request to delete SmallUser: {}", id);
+        myUserRepository.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    private SmallUser ToSmallUser(MyUser user) {
+
         SmallUser smallUser = new SmallUser();
         smallUser.setId(user.getId());
         if(user.getElectoralDistrict() != null ) {
@@ -187,4 +225,26 @@ public class UserResource {
         smallUser.setAuthorities(authorities);
         return smallUser;
     }*/
+
+
+
+  /*  @GetMapping("/electoral-periods")
+    @Timed
+    public List<ElectoralPeriod> getElectoralPeriods() {
+        log.debug("REST request to get electoralPeriods");
+        return Arrays.asList(
+            new ElectoralPeriod().name("PreElectionPeriod").startDate(new LocalDate() .now().minusDays(1)).endDate
+                (LocalDate.now().plusDays(1)),
+            new ElectoralPeriod().name("FirstRoundPeriod").startDate(LocalDate.now().plusDays(1)).endDate(LocalDate
+                .now() .plusDays(3)),
+            new ElectoralPeriod().name("MidRoundPeriod").startDate(LocalDate.now().plusDays(3)).endDate(LocalDate
+                .now() .plusDays(5)),
+            new ElectoralPeriod().name("SecondRoundPeriod").startDate(LocalDate.now().plusDays(5)).endDate(LocalDate
+                .now() .plusDays(7)),
+            new ElectoralPeriod().name("PostElectionPeriod").startDate(LocalDate.now().plusDays(7)).endDate(LocalDate
+                .MAX)
+        );
+    }*/
+
+
 }

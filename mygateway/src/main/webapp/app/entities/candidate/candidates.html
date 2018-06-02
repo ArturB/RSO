@@ -18,7 +18,6 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span>ID</span></th>
                     <th><span>Imie</span></th>
                     <th><span>Nazwisko</span></th>
                     <th><span>Wiek</span></th>
@@ -29,7 +28,6 @@
             </thead>
             <tbody>
                 <tr ng-repeat="candidate in vm.candidates track by candidate.id">
-                    <td><a ui-sref="candidate-detail({id:candidate.id})">{{candidate.id}}</a></td>
                     <td>{{candidate.name}}</td>
                     <td>{{candidate.surname}}</td>
                     <td>{{candidate.age}}</td>

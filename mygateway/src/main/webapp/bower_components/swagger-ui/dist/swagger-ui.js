@@ -2992,7 +2992,7 @@ this["Handlebars"]["templates"]["popup"] = Handlebars.template({"compiler":[6,">
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "<div class=\"api-popup-dialog-wrapper\">\n    <div class=\"api-popup-title\">"
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
-    + "</div>\n    <div class=\"api-popup-content\"></div>\n    <p class=\"error-msg\"></p>\n    <div class=\"api-popup-actions\">\n        <button class=\"api-popup-cancel api-button gray\" type=\"button\">Cancel</button>\n    </div>\n</div>\n<div class=\"api-popup-dialog-shadow\"></div>";
+    + "</div>\n    <div class=\"api-popup-content\"></div>\n    <p class=\"error-msg\"></p>\n    <div class=\"api-popup-actions\">\n        <button class=\"api-popup-cancel api-button gray\" type=\"button\">Anuluj</button>\n    </div>\n</div>\n<div class=\"api-popup-dialog-shadow\"></div>";
 },"useData":true});
 this["Handlebars"]["templates"]["resource"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return " : ";
@@ -4793,7 +4793,7 @@ Resolver.prototype.finish = function (spec, root, resolutionTable, resolvedRefs,
 
         for (key in resolvedTo.obj) {
           var abs = resolvedTo.obj[key];
-          
+
           if (localResolve !== true) {
             // don't retain root for local definitions
             abs = this.retainRoot(key, resolvedTo.obj[key], item.root);
@@ -20355,7 +20355,7 @@ Request.prototype.type = function(type){
 };
 
 /**
- * Set responseType to `val`. Presently valid responseTypes are 'blob' and 
+ * Set responseType to `val`. Presently valid responseTypes are 'blob' and
  * 'arraybuffer'.
  *
  * Examples:
@@ -21244,7 +21244,7 @@ Emitter.prototype.hasListeners = function(event){
  * TODO: combatible error handling?
  */
 
-module.exports = function(arr, fn, initial){  
+module.exports = function(arr, fn, initial){
   var idx = 0;
   var len = arr.length;
   var curr = arguments.length == 3
@@ -21254,7 +21254,7 @@ module.exports = function(arr, fn, initial){
   while (idx < len) {
     curr = fn.call(null, curr, arr[idx], ++idx, arr);
   }
-  
+
   return curr;
 };
 },{}]},{},[1])(1)

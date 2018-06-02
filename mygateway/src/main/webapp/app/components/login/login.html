@@ -1,7 +1,10 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            ng-hide="vm.isLoging"
             ng-click="vm.cancel()">&times;</button>
     <h4 class="modal-title">Logowanie</h4>
+    <button class="btn btn-lg btn-warning">
+</button>
 </div>
 <div class="modal-body">
     <div class="row">
@@ -9,8 +12,13 @@
             <h1>Zaloguj się</h1>
         </div>
         <div class="col-md-8 col-md-offset-2">
-            <div class="alert alert-danger" ng-show="vm.authenticationError">
-                <strong>Nie udało się zalogować!</strong> Sprawdź hasło i spróbuj ponownie
+            <div ng-hide="vm.timeoutError">
+                <div class="alert alert-danger" ng-show="vm.authenticationError" >
+                    <strong>Nie udało się zalogować!</strong> Sprawdź hasło i spróbuj ponownie
+                </div>
+            </div>
+            <div class="alert alert-warning" ng-show="vm.timeoutError">
+                <strong>Nie udało się zalogować!</strong> Serwer nie odpowiada. Możesz ponowić i poczekać dłużej.
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
@@ -24,7 +32,10 @@
                     <input type="password" class="form-control" id="password" placeholder="haslo"
                            ng-model="vm.password">
                 </div>
-                <button type="submit" class="btn btn-primary">Zaloguj się</button>
+                <button type="submit" class="btn btn-primary" ng-hide="vm.isLoging">Zaloguj się</button>
+                <button type="submit" class="btn btn-primary" ng-show="vm.isLoging" disabled>
+                    <span class="glyphicon glyphicon-refresh spinning"></span> Logowanie...
+                </button>
             </form>
             <p></p>
 

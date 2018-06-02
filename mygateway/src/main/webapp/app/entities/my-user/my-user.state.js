@@ -13,8 +13,8 @@
             parent: 'entity',
             url: '/my-user',
             data: {
-                authorities: ['ROLE_USER'],
-                pageTitle: 'MyUsers'
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
+                pageTitle: 'Użytkownicy'
             },
             views: {
                 'content@': {
@@ -30,8 +30,8 @@
             parent: 'my-user',
             url: '/my-user/{id}',
             data: {
-                authorities: ['ROLE_USER'],
-                pageTitle: 'MyUser'
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
+                pageTitle: 'Użytkownicy'
             },
             views: {
                 'content@': {
@@ -58,7 +58,7 @@
             parent: 'my-user-detail',
             url: '/detail/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -83,7 +83,7 @@
             parent: 'my-user',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -105,8 +105,9 @@
                                 pesel: null,
                                 role: null,
                                 id: null,
-                            };
-                        }
+                            }
+                        },
+                        preset: {}
                     }
                 }).result.then(function() {
                     $state.go('my-user', null, { reload: 'my-user' });
@@ -119,7 +120,7 @@
             parent: 'my-user',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -131,7 +132,8 @@
                     resolve: {
                         entity: ['MyUser', function(MyUser) {
                             return MyUser.get({id : $stateParams.id}).$promise;
-                        }]
+                        }],
+                        preset:{}
                     }
                 }).result.then(function() {
                     $state.go('my-user', null, { reload: 'my-user' });
@@ -144,7 +146,7 @@
             parent: 'my-user',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -163,7 +165,32 @@
                     $state.go('^');
                 });
             }]
-        });
+        })
+            .state('my-user.disable', {
+                parent: 'my-user',
+                url: '/{id}/disable',
+                data: {
+                    authorities: [ 'ROLE_ADMIN']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        templateUrl: 'app/entities/custom-user/custom-user-disable-dialog.html',
+                        controller: 'CustomUserDisableController',
+                        controllerAs: 'vm',
+                        size: 'md',
+                        resolve: {
+                            entity: ['CustomUser', function (CustomUser) {
+                                return CustomUser.get({id: $stateParams.id}).$promise;
+                            }]
+                        }
+                    }).result.then(function () {
+                        $state.go('my-user', null, {reload: 'my-user'});
+                    }, function () {
+                        $state.go('^');
+                    });
+                }]
+            })
+        ;
     }
 
 })();

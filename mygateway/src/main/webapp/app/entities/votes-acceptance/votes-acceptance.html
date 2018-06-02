@@ -1,0 +1,55 @@
+<div>
+    <h2>Potwierdź protokół z okręgu wyborczego <b>{{vm.electoralDistrict.name}}</b>
+        , z tury
+        <b is-period="MidRoundPeriod">pierwszej</b>
+        <b is-period="PostElectionPeriod">drugiej</b>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+    <br/>
+        <h2>Kandydaci </h2>
+
+        <table class="jh-table table table-striped">
+            <thead>
+            <tr>
+                <th><span>Kandydat</span></th>
+                <th><span>Partia</span></th>
+                <th><span>Ilość głosów</span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="candidateVote in vm.candidatesVotes | toArray:true |orderBy:'candidate.surname'">
+                <td>
+                    <b>{{candidateVote.candidate.name}} {{candidateVote.candidate.surname}}</b>
+                </td>
+                <td>
+                    {{candidateVote.candidate.party.name}}
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="votesCount" id="field_votesCount"
+                           ng-model="candidateVote.votesCount"
+                           disabled />
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    <h3>Głosy nieważne</h3>
+    <input type="number" class="form-control" name="invalidVotes" id="field_invalidVotes"
+           ng-model="vm.invalidVotes" disabled/>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <jhi-alert-error></jhi-alert-error>
+                <div ng-show="vm.saved" class="alert alert-success">Głosy zaakceptowano!</div>
+                <button class="btn btn-primary" ng-disabled="vm.isSaving||vm.saved" ng-click="vm.save()">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span>
+                        Potwierdź!!
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

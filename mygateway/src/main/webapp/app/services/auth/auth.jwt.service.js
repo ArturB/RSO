@@ -22,18 +22,28 @@
             return null;
         }
 
-        function login (credentials) {
+        function login (credentials, timeoutAmount) {
             var data = {
                 username: credentials.username,
                 password: credentials.password,
                 rememberMe: credentials.rememberMe
             };
 
-            return $http({
-                url: '/auth/login',
-                method: 'post',
-                data: data
-            });
+            if(timeoutAmount) {
+                return $http({
+                    url: '/auth/login',
+                    method: 'post',
+                    data: data,
+                    timeout:  timeoutAmount
+                });
+            }else{
+                return $http({
+                    url: '/auth/login',
+                    method: 'post',
+                    data: data
+                });
+
+            }
         }
 
         function loginWithToken(jwt, rememberMe) {

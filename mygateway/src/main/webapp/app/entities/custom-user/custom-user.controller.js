@@ -13,11 +13,14 @@
 
         vm.customUsers = [];
         vm.municipality = [];
+        vm.userIsGkwLeader = false;
+        vm.account = null;
 
         loadAll();
 
         function loadAll() {
             Principal.identity().then(function (account) {
+                vm.account = account;
                 CustomUser.findByMunicipalityId({municipalityId: account.municipalityId}, function (result) {
                     vm.customUsers = result;
                     vm.searchQuery = null;
@@ -52,18 +55,26 @@
             return vm.electoralDistrictNamesCache[id].name;
         };
 
-        vm.toEdNumber = function(id){
-            if(id){
-                return id;
-            }else{
-                return -1;
-            }
-        };
-
         $scope.minRole = function (arr) {
             return $filter('min')
             ($filter('map')(arr, 'role'));
-        }
+        };
+
+        vm.canDisableUser = function(customUser){
+            if(customUser.id === vm.account.id ){
+                return false;
+            }
+            if(customUser.authorities.indexOf('ROLE_GKW_LEADER') !== -1){
+                return false;
+            }
+            if(customUser.authorities.indexOf('ROLE_GKW_MEMBER') !== -1 ){
+                if(vm.account.authorities.indexOf('ROLE_GKW_LEADER') === -1){
+                    return false;
+                }
+            }
+            return true;
+        };
+
     }
 
 })();

@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -135,5 +136,4 @@ public class CandidateResource {
     public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId, @PathVariable UUID turn){
         return candidateRepository.findInMunicipalityByTurn(municipalityId,turn);
     }
-
 }

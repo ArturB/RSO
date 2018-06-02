@@ -13,7 +13,7 @@
             url: '/password',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Password'
+                pageTitle: 'Hasło'
             },
             views: {
                 'content@': {

@@ -11,46 +11,62 @@
                 <img class="logo-img" src="content/images/poland-flag.png" alt="logo"/>
                 <span><b>System wyborczy</b></span>
             </a>
+            <span class="nav navbar-brand" style="left:30%" ng-show="vm.isAuthenticated">
+                <span>
+                    Witaj <b>{{vm.account.username}}</b><span ng-show="vm.municipality">, z <b>{{vm.municipality.name}}</b> </span>
+                </span>
+            </span>
         </div>
         <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated">
-            <ul class="nav navbar-nav navbar-nav">
-                <li ui-sref-active="active">
-                    <a>
-                        <span class="hidden-sm" ng-switch-when="true">
-                            Witaj <b>{{vm.account.username}}</b> <span ng-show="vm.municipality">, z <b>{{vm.municipality.name}}</b> </span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-center" ng-class="{wide: vm.isAuthenticated}">
+                <li></li>
                 <li ui-sref-active="active">
                     <a ui-sref="home" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-home"></span>
-                        <span class="hidden-sm">Strona domowa</span>
+                        <span class="glyphicon glyphicon-home"></span>&nbsp;
+                        <span >Strona domowa</span>
                     </a>
                 </li>
-                <li ui-sref-active="active" has-authority="ROLE_GKW_MEMBER">
-                    <a ui-sref="custom-user" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                <li ui-sref-active="active" is-period="MidRoundPeriod,SecondRoundPeriod,PostElectionPeriod">
+                    <a ui-sref="votes-sum" ng-click="vm.collapseNavbar()">
+                        <span class="glyphicon glyphicon-th-list"></span>&nbsp;
+                        <span>Wyniki wyborów</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" has-authority="ROLE_GKW_MEMBER" >
+                    <a ui-sref="custom-user" ng-click="vm.collapseNavbar()" is-period="PreElectionPeriod">
+                        <span class="glyphicon glyphicon-user"></span>&nbsp;
                         <span>Zarządzaj użytkownikami</span>
                     </a>
                 </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="electoral-district" ng-click="vm.collapseNavbar()" has-authority="ROLE_GKW_MEMBER">
-                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                <li ui-sref-active="active"  has-authority="ROLE_GKW_MEMBER">
+                    <a ui-sref="electoral-district" ng-click="vm.collapseNavbar()" is-period="PreElectionPeriod" >
+                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;
                         <span>Okręgi wyborcze</span>
                     </a>
                 </li>
-                <li ui-sref-active="active" has-authority="ROKE_GKW_MEMBER">
-                    <a ui-sref="candidate" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                <li ui-sref-active="active" has-authority="ROLE_GKW_MEMBER" >
+                    <a ui-sref="candidate" ng-click="vm.collapseNavbar()" is-period="PreElectionPeriod">
+                        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;
                         <span>Kandydaci</span>
                     </a>
                 </li>
-                <li ui-sref-active="active" has-authority="ROLE_OKW_MEMBER">
-                    <a ui-sref="votes-designation" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                <li ui-sref-active="active" has-authority="ROLE_OKW_MEMBER" >
+                    <a ui-sref="votes-designation" ng-click="vm.collapseNavbar()" is-period="MidRoundPeriod,PostElectionPeriod">
+                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;
                         <span>Wpisz głosy</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" has-authority="ROLE_OKW_LEADER" >
+                    <a ui-sref="votes-acceptance" ng-click="vm.collapseNavbar()"
+                       is-period="MidRoundPeriod,PostElectionPeriod">
+                        <span class="glyphicon glyphicon-tree-conifer"></span>&nbsp;
+                        <span>Zatwierdź głosy</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" >
+                    <a ui-sref="password" ng-click="vm.collapseNavbar()">
+                        <span class="glyphicon glyphicon-lock"></span>&nbsp;
+                        <span>Zmień hasło</span>
                     </a>
                 </li>
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
@@ -60,7 +76,7 @@
                         <span>
                             <span class="glyphicon glyphicon-th-list"></span>
                             <span class="hidden-sm">
-                                Encje
+                                Zarządzanie systemem
                             </span>
                             <b class="caret"></b>
                         </span>
@@ -78,22 +94,10 @@
                                 <span>Kandydaci</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-show="FUN_THINGS">
-                            <a ui-sref="my-group" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>My Group</span>
-                            </a>
-                        </li>
                         <li ui-sref-active="active">
                             <a ui-sref="municipality" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
                                 <span>Gminy</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active">
-                            <a ui-sref="votes-from-district" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>Głosy z okręgu</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
@@ -107,18 +111,6 @@
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
                                 <span>Użytkownicy</span>
                             </a>
-                        </li>
-                        <li ui-sref-active="active">
-                            <a ui-sref="votes-designation" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span>Prześlij głosy</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active">
-                                <a ui-sref="custom-user" ng-click="vm.collapseNavbar()">
-                                    <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                    <span>Zarządzaj użytkownikami</span>
-                                </a>
                         </li>
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                     </ul>

@@ -22,13 +22,13 @@
             <div ng-show="editForm.login.$invalid">
                 <p class="help-block"
                    ng-show="editForm.login.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
 
                 <p class="help-block"
                    ng-show="editForm.login.$error.maxlength"
                   >
-                    This field cannot be longer than 50 characters.
+                    To pole nie może mieć więcej niż 50 znaków.
                 </p>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <p class="help-block"
                    ng-show="editForm.firstName.$error.maxlength"
                   >
-                    This field cannot be longer than 50 characters.
+                    To pole nie może mieć więcej niż 50 znaków.
                 </p>
             </div>
         </div>
@@ -54,7 +54,7 @@
                 <p class="help-block"
                    ng-show="editForm.lastName.$error.maxlength"
                   >
-                    This field cannot be longer than 50 characters.
+                    To pole nie może mieć więcej niż 50 znaków.
                 </p>
             </div>
         </div>
@@ -66,13 +66,13 @@
             <div ng-show="editForm.email.$invalid">
                 <p class="help-block"
                    ng-show="editForm.email.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
 
                 <p class="help-block"
                    ng-show="editForm.email.$error.maxlength"
                   >
-                    This field cannot be longer than 100 characters.
+                    To pole nie może mieć więcej niż 100 znaków.
                 </p>
 				<p class="help-block"
                    ng-show="editForm.email.$error.email">
@@ -97,10 +97,10 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
-           >Cancel</span>
+           >Anuluj</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Zapisz</span>
         </button>
     </div>
 </form>

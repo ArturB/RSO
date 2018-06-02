@@ -28,6 +28,8 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/messageformat/messageformat.js',
             'src/main/webapp/bower_components/arrive/src/arrive.js',
             'src/main/webapp/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
+            'src/main/webapp/bower_components/moment/moment.js',
+            'src/main/webapp/bower_components/humanize-duration/humanize-duration.js',
             'src/main/webapp/bower_components/angular/angular.js',
             'src/main/webapp/bower_components/angular-aria/angular-aria.js',
             'src/main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
@@ -44,6 +46,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/angular-filter/dist/angular-filter.js',
             'src/main/webapp/bower_components/bootstrap-material-design/dist/js/material.js',
             'src/main/webapp/bower_components/bootstrap-material-design/dist/js/ripples.js',
+            'src/main/webapp/bower_components/angular-timer/dist/angular-timer.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/app/app.module.js',

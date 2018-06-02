@@ -4,15 +4,9 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myMyUserLabel">Create or edit a My User</h4>
+        <h4 class="modal-title" id="myMyUserLabel">Utwórz bądz zmień użytkownika</h4>
     </div>
     <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.myUser.id">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.myUser.id" readonly />
-        </div>
         <div class="form-group">
             <label class="control-label" for="field_username">Login</label>
             <input type="text" class="form-control" name="username" id="field_username"
@@ -21,7 +15,7 @@
             <div ng-show="editForm.username.$invalid">
                 <p class="help-block"
                     ng-show="editForm.username.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
             </div>
         </div>
@@ -33,7 +27,7 @@
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
                     ng-show="editForm.name.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
             </div>
         </div>
@@ -45,7 +39,7 @@
             <div ng-show="editForm.surname.$invalid">
                 <p class="help-block"
                     ng-show="editForm.surname.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
             </div>
         </div>
@@ -57,7 +51,7 @@
             <div ng-show="editForm.documentType.$invalid">
                 <p class="help-block"
                     ng-show="editForm.documentType.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
             </div>
         </div>
@@ -69,30 +63,33 @@
             <div ng-show="editForm.documentNr.$invalid">
                 <p class="help-block"
                     ng-show="editForm.documentNr.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label" for="field_email">Email</label>
-            <input type="text" class="form-control" name="email" id="field_email"
+            <input type="email" class="form-control" name="email" id="field_email"
                     ng-model="vm.myUser.email"
-                    required ng-pattern="/^[^@\s]+@[^@\s]+\.[^@\s]+$/"/>
+                    required/>
             <div ng-show="editForm.email.$invalid">
                 <p class="help-block"
                     ng-show="editForm.email.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
                 <p class="help-block"
-                    ng-show="editForm.email.$error.pattern" translate-value-pattern="Email">
-                    This field should follow pattern for "Email".
+                    ng-show="editForm.email.$error.email" >
+                    Błędny adres e-mail
                 </p>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label" for="field_birthdate">Data urodzenia</label>
                 <div class="input-group">
-                    <input id="field_birthdate" type="text" class="form-control" name="birthdate" uib-datepicker-popup="{{dateformat}}" ng-model="vm.myUser.birthdate" is-open="vm.datePickerOpenStatus.birthdate"
+                    <input id="field_birthdate" type="date" class="form-control" name="birthdate"
+                           uib-datepicker-popup="{{dateformat}}"
+                           ng-model="vm.myUser.birthdate"
+                           is-open="vm.datePickerOpenStatus.birthdate"
                     required/>
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="vm.openCalendar('birthdate')"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -101,7 +98,11 @@
             <div ng-show="editForm.birthdate.$invalid">
                 <p class="help-block"
                     ng-show="editForm.birthdate.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.birthdate.$error.date">
+                    Data jest w złym formacie
                 </p>
             </div>
         </div>
@@ -109,41 +110,39 @@
             <label class="control-label" for="field_pesel">Pesel</label>
             <input type="text" class="form-control" name="pesel" id="field_pesel"
                     ng-model="vm.myUser.pesel"
-                    required ng-minlength="11" ng-maxlength="11"/>
+                    required pattern="^\d{11}"/>
             <div ng-show="editForm.pesel.$invalid">
                 <p class="help-block"
                     ng-show="editForm.pesel.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
                 <p class="help-block"
-                    ng-show="editForm.pesel.$error.minlength" translate-value-min="11">
-                    This field is required to be at least 11 characters.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.pesel.$error.maxlength">
-                    This field cannot be longer than 11 characters.
+                    ng-show="editForm.pesel.$error.pattern">
+                    PESEL ma mieć 11 cyfr
                 </p>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label" for="field_role">Rola</label>
-            <input type="text" class="form-control" name="role" id="field_role"
-                    ng-model="vm.myUser.role"
-                    required/>
+            <select class="form-control" id="field_role" name="role" ng-model="vm.myUser.role"
+                    ng-options="role as role.name for role in vm.roles track by role.code"
+                    ng-init="vm.myUser.role = vm.roles[0]"
+                    required>
+            </select>
             <div ng-show="editForm.role.$invalid">
                 <p class="help-block"
                     ng-show="editForm.role.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-hide="vm.presetMunicipality && ! vm.presetElectoralDistrict">
             <label for="field_electoralDistrict">Okręg wyborczy</label>
             <select class="form-control" id="field_electoralDistrict" name="electoralDistrict" ng-model="vm.myUser.electoralDistrict"
-                    ng-options="electoralDistrict as electoralDistrict.name for electoralDistrict in vm.electoraldistricts track by electoralDistrict.id"
-                    ng-hide="vm.presetElectoralDistrict">
-                <option value=""></option>
+                    ng-options="electoralDistrict as electoralDistrict.name for electoralDistrict in vm.electoraldistricts
+                     | filter:{municipality:{id:vm.myUser.municipality.id}}:true track by electoralDistrict.id"
+                    ng-hide="vm.presetMunicipality">
             </select>
             <select class="form-control" id="field_electoralDistrict_preset" name="electoralDistrict"
                     ng-show="vm.presetElectoralDistrict" disabled>
@@ -165,10 +164,11 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Anuluj</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Zapisz</span>
         </button>
     </div>
+    <jhi-alert-error></jhi-alert-error>
 </form>

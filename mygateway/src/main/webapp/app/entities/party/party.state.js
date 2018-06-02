@@ -13,8 +13,8 @@
             parent: 'entity',
             url: '/party',
             data: {
-                authorities: ['ROLE_USER'],
-                pageTitle: 'Parties'
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
+                pageTitle: 'Partie'
             },
             views: {
                 'content@': {
@@ -30,8 +30,8 @@
             parent: 'party',
             url: '/party/{id}',
             data: {
-                authorities: ['ROLE_USER'],
-                pageTitle: 'Party'
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
+                pageTitle: 'Partia'
             },
             views: {
                 'content@': {
@@ -58,7 +58,7 @@
             parent: 'party-detail',
             url: '/detail/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -83,7 +83,7 @@
             parent: 'party',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -112,7 +112,7 @@
             parent: 'party',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -137,7 +137,7 @@
             parent: 'party',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({

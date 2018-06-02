@@ -19,7 +19,6 @@
         <table class="jh-table table table-striped">
             <thead>
             <tr>
-                <th><span>ID</span></th>
                 <th><span>Nazwa</span></th>
                 <th><span>Ilość uprawnionych do głosowania</span></th>
                 <th><span>Ilość zużytych kart</span></th>
@@ -30,14 +29,11 @@
             </thead>
             <tbody>
             <tr ng-repeat="electoralDistrict in vm.electoralDistricts track by electoralDistrict.id">
-                <td><a ui-sref="electoral-district-detail({id:electoralDistrict.id})">{{electoralDistrict.id}}</a></td>
                 <td>{{electoralDistrict.name}}</td>
                 <td>{{electoralDistrict.nrCanVote}}</td>
                 <td>{{electoralDistrict.nrCardsUsed}}</td>
                 <td>{{electoralDistrict.votingFinished}}</td>
-                <td>
-                    <a ui-sref="municipality-detail({id:electoralDistrict.municipality.id})">{{electoralDistrict.municipality.name}}</a>
-                </td>
+                <td>{{electoralDistrict.municipality.name}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

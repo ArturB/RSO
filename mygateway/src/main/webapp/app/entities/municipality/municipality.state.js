@@ -13,8 +13,8 @@
             parent: 'entity',
             url: '/municipality',
             data: {
-                authorities: ['ROLE_USER'],
-                pageTitle: 'Municipalities'
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
+                pageTitle: 'Gminy'
             },
             views: {
                 'content@': {
@@ -30,8 +30,8 @@
             parent: 'municipality',
             url: '/municipality/{id}',
             data: {
-                authorities: ['ROLE_USER'],
-                pageTitle: 'Municipality'
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
+                pageTitle: 'Gmina'
             },
             views: {
                 'content@': {
@@ -58,7 +58,7 @@
             parent: 'municipality-detail',
             url: '/detail/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -83,7 +83,7 @@
             parent: 'municipality',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -111,7 +111,7 @@
             parent: 'municipality',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -136,7 +136,7 @@
             parent: 'municipality',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({

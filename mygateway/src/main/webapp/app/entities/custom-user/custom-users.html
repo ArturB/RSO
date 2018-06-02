@@ -3,17 +3,26 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="table-responsive" ng-repeat="(key, value) in vm.customUsers | groupBy:'electoralDistrictId' | toArray:true | orderBy:minRole " >
-        <h2 ng-show="key">Członkowie okręgowej komisji wyborczej {{vm.GetElectoralDistrictName(key)}}</h2>
-        <h2 ng-hide="key">Członkowie gminnej komisji wyborczej gminy {{vm.municipality.name}}</h2>
+        <h2 ng-show="value[0].electoralDistrictId">
+            Członkowie okręgowej komisji wyborczej {{vm.GetElectoralDistrictName(value[0].electoralDistrictId)}}</h2>
+        <h2 ng-hide="value[0].electoralDistrictId">
+            Członkowie gminnej komisji wyborczej gminy {{vm.municipality .name}}</h2>
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-4 no-padding-left">
-                    <button class="btn btn-primary" ui-sref="custom-user.bigNew({municipalityId:vm.municipality.id,electoralDistrictId:vm.toEdNumber(key)})" >
+                <div class="col-xs-4 no-padding-left" ng-show="value[0].electoralDistrictId">
+                    <button class="btn btn-primary"
+                            ui-sref="custom-user.bigNew({municipalityId:vm.municipality.id,electoralDistrictId:value[0].electoralDistrictId})" >
                         <span class="glyphicon glyphicon-plus"></span>
-                        <span >
-                        Dodaj użytkownika
-                    </span>
+                        <span> Dodaj użytkownika okręgu</span>
+                    </button>
+                </div>
+                <div class="col-xs-4 no-padding-left" ng-hide="value[0].electoralDistrictId"
+                     has-authority="ROLE_GKW_LEADER">
+                    <button class="btn btn-primary"
+                            ui-sref="custom-user.bigNew({municipalityId:vm.municipality.id})" >
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span> Dodaj użytkownika gminy</span>
                     </button>
                 </div>
             </div>
@@ -21,7 +30,7 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span>ID</span></th>
+                    <!--<th><span>ID</span></th>-->
                     <th><span>Login</span></th>
                     <th><span>Rola</span></th>
                     <th></th>
@@ -29,27 +38,27 @@
             </thead>
             <tbody>
                 <tr ng-repeat="customUser in value |  orderBy:'role' track by customUser.id ">
-                    <td><a ui-sref="custom-user-detail({id:customUser.id})">{{customUser.id}}</a></td>
                     <td>{{customUser.username}}</td>
                     <td>{{vm.translateRole(customUser.role)}}</td>
                     <td class="text-right" >
                         <div class="btn-group flex-btn-group-container" >
                             <button type="submit"
-                                    ui-sref="custom-user-detail({id:customUser.id})"
-                                    class="btn btn-info btn-sm" ng-show="FUN_THINGS">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="custom-user.edit({id:customUser.id})"
-                                    class="btn btn-primary btn-sm" ng-show="FUN_THINGS">
+                                    ui-sref="custom-user.bigEdit({id:customUser.id})"
+                                    ng-disabled="!vm.canDisableUser(customUser)"
+                                    class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-sm-down"></span>
+                                Edytuj konto
+                                <span class="glyphicon glyphicon-minus-sign"></span>
+                                <span class="hidden-sm-down"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="custom-user.delete({id:customUser.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                    ui-sref="custom-user.disable({id:customUser.id})"
+                                    class="btn btn-danger btn-sm"
+                                    ng-disabled="!vm.canDisableUser(customUser)"
+                            >
+                                Zablokuj konto
+                                <span class="glyphicon glyphicon-minus-sign"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>
                         </div>

@@ -34,7 +34,16 @@
                 transformRequest: function (data) {
                     var copy = angular.copy(data);
                     copy.birthdate = DateUtils.convertLocalDateToServer(copy.birthdate);
+                    copy.role = copy.role.code;
                     return angular.toJson(copy);
+                }
+            },
+            'disable': {
+                method: 'POST',
+                isArray: false,
+                url: 'msapp/api/my-users/:id/disable',
+                params: {
+                    id: '@id'
                 }
             }
         });

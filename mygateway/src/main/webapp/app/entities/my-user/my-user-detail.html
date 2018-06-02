@@ -1,26 +1,26 @@
 
 <div>
-    <h2><span>My User</span> {{vm.myUser.id}}</h2>
+    <h2><span>Uzytkownik</span> {{vm.myUser.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span>Username</span></dt>
+        <dt><span>Login</span></dt>
         <dd>
             <span>{{vm.myUser.username}}</span>
         </dd>
-        <dt><span>Name</span></dt>
+        <dt><span>Imie</span></dt>
         <dd>
             <span>{{vm.myUser.name}}</span>
         </dd>
-        <dt><span>Surname</span></dt>
+        <dt><span>Nazwisko</span></dt>
         <dd>
             <span>{{vm.myUser.surname}}</span>
         </dd>
-        <dt><span>Document Type</span></dt>
+        <dt><span>Rodzaj dokumentu</span></dt>
         <dd>
             <span>{{vm.myUser.documentType}}</span>
         </dd>
-        <dt><span>Document Nr</span></dt>
+        <dt><span>Numer dokumentu</span></dt>
         <dd>
             <span>{{vm.myUser.documentNr}}</span>
         </dd>
@@ -28,7 +28,7 @@
         <dd>
             <span>{{vm.myUser.email}}</span>
         </dd>
-        <dt><span>Birthdate</span></dt>
+        <dt><span>Data urodzenia</span></dt>
         <dd>
             <span>{{vm.myUser.birthdate | date:'mediumDate'}}</span>
         </dd>
@@ -44,7 +44,7 @@
         <dd>
             <a ui-sref="electoral-district-detail({id:vm.myUser.electoralDistrict.id})">{{vm.myUser.electoralDistrict.id}}</a>
         </dd>
-        <dt><span>Municipality</span></dt>
+        <dt><span>Gmina</span></dt>
         <dd>
             <a ui-sref="municipality-detail({id:vm.myUser.municipality.id})">{{vm.myUser.municipality.id}}</a>
         </dd>
@@ -53,11 +53,11 @@
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
             class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Cofnij</span>
     </button>
 
     <button type="button" ui-sref="my-user-detail.edit({id:vm.myUser.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-sm-down"> Edit</span>
+        <span class="hidden-sm-down"> Edytuj</span>
     </button>
 </div>

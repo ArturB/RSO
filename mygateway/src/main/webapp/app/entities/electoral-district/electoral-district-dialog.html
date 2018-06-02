@@ -8,11 +8,6 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.electoralDistrict.id">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.electoralDistrict.id" readonly />
-        </div>
         <div class="form-group">
             <label class="control-label" for="field_name">Nazwa</label>
             <input type="text" class="form-control" name="name" id="field_name"
@@ -21,9 +16,10 @@
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
                     ng-show="editForm.name.$error.required">
-                    This field is required.
+                    Pole jest wymagane.
                 </p>
             </div>
+            {{editForm.name}}
         </div>
         <div class="form-group" has-authority="ROLE_ADMIN">
             <label for="field_municipality">Okręg Wyborczy</label>
@@ -35,10 +31,10 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Anuluj</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Zapisz</span>
         </button>
     </div>
 </form>
