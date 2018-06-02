@@ -1,6 +1,10 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
 
@@ -15,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.voting.gateway.web.rest.util.PaginationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -60,13 +65,13 @@ public class MyUserResource {
     }
 
     /**
-     * POST  /my-users : Create a new myUser.
+     * POST  /users : Create a new myUser.
      *
      * @param myUser the myUser to create
      * @return the ResponseEntity with status 201 (Created) and with body the new myUser, or with status 400 (Bad Request) if the myUser has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/my-users")
+    @PostMapping("/users")
     @Timed
     public ResponseEntity<MyUser> createMyUser(@Valid @RequestBody MyUser myUser) throws URISyntaxException {
         log.debug("REST request to save MyUser : {}", myUser);
@@ -74,13 +79,13 @@ public class MyUserResource {
             throw new BadRequestAlertException("A new myUser cannot already have an ID", ENTITY_NAME, "idexists");
         }
         MyUser result = myUserRepository.save(myUser);
-        return ResponseEntity.created(new URI("/api/my-users/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/users/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /my-users : Updates an existing myUser.
+     * PUT  /users : Updates an existing myUser.
      *
      * @param myUser the myUser to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated myUser,
@@ -88,7 +93,7 @@ public class MyUserResource {
      * or with status 500 (Internal Server Error) if the myUser couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/my-users")
+    @PutMapping("/users")
     @Timed
     public ResponseEntity<MyUser> updateMyUser(@Valid @RequestBody MyUser myUser) throws URISyntaxException {
         log.debug("REST request to update MyUser : {}", myUser);
@@ -102,24 +107,26 @@ public class MyUserResource {
     }
 
     /**
-     * GET  /my-users : get all the myUsers.
+     * GET  /users : get all the myUsers.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of myUsers in body
      */
-    @GetMapping("/my-users")
+    @GetMapping("/users")
     @Timed
-    public List<MyUser> getAllMyUsers() {
+    public ResponseEntity<List<MyUser>> getAllMyUsers(Pageable pageable) {
         log.debug("REST request to get all MyUsers");
-        return myUserRepository.findAll();
-        }
+        Page<MyUser> page = myUserRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
     /**
-     * GET  /my-users/:id : get the "id" myUser.
+     * GET  /users/:id : get the "id" myUser.
      *
      * @param id the id of the myUser to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the myUser, or with status 404 (Not Found)
      */
-    @GetMapping("/my-users/{id}")
+    @GetMapping("/users/{id}")
     @Timed
     public ResponseEntity<MyUser> getMyUser(@PathVariable Long id) {
         log.debug("REST request to get MyUser : {}", id);
@@ -128,12 +135,12 @@ public class MyUserResource {
     }
 
     /**
-     * DELETE  /my-users/:id : delete the "id" myUser.
+     * DELETE  /users/:id : delete the "id" myUser.
      *
      * @param id the id of the myUser to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/my-users/{id}")
+    @DeleteMapping("/users/{id}")
     @Timed
     public ResponseEntity<Void> deleteMyUser(@PathVariable Long id) {
         log.debug("REST request to delete MyUser : {}", id);
@@ -141,7 +148,7 @@ public class MyUserResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    @PostMapping("/my-users/{id}/disable")
+    @PostMapping("/users/{id}/disable")
     @Timed
     public ResponseEntity<Void> disableMyUser(@PathVariable Long id) {
         log.debug("REST request to disable MyUser : {}", id);

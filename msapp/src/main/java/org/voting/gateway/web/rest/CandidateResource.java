@@ -1,6 +1,10 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.voting.gateway.domain.Candidate;
 
 import org.voting.gateway.repository.CandidateRepository;
@@ -11,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.voting.gateway.web.rest.util.PaginationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -87,10 +92,12 @@ public class CandidateResource {
      */
     @GetMapping("/candidates")
     @Timed
-    public List<Candidate> getAllCandidates() {
+    public ResponseEntity<List<Candidate>> getAllCandidates(Pageable pageable) {
         log.debug("REST request to get all Candidates");
-        return candidateRepository.findAll();
-        }
+        Page<Candidate> page = candidateRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/candidates");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
     /**
      * GET  /candidates/:id : get the "id" candidate.

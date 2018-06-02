@@ -11,7 +11,7 @@
         $stateProvider
         .state('candidate', {
             parent: 'entity',
-            url: '/candidate',
+            url: '/candidate/?page',
             data: {
                 authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
                 pageTitle: 'Kandydaci'
@@ -23,7 +23,18 @@
                     controllerAs: 'vm'
                 }
             },
+            params: {
+                page: {
+                    value: '1',
+                    squash: true
+                }
+            },
             resolve: {
+                pagingParams: ['$stateParams', 'PaginationUtil', function ($stateParams, PaginationUtil) {
+                    return {
+                        page: PaginationUtil.parsePage($stateParams.page)
+                    };
+                }]
             }
         })
         .state('candidate-detail', {
