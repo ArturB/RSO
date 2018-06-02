@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.voting.gateway.domain.MyUser;
+import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.MyUserRepository_old;
 import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.service.LoginDataDTO;
@@ -22,10 +23,10 @@ import java.util.Optional;
 public class LoginDataResource {
 
     private final Logger log = LoggerFactory.getLogger(LoginDataResource.class);
-    private final SmallUserRepository myUserRepository;
+    private final SmallUserRepository smallUserRepository;
 
-    public LoginDataResource(MyUserRepository_old myUserRepository) {
-        this.myUserRepository = myUserRepository;
+    public LoginDataResource(SmallUserRepository smallUserRepository) {
+        this.smallUserRepository = smallUserRepository;
     }
 
     @GetMapping("loginData/{login}")
@@ -34,7 +35,7 @@ public class LoginDataResource {
         log.debug("REST request to get login Data of user : {}", login);
         LoginDataDTO loginDataDTO = null;
 
-        List<MyUser> users = myUserRepository.findByUsername(login);
+        List<SmallUser> users = smallUserRepository.findByUsername(login);
         if(users.size() != 0 ){
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String passHash = encoder.encode(login); // password==login!!

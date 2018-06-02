@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.datastax.driver.core.utils.UUIDs;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -53,6 +54,8 @@ public class CandidateResource {
         if (candidate.getId() != null) {
             throw new BadRequestAlertException("A new candidate cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        candidate.setId(UUIDs.timeBased());
         Candidate result = candidateRepository.save(candidate);
         return ResponseEntity.created(new URI("/api/candidates/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -92,7 +95,7 @@ public class CandidateResource {
         log.debug("REST request to get all Candidates");
     	return candidateRepository.findAll();
     }
-
+    //PageImpl<Candidate>
     /**
      * GET  /candidates/:id : get the "id" candidate.
      *

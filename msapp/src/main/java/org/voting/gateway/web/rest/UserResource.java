@@ -1,6 +1,9 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.datastax.driver.core.utils.UUIDs;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.voting.gateway.domain.MyUser;
 
 import org.voting.gateway.domain.SmallUser;
@@ -30,7 +33,7 @@ public class UserResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
-    private static final String ENTITY_NAME = "myUser";
+    private static final String ENTITY_NAME = "user";
 
     private final SmallUserRepository smallUserRepository;
 
@@ -43,27 +46,35 @@ public class UserResource {
     @Timed
     public ResponseEntity<SmallUser> getAccount() {
         log.debug("REST request to get account");
-        Optional<SmallUser> myUser = SecurityUtils.getCurrentUserLogin()
-            .flatMap(c -> myUserRepository.findByUsername(c).stream().findFirst())
-            .flatMap(c -> Optional.ofNullable(ToSmallUser(c)));
-        return ResponseUtil.wrapOrNotFound(myUser);
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        Optional<SmallUser> user = Optional.empty();
+        if(login.isPresent())
+        {
+             List<SmallUser> users = smallUserRepository.findByUsername(login.get());
+             if(!users.isEmpty())
+             {
+                 user = Optional.of(users.get(0));
+             }
+        }
+        return ResponseUtil.wrapOrNotFound(user);
     }
 
     /**
      * POST  /my-users : Create a new myUser.
      *
-     * @param myUser the myUser to create
+     * @param user the myUser to create
      * @return the ResponseEntity with status 201 (Created) and with body the new myUser, or with status 400 (Bad Request) if the myUser has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/my-users")
+    @PostMapping("/users")
     @Timed
-    public ResponseEntity<MyUser> createMyUser(@Valid @RequestBody MyUser myUser) throws URISyntaxException {
-        log.debug("REST request to save MyUser : {}", myUser);
-        if (myUser.getId() != null) {
+    public ResponseEntity<SmallUser> createMyUser(@Valid @RequestBody SmallUser user) throws URISyntaxException {
+        log.debug("REST request to save MyUser : {}", user);
+        if (user.getId() != null) {
             throw new BadRequestAlertException("A new myUser cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        MyUser result = myUserRepository.save(myUser);
+        user.setId(UUIDs.timeBased());
+        SmallUser result = smallUserRepository.save(user);
         return ResponseEntity.created(new URI("/api/my-users/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -72,35 +83,35 @@ public class UserResource {
     /**
      * PUT  /my-users : Updates an existing myUser.
      *
-     * @param myUser the myUser to update
+     * @param user the myUser to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated myUser,
      * or with status 400 (Bad Request) if the myUser is not valid,
      * or with status 500 (Internal Server Error) if the myUser couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/my-users")
+    @PutMapping("/users")
     @Timed
-    public ResponseEntity<MyUser> updateMyUser(@Valid @RequestBody MyUser myUser) throws URISyntaxException {
-        log.debug("REST request to update MyUser : {}", myUser);
-        if (myUser.getId() == null) {
-            return createMyUser(myUser);
+    public ResponseEntity<SmallUser> updateMyUser(@Valid @RequestBody SmallUser user) throws URISyntaxException {
+        log.debug("REST request to update MyUser : {}", user);
+        if (user.getId() == null) {
+            return createMyUser(user);
         }
-        MyUser result = myUserRepository.save(myUser);
+        SmallUser result = smallUserRepository.save(user);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, myUser.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, user.getId().toString()))
             .body(result);
     }
 
     /**
-     * GET  /my-users : get all the myUsers.
+     * GET  /users : get all the Users.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of myUsers in body
      */
-    @GetMapping("/my-users")
+    @GetMapping("/users")
     @Timed
-    public List<MyUser> getAllMyUsers() {
+    public Page<SmallUser> getAllUsers(Pageable pageRequest) {
         log.debug("REST request to get all MyUsers");
-        return myUserRepository.findAll();
+        return smallUserRepository.findAllPaged(pageRequest);
         }
 
     /**
@@ -109,12 +120,12 @@ public class UserResource {
      * @param id the id of the myUser to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the myUser, or with status 404 (Not Found)
      */
-    @GetMapping("/my-users/{id}")
+    @GetMapping("/users/{id}")
     @Timed
-    public ResponseEntity<MyUser> getMyUser(@PathVariable Long id) {
+    public ResponseEntity<SmallUser> getMyUser(@PathVariable UUID id) {
         log.debug("REST request to get MyUser : {}", id);
-        MyUser myUser = myUserRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(myUser));
+        SmallUser user = smallUserRepository.findOne(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(user));
     }
 
     /**
@@ -123,39 +134,38 @@ public class UserResource {
      * @param id the id of the myUser to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/my-users/{id}")
+    @DeleteMapping("/users/{id}")
     @Timed
-    public ResponseEntity<Void> deleteMyUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteMyUser(@PathVariable UUID id) {
         log.debug("REST request to delete MyUser : {}", id);
-        myUserRepository.delete(id);
+        smallUserRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
 
     @GetMapping("/municipalities/{municipalityId}/users")
     @Timed
-    public List<SmallUser> getSmallUserByMunicipalityId(@PathVariable Long municipalityId) {
+    public List<SmallUser> getSmallUserByMunicipalityId(@PathVariable UUID municipalityId) {
         log.debug("REST request to get SmallUser by municipalityId : {}", municipalityId);
-        return myUserRepository.findAll()
-            .stream()
-            .filter(c -> c.getMunicipality() != null)
-            .filter(c -> c.getMunicipality().getId().equals(municipalityId))
-            .map(this::ToSmallUser).collect(Collectors.toList());
+        return smallUserRepository.findInMunicipality(municipalityId);
+
     }
 
     @GetMapping("/districts/{districtId}/users")
     @Timed
-    public List<SmallUser> getSmallUserByDistrictId(@PathVariable Long districtId) {
+    public List<SmallUser> getSmallUserByDistrictId(@PathVariable UUID districtId) {
         log.debug("REST request to get SmallUser by districtId: {}", districtId);
-        return myUserRepository.findAll()
-            .stream()
-            .filter(c -> c.getMunicipality() != null)
-            .filter(c -> c.getElectoralDistrict() != null)
-            .filter(c -> c.getElectoralDistrict().getId().equals(districtId))
-            .map(this::ToSmallUser).collect(Collectors.toList());
+        return smallUserRepository.findInDistrict(districtId);
+
     }
 
-    private SmallUser ToSmallUser(MyUser user) {
+    @GetMapping("/users/small/{id}")
+    @Timed
+    public ResponseEntity<SmallUser> getSmallUser(@PathVariable UUID id) {
+        return getMyUser(id);
+    }
+
+    /*private SmallUser ToSmallUser(MyUser user) {
         SmallUser smallUser = new SmallUser();
         smallUser.setId(user.getId());
         if(user.getElectoralDistrict() != null ) {
@@ -176,5 +186,5 @@ public class UserResource {
 
         smallUser.setAuthorities(authorities);
         return smallUser;
-    }
+    }*/
 }

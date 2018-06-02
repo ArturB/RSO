@@ -50,7 +50,7 @@ public class CandidateRepository {
 
     public List<Candidate> findInMunicipality(UUID municipalityId)
     {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM candidate WHERE municipality_id = " + municipalityId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM candidate WHERE commune = " + municipalityId);
         Result<Candidate> candidates = mapper.map(results);
         return candidates.all();
     }

@@ -3,7 +3,8 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.VotesFromDistrict;
 
-import org.voting.gateway.repository.VotesFromDistrictRepository_old;
+
+import org.voting.gateway.repository.VotesFromDistrictRepository;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -30,9 +31,9 @@ public class VotesFromDistrictResource {
 
     private static final String ENTITY_NAME = "votesFromDistrict";
 
-    private final VotesFromDistrictRepository_old votesFromDistrictRepository;
+    private final VotesFromDistrictRepository votesFromDistrictRepository;
 
-    public VotesFromDistrictResource(VotesFromDistrictRepository_old votesFromDistrictRepository) {
+    public VotesFromDistrictResource(VotesFromDistrictRepository votesFromDistrictRepository) {
         this.votesFromDistrictRepository = votesFromDistrictRepository;
     }
 
@@ -43,7 +44,7 @@ public class VotesFromDistrictResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new votesFromDistrict, or with status 400 (Bad Request) if the votesFromDistrict has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/votes-from-districts")
+   /* @PostMapping("/votes-from-districts")
     @Timed
     public ResponseEntity<VotesFromDistrict> createVotesFromDistrict(@Valid @RequestBody VotesFromDistrict votesFromDistrict) throws URISyntaxException {
         log.debug("REST request to save VotesFromDistrict : {}", votesFromDistrict);
@@ -54,7 +55,7 @@ public class VotesFromDistrictResource {
         return ResponseEntity.created(new URI("/api/votes-from-districts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
-    }
+    }*/
 
     /**
      * PUT  /votes-from-districts : Updates an existing votesFromDistrict.
@@ -65,7 +66,7 @@ public class VotesFromDistrictResource {
      * or with status 500 (Internal Server Error) if the votesFromDistrict couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/votes-from-districts")
+    /*@PutMapping("/votes-from-districts")
     @Timed
     public ResponseEntity<VotesFromDistrict> updateVotesFromDistrict(@Valid @RequestBody VotesFromDistrict votesFromDistrict) throws URISyntaxException {
         log.debug("REST request to update VotesFromDistrict : {}", votesFromDistrict);
@@ -76,19 +77,19 @@ public class VotesFromDistrictResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesFromDistrict.getId().toString()))
             .body(result);
-    }
+    }*/
 
     /**
      * GET  /votes-from-districts : get all the votesFromDistricts.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of votesFromDistricts in body
      */
-    @GetMapping("/votes-from-districts")
+    /*@GetMapping("/votes-from-districts")
     @Timed
     public List<VotesFromDistrict> getAllVotesFromDistricts() {
         log.debug("REST request to get all VotesFromDistricts");
         return votesFromDistrictRepository.findAll();
-        }
+        }*/
 
     /**
      * GET  /votes-from-districts/:id : get the "id" votesFromDistrict.
@@ -96,13 +97,13 @@ public class VotesFromDistrictResource {
      * @param id the id of the votesFromDistrict to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the votesFromDistrict, or with status 404 (Not Found)
      */
-    @GetMapping("/votes-from-districts/{id}")
+   /* @GetMapping("/votes-from-districts/{id}")
     @Timed
     public ResponseEntity<VotesFromDistrict> getVotesFromDistrict(@PathVariable Long id) {
         log.debug("REST request to get VotesFromDistrict : {}", id);
         VotesFromDistrict votesFromDistrict = votesFromDistrictRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(votesFromDistrict));
-    }
+    }*/
 
     /**
      * DELETE  /votes-from-districts/:id : delete the "id" votesFromDistrict.
@@ -110,11 +111,11 @@ public class VotesFromDistrictResource {
      * @param id the id of the votesFromDistrict to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/votes-from-districts/{id}")
+    /*@DeleteMapping("/votes-from-districts/{id}")
     @Timed
     public ResponseEntity<Void> deleteVotesFromDistrict(@PathVariable Long id) {
         log.debug("REST request to delete VotesFromDistrict : {}", id);
         votesFromDistrictRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
+    }*/
 }
