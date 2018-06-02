@@ -28,7 +28,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="electoralDistrict in vm.electoralDistricts track by electoralDistrict.id">
+            <tr ng-repeat="electoralDistrict in vm.electoralDistricts | orderBy:'name'  track by electoralDistrict.id">
                 <td>{{electoralDistrict.name}}</td>
                 <td>{{electoralDistrict.nrCanVote}}</td>
                 <td>{{electoralDistrict.nrCardsUsed}}</td>
