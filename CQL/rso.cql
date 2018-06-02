@@ -45,6 +45,7 @@ CREATE INDEX party_party_name ON party ( party_name );
 CREATE TABLE turn (
     turn_id uuid PRIMARY KEY,
     no_turn int,
+    is_last_turn boolean,
     date_from date,
     date_to date,
     commune uuid
