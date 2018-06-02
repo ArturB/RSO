@@ -42,8 +42,14 @@
                     <td>{{vm.translateRole(customUser.role)}}</td>
                     <td class="text-right" >
                         <div class="btn-group flex-btn-group-container" >
+                           LOL {{customUser.id}}
                             <button type="submit"
-                                    ui-sref="custom-user.bigEdit({id:customUser.id})"
+                                    ui-sref="custom-user.bigEdit(
+                                        {
+                                        userId:customUser.id,
+                                        municipalityId:vm.municipality.id,
+                                        electoralDistrictId:value[0].electoralDistrictId
+                                        })"
                                     ng-disabled="!vm.canDisableUser(customUser)"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>

@@ -46,6 +46,17 @@
             ];
         }
 
+        if(vm.myUser.role ){
+            vm.myUser.roleCode = vm.myUser.role;
+            for(var i = 0; i < vm.roles.length; i++){
+                if(vm.roles[i].code === vm.myUser.role){
+                    vm.initRole = vm.roles[i];
+                }
+            }
+        }else{
+            vm.initRole = vm.roles[0];
+        }
+
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });
@@ -57,10 +68,12 @@
         function save () {
             vm.isSaving = true;
             vm.myUser.username = vm.generateUsername();
+            var entityToSend = angular.copy(vm.myUser);
+            entityToSend.role =  vm.myUser.role.code;
             if (vm.myUser.id !== null) {
-                MyUser.update(vm.myUser, onSaveSuccess, onSaveError);
+                MyUser.update(entityToSend, onSaveSuccess, onSaveError);
             } else {
-                MyUser.save(vm.myUser, onSaveSuccess, onSaveError);
+                MyUser.save(entityToSend, onSaveSuccess, onSaveError);
             }
         }
 
