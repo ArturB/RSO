@@ -84,4 +84,10 @@ public class SmallUserRepository {
         return users.all();
 
     }
+
+    public void disable(UUID id) {
+        SmallUser user = findOne(id);
+        user.setDisabled(true);
+        save(user);
+    }
 }

@@ -173,10 +173,9 @@ public class UserResource {
 
     @PostMapping("/users/{id}/disable")
     @Timed
-    public ResponseEntity<Void> disableMyUser(@PathVariable Long id) {
+    public ResponseEntity<Void> disableMyUser(@PathVariable UUID id) {
         log.debug("REST request to disable MyUser : {}", id);
-
-
+        smallUserRepository.disable(id);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert("Zablokowano konto użytkownika o id "+id, id.toString()))
             .build();
     }
@@ -201,7 +200,9 @@ public class UserResource {
     @GetMapping("/users/small/{id}")
     @Timed
     public ResponseEntity<SmallUser> getSmallUser(@PathVariable UUID id) {
-        return getMyUser(id);
+        log.debug("REST request to get SmallUser : {}", id);
+        SmallUser user = smallUserRepository.findOne(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(user));
     }
 
    /*
