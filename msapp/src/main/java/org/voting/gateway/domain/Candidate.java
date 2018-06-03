@@ -29,48 +29,44 @@ public class Candidate implements Serializable {
 
     @PartitionKey
     @Column(name = "candidate_id")
-    private UUID id;
-
-
-    @Column(name = "age")
-    private Short age;
-
-
-    @Column(name = "commune")
-    private Short municipalityId;
-
+    private UUID candidate_id;
 
     @Column(name = "name")
     private String name;
 
+    @Column(name = "surname")
+    private String surname;
+    
+    @Column(name = "age")
+    private int age;
+
     @Column(name = "occupation")
     private String occupation;
 
+    @Column(name = "commune")
+    private Short municipality_id;
 
     @Column(name = "party")
-    private Short partyId;
-
-    @Column(name = "surname")
-    private String surname;
+    private Short party_id;
 
     @Column(name = "turns")
     private List<UUID> turns;
-
+    
 
     public UUID getId() {
-        return id;
+        return candidate_id;
     }
 
     public void setId(UUID id) {
-        this.id = id;
+        this.candidate_id = id;
     }
 
     public Candidate id(UUID id) {
-    	this.id = id;
+    	this.candidate_id = id;
     	return this;
     }
 
-    public Short getAge() {
+    public int getAge() {
         return age;
     }
 
@@ -84,17 +80,17 @@ public class Candidate implements Serializable {
     }
 
     public Short getMunicipalityId() {
-        return municipalityId;
+        return municipality_id;
     }
 
     public Candidate municipalityId(Short municipalityId) {
-        this.municipalityId = municipalityId;
+        this.municipality_id = municipalityId;
         return this;
     }
 
     public void setMunicipalityId(Short municipalityId)
     {
-        this.municipalityId = municipalityId;
+        this.municipality_id = municipalityId;
     }
 
 
@@ -125,16 +121,16 @@ public class Candidate implements Serializable {
     }
 
     public Short getPartyId() {
-        return partyId;
+        return party_id;
     }
 
     public Candidate partyId(Short partyId) {
-        this.partyId = partyId;
+        this.party_id = partyId;
         return this;
     }
 
     public void setPartyId(Short partyId) {
-        this.partyId = partyId;
+        this.party_id = partyId;
     }
 
     public List<UUID> getTurns() {

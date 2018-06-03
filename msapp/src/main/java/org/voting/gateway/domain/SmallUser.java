@@ -32,10 +32,10 @@ public class SmallUser implements Serializable {
     private UUID id;
 
     @Column(name = "commune")
-    private UUID municipalityId;
+    private UUID municipality_id;
 
     @Column(name = "ward")
-    private UUID electoralDistrictId;
+    private UUID electoral_district_id;
 
     @Column(name = "username")
     private String username;
@@ -88,19 +88,19 @@ public class SmallUser implements Serializable {
     }
 
     public UUID getMunicipalityId() {
-        return municipalityId;
+        return municipality_id;
     }
 
     public void setMunicipalityId(UUID municipalityId) {
-        this.municipalityId = municipalityId;
+        this.municipality_id = municipalityId;
     }
 
     public UUID getElectoralDistrictId() {
-        return electoralDistrictId;
+        return electoral_district_id;
     }
 
     public void setElectoralDistrictId(UUID electoralDistrictId) {
-        this.electoralDistrictId = electoralDistrictId;
+        this.electoral_district_id = electoralDistrictId;
     }
 
     public boolean isDisabled() {
@@ -136,9 +136,9 @@ public class SmallUser implements Serializable {
 
         if (id != null ? !id.equals(smallUser.id) : smallUser.id != null) return false;
         if (username != null ? !username.equals(smallUser.username) : smallUser.username != null) return false;
-        if (electoralDistrictId != null ? !electoralDistrictId.equals(smallUser.electoralDistrictId) : smallUser.electoralDistrictId != null)
+        if (electoral_district_id != null ? !electoral_district_id.equals(smallUser.electoral_district_id) : smallUser.electoral_district_id != null)
             return false;
-        if (municipalityId != null ? !municipalityId.equals(smallUser.municipalityId) : smallUser.municipalityId != null)
+        if (municipality_id != null ? !municipality_id.equals(smallUser.municipality_id) : smallUser.municipality_id != null)
             return false;
         if (role != null ? !role.equals(smallUser.role) : smallUser.role != null) return false;
         //return authorities != null ? authorities.equals(smallUser.authorities) : smallUser.authorities == null;
@@ -149,8 +149,8 @@ public class SmallUser implements Serializable {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (electoralDistrictId != null ? electoralDistrictId.hashCode() : 0);
-        result = 31 * result + (municipalityId != null ? municipalityId.hashCode() : 0);
+        result = 31 * result + (electoral_district_id != null ? electoral_district_id.hashCode() : 0);
+        result = 31 * result + (municipality_id != null ? municipality_id.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         //result = 31 * result + (authorities != null ? authorities.hashCode() : 0);
         return result;
@@ -161,8 +161,8 @@ public class SmallUser implements Serializable {
         return "SmallUser{" +
             "id=" + id +
             ", username='" + username + '\'' +
-            ", electoralDistrictId=" + electoralDistrictId +
-            ", municipalityId=" + municipalityId +
+            ", electoralDistrictId=" + electoral_district_id +
+            ", municipalityId=" + municipality_id +
             ", role='" + role + //'\'' +
             //", authorities=" + authorities +
             '}';
