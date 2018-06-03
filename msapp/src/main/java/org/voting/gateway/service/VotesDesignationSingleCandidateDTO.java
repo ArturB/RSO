@@ -3,7 +3,7 @@ package org.voting.gateway.service;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Votes_designation_single_candidateDTO implements Serializable {
+public class VotesDesignationSingleCandidateDTO implements Serializable {
 
 
     private UUID candidate_id;
