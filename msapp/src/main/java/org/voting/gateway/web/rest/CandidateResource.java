@@ -9,6 +9,8 @@ import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.datastax.driver.core.utils.UUIDs;
@@ -92,9 +94,9 @@ public class CandidateResource {
      */
     @GetMapping("/candidates")
     @Timed
-    public List<Candidate> getAllCandidates() {
+    public Page<Candidate> getAllCandidates(Pageable pageRequest) {
         log.debug("REST request to get all Candidates");
-    	return candidateRepository.findAll();
+    	return candidateRepository.findAllPaged(pageRequest);
     }
     //PageImpl<Candidate>
     /**
@@ -125,12 +127,23 @@ public class CandidateResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
+    /**
+     * GET 
+     * @param municipalityId the id of the municipalityId
+     * @return the list of candidates
+     */
     @GetMapping("/municipalities/{municipalityId}/candidates")
     @Timed
     public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId){
         return candidateRepository.findInMunicipality(municipalityId);
     }
 
+    /**
+     * 
+     * @param municipalityId id of municipality
+     * @param turn a given turn
+     * @return a list of candidates from muncipality
+     */
     @GetMapping("/municipalities/{municipalityId}/{turn}/candidates")
     @Timed
     public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId, @PathVariable UUID turn){
