@@ -28,7 +28,7 @@ public class Municipality implements Serializable {
 
     @PartitionKey
     @Column(name = "commune_id")
-    private UUID id;
+    private UUID municipality_id;
 
     @Column(name = "commune_name")
     private String name;
@@ -36,16 +36,16 @@ public class Municipality implements Serializable {
     @Column(name = "position_name")
     private String positionName;
 
-    public UUID getId() {
-        return id;
+    public UUID getMunicipality_id() {
+        return municipality_id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setMunicipality_id(UUID municipality_id) {
+        this.municipality_id = municipality_id;
     }
 
     public Municipality id(UUID id) {
-    	this.id = id;
+    	this.municipality_id = id;
     	return this;
     }
 
@@ -84,21 +84,21 @@ public class Municipality implements Serializable {
             return false;
         }
         Municipality municipality = (Municipality) o;
-        if (municipality.getId() == null || getId() == null) {
+        if (municipality.getMunicipality_id() == null || getMunicipality_id() == null) {
             return false;
         }
-        return Objects.equals(getId(), municipality.getId());
+        return Objects.equals(getMunicipality_id(), municipality.getMunicipality_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(getMunicipality_id());
     }
 
     @Override
     public String toString() {
         return "Municipality{" +
-            "id=" + getId() + "'" +
+            "id=" + getMunicipality_id() + "'" +
             ", name='" + getName() + "'" +
             ", positionName='" + getPositionName() +
             "}";

@@ -31,10 +31,10 @@ public class Party implements Serializable {
     private UUID id;
 
     @Column(name = "party_abbreviation")
-    private String abbreviation;
+    private String party_abbreviation;
 
     @Column(name = "party_name")
-    private String name;
+    private String party_name;
 
     public UUID getId() {
         return id;
@@ -49,30 +49,30 @@ public class Party implements Serializable {
     	return this;
     }
 
-    public String getAbbreviation() {
-        return abbreviation;
+    public String getParty_abbreviation() {
+        return party_abbreviation;
     }
 
     public Party abbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
+        this.party_abbreviation = abbreviation;
         return this;
     }
 
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
+    public void setParty_abbreviation(String party_abbreviation) {
+        this.party_abbreviation = party_abbreviation;
     }
 
-    public String getName() {
-        return name;
+    public String getParty_name() {
+        return party_name;
     }
 
     public Party name(String name) {
-        this.name = name;
+        this.party_name = name;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setParty_name(String party_name) {
+        this.party_name = party_name;
     }
 
     @Override
@@ -84,10 +84,10 @@ public class Party implements Serializable {
             return false;
         }
         Municipality municipality = (Municipality) o;
-        if (municipality.getId() == null || getId() == null) {
+        if (municipality.getMunicipality_id() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), municipality.getId());
+        return Objects.equals(getId(), municipality.getMunicipality_id());
     }
 
     @Override
@@ -99,8 +99,8 @@ public class Party implements Serializable {
     public String toString() {
         return "Municipality{" +
             "id=" + getId() + "'" +
-            ", abbreviation=" + getAbbreviation() + "'" +
-            ", name='" + getName() +
+            ", abbreviation=" + getParty_abbreviation() + "'" +
+            ", name='" + getParty_name() +
             "}";
     }
 }
