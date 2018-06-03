@@ -6,6 +6,7 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.datastax.driver.core.LocalDate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.voting.gateway.domain.Candidate;
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
 
@@ -19,6 +20,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -68,9 +70,24 @@ public class UserResource {
     @PostMapping("/account/change-password")
     @Timed
     public void changePassword(@RequestBody String password) {
-        throw new RuntimeException("TODO NOT IMPLEMENTED!!!");
+    	
+        log.debug("REST request to change password");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        //Optional<SmallUser> user = Optional.empty();
+        if(login.isPresent())
+        {
+             List<SmallUser> users = smallUserRepository.findByUsername(login.get());
+             if(!users.isEmpty())
+             {
+                 SmallUser user = Optional.of(users.get(0)).get();
+                 user.setPassword(encoder.encode(password));
+                 smallUserRepository.save(user);
+             }
+        }        
     }
-
+    
+    
     /**
      * POST  /my-users : Create a new myUser.
      *

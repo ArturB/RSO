@@ -34,21 +34,32 @@ public class SmallUser implements Serializable {
     @Column(name = "commune")
     private UUID municipality_id;
 
+    @Column(name = "group")
+    private String role;
+    
+    @Column(name = "is_blocked")
+    private boolean disabled;
+    
+    @Column(name = "password_hash")
+    private String password;
+    
+    @Column(name = "username")
+    private String username;
+    
     @Column(name = "ward")
     private UUID electoral_district_id;
 
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "group")
-    private String role;
-
-    @Column(name = "is_blocked")
-    private boolean disabled;
-
     //private Set<String> authorities;
 
-    public UUID getId() {
+    public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public UUID getId() {
         return id;
     }
 
