@@ -43,7 +43,7 @@ public class UserLoginDataRepository {
         //user.setPassword(passHash);
         this.user.setActivated(true);
         Authority authority = new Authority();
-        authority.setName("ROLE_ADMIN"); //wszyscy sa adminami dla spring security
+        authority.setName("ROLE_ADMIN");
         this.user.getAuthorities().add(authority);
 
     }
@@ -65,6 +65,13 @@ public class UserLoginDataRepository {
 
         user.setLogin(login);
         user.setPassword(loginData.getPassHash());
+        user.getAuthorities().clear();
+
+        Authority authority = new Authority();
+        authority.setName(loginData.getGroup());
+        user.getAuthorities().add(authority);
+
+        user.setActivated(!loginData.isDisabled());
 
 
 

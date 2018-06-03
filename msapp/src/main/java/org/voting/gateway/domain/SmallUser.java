@@ -43,6 +43,9 @@ public class SmallUser implements Serializable {
     @Column(name = "group")
     private String role;
 
+    @Column(name = "is_blocked")
+    private boolean disabled;
+
     //private Set<String> authorities;
 
     public UUID getId() {
@@ -100,7 +103,15 @@ public class SmallUser implements Serializable {
         this.electoralDistrictId = electoralDistrictId;
     }
 
-   /*
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    /*
     public Set<String> getAuthorities() {
         return authorities;
     }

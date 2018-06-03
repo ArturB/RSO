@@ -159,7 +159,7 @@ public class UserResource {
     public ResponseEntity<Void> disableMyUser(@PathVariable Long id) {
         log.debug("REST request to disable MyUser : {}", id);
 
-        
+
         return ResponseEntity.ok().headers(HeaderUtil.createAlert("Zablokowano konto użytkownika o id "+id, id.toString()))
             .build();
     }

@@ -39,6 +39,8 @@ public class LoginDataResource {
             String passHash = encoder.encode(login); // password==login!!
             loginDataDTO = new LoginDataDTO();
             loginDataDTO.setPassHash(passHash);
+            loginDataDTO.setDisabled(users.get(0).isDisabled());
+            loginDataDTO.setGroup(users.get(0).getRole());
         }
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(loginDataDTO));
