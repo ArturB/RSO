@@ -63,7 +63,7 @@
                         <span>Zatwierdź głosy</span>
                     </a>
                 </li>
-                <li ui-sref-active="active" >
+                <li ui-sref-active="active" ng-switch-when="true" >
                     <a ui-sref="password" ng-click="vm.collapseNavbar()">
                         <span class="glyphicon glyphicon-lock"></span>&nbsp;
                         <span>Zmień hasło</span>
@@ -72,6 +72,7 @@
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
                 <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown
                     dropdown has-authority="ROLE_ADMIN">
+
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">
                         <span>
                             <span class="glyphicon glyphicon-th-list"></span>

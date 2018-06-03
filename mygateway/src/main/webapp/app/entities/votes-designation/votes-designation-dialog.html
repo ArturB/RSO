@@ -1,0 +1,66 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+    <h2>Prześlij głosy z tury
+        <b is-period="MidRoundPeriod">Pierwszej</b>
+        <b is-period="PostElectionPeriod">Drugiej</b>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <br/>
+            <jhi-alert-error></jhi-alert-error>
+            <table class="jh-table table table-striped">
+                <thead>
+                <tr>
+                    <th><span>Kandydat</span></th>
+                    <th><span>Partia</span></th>
+                    <th><span>Ilość głosów</span></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                    ng-repeat="candidateVote in vm.entity.candidate_votes | toArray:true |orderBy:'candidate.surname'">
+                    <td>
+                        {{candidateVote.candidate.name}} {{candidateVote.candidate.surname}}
+                    </td>
+                    <td>
+                        {{candidateVote.candidate.party.name}}
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" name="votesCount" id="field_votesCount"
+                               ng-model="candidateVote.number_of_votes"
+                               required min="0"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        <h3>Głosy ze zbyt dużą ilością zaznaczonych pól</h3>
+        <input type="number" class="form-control" name="tooManyVotes" id="field_tooMany"
+               ng-model="vm.entity.too_many_marks_cards_used"
+               required min="0"/>
+        <h3>Głosy bez zaznaczonych pól</h3>
+        <input type="number" class="form-control" name="noneMarksVotes" id="field_noneMarks"
+               ng-model="vm.entity.none_marks_cards_used"
+               required min="0"/>
+        <h3>Głosy zaznaczające usuniętego kandydata</h3>
+        <input type="number" class="form-control" name="erasedMarksVotes" id="field_erasedMarks"
+               ng-model="vm.entity.erased_marks_cards_used"
+               required min="0"/>
+
+    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Anuluj</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Zapisz</span>
+        </button>
+    </div>
+</form>

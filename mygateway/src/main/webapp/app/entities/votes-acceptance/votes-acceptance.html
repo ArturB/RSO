@@ -6,7 +6,7 @@
     </h2>
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
-    <br/>
+        <br/>
         <h2>Kandydaci </h2>
 
         <table class="jh-table table table-striped">
@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="candidateVote in vm.candidatesVotes | toArray:true |orderBy:'candidate.surname'">
+            <tr ng-repeat="candidateVote in vm.result.candidate_votes | toArray:true |orderBy:'candidate.surname'">
                 <td>
                     <b>{{candidateVote.candidate.name}} {{candidateVote.candidate.surname}}</b>
                 </td>
@@ -28,28 +28,47 @@
                 </td>
                 <td>
                     <input type="number" class="form-control" name="votesCount" id="field_votesCount"
-                           ng-model="candidateVote.votesCount"
+                           ng-model="candidateVote.number_of_votes"
                            disabled />
                 </td>
             </tr>
             </tbody>
         </table>
-    <h3>Głosy nieważne</h3>
-    <input type="number" class="form-control" name="invalidVotes" id="field_invalidVotes"
-           ng-model="vm.invalidVotes" disabled/>
+        <h3>Głosy ze zbyt dużą ilością zaznaczonych pól</h3>
+        <input type="number" class="form-control" name="tooManyVotes" id="field_tooMany"
+               ng-model="vm.result.too_many_marks_cards_used"
+               required min="0" disabled/>
+        <h3>Głosy bez zaznaczonych pól</h3>
+        <input type="number" class="form-control" name="noneMarksVotes" id="field_noneMarks"
+               ng-model="vm.result.none_marks_cards_used"
+               required min="0" disabled/>
+        <h3>Głosy zaznaczające usuniętego kandydata</h3>
+        <input type="number" class="form-control" name="erasedMarksVotes" id="field_erasedMarks"
+               ng-model="vm.result.erased_marks_cards_used"
+               required min="0" disabled/>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <jhi-alert-error></jhi-alert-error>
-                <div ng-show="vm.saved" class="alert alert-success">Głosy zaakceptowano!</div>
-                <button class="btn btn-primary" ng-disabled="vm.isSaving||vm.saved" ng-click="vm.save()">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span>
-                        Potwierdź!!
-                    </span>
-                </button>
+
+        <form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+            <h3><u>Wpisz</u> ilość osób uprawnionych do głosowania</h3>
+            <input type="number" class="form-control" name="erasedMarksVotes" id="field_canVote"
+                   ng-model="vm.outEntity.no_can_vote"
+                   required min="0"/>
+            <h3><u>Wpisz</u> ilość użytych kart wyborczych</h3>
+            <input type="number" class="form-control" name="erasedMarksVotes" id="field_usedCards"
+                   ng-model="vm.outEntity.no_cards_used"
+                   required min="0"/>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-4 no-padding-left">
+                        <jhi-alert-error></jhi-alert-error>
+                        <div ng-show="vm.saved" class="alert alert-success">Głosy zaakceptowano!</div>
+                        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving || vm.saved "
+                                class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Potwierdź!!!</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>

@@ -16,11 +16,19 @@ msapp:
         eureka:
             enabled: false
         listOfServers: http://rso_msapp-app:8081
+msrodo:
+    ribbon:
+        eureka:
+            enabled: false
+        listOfServers: http://rso_msrodo-app:8082
 zuul:
   routes:
       msapp:
           path: /msapp/**
           serviceId: msapp
+      msapp:
+          path: /msrodo/**
+          serviceId: msrodo
       myuaa:
           path: /myuaa/**
           serviceId: myuaa

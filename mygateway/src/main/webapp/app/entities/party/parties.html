@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="party in vm.parties track by party.id">
+                <tr ng-repeat="party in vm.parties | orderBy:'name' track by party.id ">
                     <td>{{party.abbreviation}}</td>
                     <td>{{party.name}}</td>
                     <td class="text-right">

@@ -1,0 +1,33 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "org.voting.gateway"
+    },
+    "jhipsterVersion": "4.14.1",
+    "baseName": "msapp",
+    "packageName": "org.voting.gateway",
+    "packageFolder": "org/voting/gateway",
+    "serverPort": "8081",
+    "authenticationType": "uaa",
+    "uaaBaseName": "myuaa",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSocialSignIn": false,
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "66ceb034da7de99ded5a0af399274242fce33f28",
+    "enableTranslation": false,
+    "applicationType": "microservice",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "clientPackageManager": "yarn",
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}

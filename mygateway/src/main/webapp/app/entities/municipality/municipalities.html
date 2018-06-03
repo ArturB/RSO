@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="municipality in vm.municipalities track by municipality.id">
+                <tr ng-repeat="municipality in vm.municipalities | orderBy:'name' track by municipality.id">
                     <td>{{municipality.name}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

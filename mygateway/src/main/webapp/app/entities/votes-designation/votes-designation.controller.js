@@ -12,10 +12,11 @@
 
     function VotesDesignationController($scope, VotesDesignation, Candidate, $q, Principal, ElectoralPeriod) {
         var vm = this;
+        vm.round = 0;
+        vm.userId = 0;
+        vm.account = {};
 
-        vm.candidatesVotes = [];
-        vm.invalidVotes = 0;
-        vm.isSaving= false;
+        vm.designationPacks = [];
 
         loadAll();
 
@@ -30,6 +31,7 @@
                     round = 1;
                     console.error('!!! Wrong period to pass votes: '+result.name);
                 }
+                vm.round = round;
             }); //todo principal must be computed after getting round!!
 
             Principal.hasAuthority('ROLE_OKW_MEMBER').then(function(authorityOk){
@@ -37,32 +39,16 @@
                     return $q.reject();
                 }
                 return Principal.identity();
-            }).then(function(account){
-                return Candidate.findByMunicipalityIdAndRound(
-                    {
-                        municipalityId:account.municipalityId,
-                        round:round
-                    }).$promise;
+            }).then(function(account) {
+                vm.account = account;
+                vm.userId = account.id;
+                return VotesDesignation.findByUserId({
+                    round: round,
+                    userId: account.id
+                }).$promise
             }).then(function(result){
-                angular.forEach(result, function(candidate){
-                    vm.candidatesVotes.push({
-                        candidate:candidate,
-                        votesCount:0
-                    });
-                });
+                vm.designationPacks = result;
             });
-        }
-
-        vm.save = function(){
-            Candidate.save(vm.candidate, onSaveSuccess, onSaveError);
-        };
-
-        function onSaveSuccess (result) {
-            vm.isSaving = false;
-        }
-
-        function onSaveError () {
-            vm.isSaving = false;
         }
     }
 })();

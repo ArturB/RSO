@@ -1,0 +1,22 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "field1",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "field2",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20180601190957",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "duxx_entity",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pager",
+    "microserviceName": "msrodo",
+    "searchEngine": false
+}

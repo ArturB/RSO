@@ -17,9 +17,12 @@
         vm.electoralDistricts = [];
         vm.selectedDistrictId = null;
         vm.invalidVotes = 0;
+        vm.result = null;
 
         vm.selectedRound = 1;
         vm.rounds = [];
+
+
         ElectoralPeriod.getCurrentRound().then(function(round ){
            if(round === 0 ){
                vm.rounds = [1]; //todo
@@ -62,7 +65,8 @@
                             districtId: district.id,
                             round: vm.selectedRound
                     }).$promise.then(function(result){
-                        angular.forEach(result, function(votePerCandidate){
+                        vm.result = result;
+                        angular.forEach(result.candidate_votes, function(votePerCandidate){
                             if(votePerCandidate.candidate_id !== -1){
                                 vm.votesCache.push({
                                     candidate:Candidate.get({id:votePerCandidate.candidate_id}),

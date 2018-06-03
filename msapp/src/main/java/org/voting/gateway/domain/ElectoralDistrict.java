@@ -40,6 +40,27 @@ public class ElectoralDistrict implements Serializable {
     @NotNull
     private Municipality municipality;
 
+    @Transient
+    private Boolean first_round_votes_accepted;
+    @Transient
+    private Boolean second_round_votes_accepted;
+
+    public Boolean getFirst_round_votes_accepted() {
+        return first_round_votes_accepted;
+    }
+
+    public void setFirst_round_votes_accepted(Boolean first_round_votes_accepted) {
+        this.first_round_votes_accepted = first_round_votes_accepted;
+    }
+
+    public Boolean getSecond_round_votes_accepted() {
+        return second_round_votes_accepted;
+    }
+
+    public void setSecond_round_votes_accepted(Boolean second_round_votes_accepted) {
+        this.second_round_votes_accepted = second_round_votes_accepted;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

@@ -126,7 +126,7 @@ public class MyUserResourceIntTest {
         int databaseSizeBeforeCreate = myUserRepository.findAll().size();
 
         // Create the MyUser
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isCreated());
@@ -154,7 +154,7 @@ public class MyUserResourceIntTest {
         myUser.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isBadRequest());
@@ -173,7 +173,7 @@ public class MyUserResourceIntTest {
 
         // Create the MyUser, which fails.
 
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isBadRequest());
@@ -191,7 +191,7 @@ public class MyUserResourceIntTest {
 
         // Create the MyUser, which fails.
 
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isBadRequest());
@@ -209,7 +209,7 @@ public class MyUserResourceIntTest {
 
         // Create the MyUser, which fails.
 
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isBadRequest());
@@ -227,7 +227,7 @@ public class MyUserResourceIntTest {
 
         // Create the MyUser, which fails.
 
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isBadRequest());
@@ -245,7 +245,7 @@ public class MyUserResourceIntTest {
 
         // Create the MyUser, which fails.
 
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isBadRequest());
@@ -263,7 +263,7 @@ public class MyUserResourceIntTest {
 
         // Create the MyUser, which fails.
 
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isBadRequest());
@@ -281,7 +281,7 @@ public class MyUserResourceIntTest {
 
         // Create the MyUser, which fails.
 
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isBadRequest());
@@ -299,7 +299,7 @@ public class MyUserResourceIntTest {
 
         // Create the MyUser, which fails.
 
-        restMyUserMockMvc.perform(post("/api/my-users")
+        restMyUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isBadRequest());
@@ -315,7 +315,7 @@ public class MyUserResourceIntTest {
         myUserRepository.saveAndFlush(myUser);
 
         // Get all the myUserList
-        restMyUserMockMvc.perform(get("/api/my-users?sort=id,desc"))
+        restMyUserMockMvc.perform(get("/api/users?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(myUser.getId().intValue())))
@@ -336,7 +336,7 @@ public class MyUserResourceIntTest {
         myUserRepository.saveAndFlush(myUser);
 
         // Get the myUser
-        restMyUserMockMvc.perform(get("/api/my-users/{id}", myUser.getId()))
+        restMyUserMockMvc.perform(get("/api/users/{id}", myUser.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(myUser.getId().intValue()))
@@ -354,7 +354,7 @@ public class MyUserResourceIntTest {
     @Transactional
     public void getNonExistingMyUser() throws Exception {
         // Get the myUser
-        restMyUserMockMvc.perform(get("/api/my-users/{id}", Long.MAX_VALUE))
+        restMyUserMockMvc.perform(get("/api/users/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
     }
 
@@ -379,7 +379,7 @@ public class MyUserResourceIntTest {
             .birthdate(UPDATED_BIRTHDATE)
             .pesel(UPDATED_PESEL);
 
-        restMyUserMockMvc.perform(put("/api/my-users")
+        restMyUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(updatedMyUser)))
             .andExpect(status().isOk());
@@ -406,7 +406,7 @@ public class MyUserResourceIntTest {
         // Create the MyUser
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
-        restMyUserMockMvc.perform(put("/api/my-users")
+        restMyUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(myUser)))
             .andExpect(status().isCreated());
@@ -424,7 +424,7 @@ public class MyUserResourceIntTest {
         int databaseSizeBeforeDelete = myUserRepository.findAll().size();
 
         // Get the myUser
-        restMyUserMockMvc.perform(delete("/api/my-users/{id}", myUser.getId())
+        restMyUserMockMvc.perform(delete("/api/users/{id}", myUser.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 

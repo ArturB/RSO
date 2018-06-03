@@ -52,6 +52,7 @@ public class ElectoralDistrictResource {
             throw new BadRequestAlertException("A new electoralDistrict cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ElectoralDistrict result = electoralDistrictRepository.save(electoralDistrict);
+        FillElectoralDistrict(result);
         return ResponseEntity.created(new URI("/api/electoral-districts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -74,6 +75,7 @@ public class ElectoralDistrictResource {
             return createElectoralDistrict(electoralDistrict);
         }
         ElectoralDistrict result = electoralDistrictRepository.save(electoralDistrict);
+        FillElectoralDistrict(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, electoralDistrict.getId().toString()))
             .body(result);
@@ -88,7 +90,10 @@ public class ElectoralDistrictResource {
     @Timed
     public List<ElectoralDistrict> getAllElectoralDistricts() {
         log.debug("REST request to get all ElectoralDistricts");
-        return electoralDistrictRepository.findAll();
+        return electoralDistrictRepository.findAll().stream().map(c -> {
+            FillElectoralDistrict(c);
+            return c;
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -102,6 +107,7 @@ public class ElectoralDistrictResource {
     public ResponseEntity<ElectoralDistrict> getElectoralDistrict(@PathVariable Long id) {
         log.debug("REST request to get ElectoralDistrict : {}", id);
         ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(id);
+        FillElectoralDistrict(electoralDistrict);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(electoralDistrict));
     }
 
@@ -123,6 +129,16 @@ public class ElectoralDistrictResource {
     @Timed
     public List<ElectoralDistrict> getElectoralDistrictsByMunicipalityId(@PathVariable Long municipalityId){
         return electoralDistrictRepository.findAll()
-            .stream().filter(c -> c.getMunicipality().getId().equals(municipalityId)).collect(Collectors.toList());
+            .stream().filter(c -> c.getMunicipality().getId().equals(municipalityId))
+            .map(c -> {
+                FillElectoralDistrict(c);
+                return c;
+            })
+            .collect(Collectors.toList());
+    }
+
+    private void FillElectoralDistrict(ElectoralDistrict district){
+        district.setFirst_round_votes_accepted(false);
+        district.setFirst_round_votes_accepted(false);
     }
 }

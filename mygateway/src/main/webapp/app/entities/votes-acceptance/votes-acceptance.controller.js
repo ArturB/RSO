@@ -13,14 +13,18 @@
     function VotesAcceptanceController($scope, VotesAcceptance, VotesSum, Candidate, $q, Principal,
                                        ElectoralPeriod) {
         var vm = this;
+        vm.result = {};
 
         vm.candidatesVotes = [];
-        vm.invalidVotes = 0;
         vm.isSaving= false;
         vm.saved=false;
         vm.round = -1;
         vm.districtId = -1;
-        vm.invalidVotes = -1;
+
+        vm.outEntity = {
+            no_can_vote:0,
+            no_cards_used:0
+        };
 
         loadAll();
 
@@ -49,14 +53,9 @@
                         round:vm.round
                     }).$promise;
             }).then(function(result){
-                angular.forEach(result, function(votePerCandidate){
-                    if(votePerCandidate.candidate_id === -1){
-                        vm.invalidVotes = votePerCandidate.number_of_votes;
-                    }
-                    vm.candidatesVotes.push({
-                        candidate:Candidate.get({id:votePerCandidate.candidate_id}),
-                        votesCount:votePerCandidate.number_of_votes
-                    });
+                vm.result = result;
+                angular.forEach(result.candidate_votes, function(votePerCandidate){
+                        votePerCandidate.candidate=Candidate.get({id:votePerCandidate.candidate_id})
                 });
             });
         }
@@ -66,7 +65,7 @@
             VotesAcceptance.acceptVotesFromDistrict({
                     round:vm.round,
                     districtId:vm.districtId
-            }, onSaveSuccess, onSaveError);
+            }, vm.outEntity, onSaveSuccess, onSaveError);
         };
 
         function onSaveSuccess (result) {

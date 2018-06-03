@@ -22,6 +22,37 @@ public class Municipality implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Transient
+    private Boolean first_round_votes_accepted;
+    @Transient
+    private Boolean second_round_votes_accepted;
+    @Transient
+    private Boolean has_second_round;
+
+    public Boolean getFirst_round_votes_accepted() {
+        return first_round_votes_accepted;
+    }
+
+    public void setFirst_round_votes_accepted(Boolean first_round_votes_accepted) {
+        this.first_round_votes_accepted = first_round_votes_accepted;
+    }
+
+    public Boolean getSecond_round_votes_accepted() {
+        return second_round_votes_accepted;
+    }
+
+    public void setSecond_round_votes_accepted(Boolean second_round_votes_accepted) {
+        this.second_round_votes_accepted = second_round_votes_accepted;
+    }
+
+    public Boolean getHas_second_round() {
+        return has_second_round;
+    }
+
+    public void setHas_second_round(Boolean has_second_round) {
+        this.has_second_round = has_second_round;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
