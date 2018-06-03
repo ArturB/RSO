@@ -50,6 +50,8 @@ public class ElectoralDistrictRepository {
     }
 
     public void delete(UUID id) {
+        List<VotingData> votingData = votingDataRepository.findInDistrict(id);
+        if(!votingData.isEmpty()) throw new RuntimeException("Cant delete district: " + id);
         mapper.delete(id);
     }
 
