@@ -40,7 +40,7 @@
         service.getCurrentPeriod = function() {
             var deferred = $q.defer();
             // _debugPeriod = {
-            //     name:'PostElectionPeriod'
+            //     name:'MidRoundPeriod'
             // };
             if(_debugPeriod){
                 deferred.resolve(angular.copy(_debugPeriod));

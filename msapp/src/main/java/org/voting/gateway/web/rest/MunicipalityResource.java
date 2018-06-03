@@ -17,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Municipality.
@@ -50,6 +51,9 @@ public class MunicipalityResource {
             throw new BadRequestAlertException("A new municipality cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Municipality result = municipalityRepository.save(municipality);
+        result.setFirst_round_votes_accepted(false);
+        result.setSecond_round_votes_accepted(false);
+        result.setHas_second_round(true);
         return ResponseEntity.created(new URI("/api/municipalities/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -72,6 +76,7 @@ public class MunicipalityResource {
             return createMunicipality(municipality);
         }
         Municipality result = municipalityRepository.save(municipality);
+        FillMunicipality(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, municipality.getId().toString()))
             .body(result);
@@ -86,8 +91,11 @@ public class MunicipalityResource {
     @Timed
     public List<Municipality> getAllMunicipalities() {
         log.debug("REST request to get all Municipalities");
-        return municipalityRepository.findAll();
-        }
+        return municipalityRepository.findAll().stream().map(result -> {
+            FillMunicipality(result);
+            return result;
+        }).collect(Collectors.toList());
+    }
 
     /**
      * GET  /municipalities/:id : get the "id" municipality.
@@ -100,6 +108,7 @@ public class MunicipalityResource {
     public ResponseEntity<Municipality> getMunicipality(@PathVariable Long id) {
         log.debug("REST request to get Municipality : {}", id);
         Municipality municipality = municipalityRepository.findOne(id);
+        FillMunicipality(municipality);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(municipality));
     }
 
@@ -115,5 +124,11 @@ public class MunicipalityResource {
         log.debug("REST request to delete Municipality : {}", id);
         municipalityRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    private void FillMunicipality(Municipality municipality){
+        municipality.setFirst_round_votes_accepted(false);
+        municipality.setSecond_round_votes_accepted(false);
+        municipality.setHas_second_round(true);
     }
 }
