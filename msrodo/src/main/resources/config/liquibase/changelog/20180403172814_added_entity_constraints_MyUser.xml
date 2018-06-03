@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity MyUser.
+    -->
+    <changeSet id="20180403172814-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="my_group_id"
+                                 baseTableName="my_user"
+                                 constraintName="fk_my_user_my_group_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="my_group"/>
+
+        <addForeignKeyConstraint baseColumnNames="electoral_district_id"
+                                 baseTableName="my_user"
+                                 constraintName="fk_my_user_electoral_district_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="electoral_district"/>
+
+        <addForeignKeyConstraint baseColumnNames="municipality_id"
+                                 baseTableName="my_user"
+                                 constraintName="fk_my_user_municipality_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="municipality"/>
+
+    </changeSet>
+</databaseChangeLog>

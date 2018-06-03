@@ -11,7 +11,19 @@ services:
         - JHIPSTER_REGISTRY_PASSWORD=admin  
         - JHIPSTER_SLEEP=2
     ports:
-        - 8081:8081                 
+        - 8081:8081          
+  msrodo-app:
+    build:
+      context: msrodo/target 
+      dockerfile: Dockerfile
+    image: arturbrodzki/rso:msrodo
+    environment:
+        - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
+        - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+        - JHIPSTER_REGISTRY_PASSWORD=admin  
+        - JHIPSTER_SLEEP=2
+    ports:
+        - 8082:8082         
   mygateway-app:
     build:
       context: mygateway/target 

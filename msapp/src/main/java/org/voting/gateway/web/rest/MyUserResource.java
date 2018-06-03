@@ -1,23 +1,26 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
 
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.MyUserRepository;
 import org.voting.gateway.security.SecurityUtils;
+import org.voting.gateway.service.LoginDataDTO;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.errors.InvalidPasswordException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.voting.gateway.web.rest.util.PaginationUtil;
 
@@ -47,15 +50,19 @@ public class MyUserResource {
         this.myUserRepository = myUserRepository;
     }
 
+    @Autowired
+    @Lazy
+    @Qualifier("loadBalancedRestTemplate")
+    RestTemplate restTemplate;
 
     @GetMapping("/account")
     @Timed
-    public ResponseEntity<SmallUser> getAccount() {
+    public ResponseEntity<SmallUser> getAccount(@RequestHeader HttpHeaders headers) {
         log.debug("REST request to get account");
-        Optional<SmallUser> myUser = SecurityUtils.getCurrentUserLogin()
-            .flatMap(c -> myUserRepository.findByUsername(c).stream().findFirst())
-            .flatMap(c -> Optional.ofNullable(ToSmallUser(c)));
-        return ResponseUtil.wrapOrNotFound(myUser);
+        ResponseEntity<SmallUser> responseEntity =
+            restTemplate.exchange("http://msrodo/api/account", HttpMethod.GET, new HttpEntity<>(headers),
+            SmallUser.class);
+        return responseEntity;
     }
 
     @PostMapping(path = "/account/change-password")
