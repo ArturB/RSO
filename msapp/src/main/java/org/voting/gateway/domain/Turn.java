@@ -19,7 +19,7 @@ public class Turn {
     private UUID id;
 
     @Column(name = "commune")
-    private Short commune;
+    private UUID commune;
 
     @Column(name = "date_from")
     private Date dateFrom;
@@ -30,6 +30,13 @@ public class Turn {
     @Column(name = "no_turn")
     private Integer noTurn;
 
+    @Column(name = "is_last_turn")
+    private boolean isLastTurn;
+
+
+    @Column(name = "is_turn_finished")
+    private boolean isTurnFinished;
+
 	public UUID getId() {
 		return id;
 	}
@@ -38,15 +45,15 @@ public class Turn {
 		this.id = id;
 	}
 
-	public Short getCommune() {
-		return commune;
-	}
+    public UUID getCommune() {
+        return commune;
+    }
 
-	public void setCommune(Short commune) {
-		this.commune = commune;
-	}
+    public void setCommune(UUID commune) {
+        this.commune = commune;
+    }
 
-	public Date getDateFrom() {
+    public Date getDateFrom() {
 		return dateFrom;
 	}
 
@@ -74,5 +81,19 @@ public class Turn {
 		return serialVersionUID;
 	}
 
+    public boolean isLastTurn() {
+        return isLastTurn;
+    }
 
+    public void setLastTurn(boolean lastTurn) {
+        isLastTurn = lastTurn;
+    }
+
+    public boolean isTurnFinished() {
+        return isTurnFinished;
+    }
+
+    public void setTurnFinished(boolean turnFinished) {
+        isTurnFinished = turnFinished;
+    }
 }

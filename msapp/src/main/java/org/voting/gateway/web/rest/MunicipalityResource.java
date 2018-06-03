@@ -5,6 +5,7 @@ import org.voting.gateway.domain.Municipality;
 
 import org.voting.gateway.repository.MunicipalityRepository;
 
+import org.voting.gateway.service.MunicipalityDTO;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -86,9 +87,9 @@ public class MunicipalityResource {
      */
     @GetMapping("/municipalities")
     @Timed
-    public List<Municipality> getAllMunicipalities() {
+    public List<MunicipalityDTO> getAllMunicipalities() {
         log.debug("REST request to get all Municipalities");
-        return municipalityRepository.findAll();
+        return municipalityRepository.findAllDTO();
         }
 
     /**
@@ -99,9 +100,9 @@ public class MunicipalityResource {
      */
     @GetMapping("/municipalities/{id}")
     @Timed
-    public ResponseEntity<Municipality> getMunicipality(@PathVariable UUID id) {
+    public ResponseEntity<MunicipalityDTO> getMunicipality(@PathVariable UUID id) {
         log.debug("REST request to get Municipality : {}", id);
-        Municipality municipality = municipalityRepository.findOne(id);
+        MunicipalityDTO municipality = municipalityRepository.findOneDTO(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(municipality));
     }
 

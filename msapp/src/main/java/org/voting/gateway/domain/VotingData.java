@@ -27,10 +27,10 @@ public class VotingData {
     private int noCardsUsed;
 
     @Column(name = "turn")
-    private short turn;
+    private UUID turn;
 
     @Column(name = "ward")
-    private short ward;
+    private UUID ward;
 
 	public UUID getId() {
 		return id;
@@ -64,23 +64,23 @@ public class VotingData {
 		this.noCardsUsed = noCardsUsed;
 	}
 
-	public short getTurn() {
-		return turn;
-	}
+    public UUID getTurn() {
+        return turn;
+    }
 
-	public void setTurn(short turn) {
-		this.turn = turn;
-	}
+    public void setTurn(UUID turn) {
+        this.turn = turn;
+    }
 
-	public short getWard() {
-		return ward;
-	}
+    public UUID getWard() {
+        return ward;
+    }
 
-	public void setWard(short ward) {
-		this.ward = ward;
-	}
+    public void setWard(UUID ward) {
+        this.ward = ward;
+    }
 
-	public static long getSerialversionuid() {
+    public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 

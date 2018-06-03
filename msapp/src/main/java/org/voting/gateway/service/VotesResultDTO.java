@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class VotesResultDTO implements Serializable{
-	
+
     private UUID electoral_district_id;
     private int nr_cards_used;
     private int too_many_marks_cards_used;
     private int none_marks_cards_used;
     private int erased_marks_cards_used;
     private int no_can_vote;
-    
-    private String type;
+
+
 
 	private List<VotesDesignationSingleCandidateDTO>  candidate_votes;
 
@@ -72,13 +72,7 @@ public class VotesResultDTO implements Serializable{
     public void setCandidate_votes(List<VotesDesignationSingleCandidateDTO> candidate_votes) {
         this.candidate_votes = candidate_votes;
     }
-    
-    public String getType() {
-		return type;
-	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
-	
+
+
 }
