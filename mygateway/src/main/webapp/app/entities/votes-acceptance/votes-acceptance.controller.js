@@ -8,10 +8,10 @@
         .module('mygatewayApp')
         .controller('VotesAcceptanceController', VotesAcceptanceController);
 
-    VotesAcceptanceController.$inject = ['$scope', 'VotesAcceptance', 'VotesSum', 'Candidate', '$q', 'Principal', 'ElectoralPeriod'];
+    VotesAcceptanceController.$inject = ['$scope', 'VotesAcceptance', 'VotesSum', 'Candidate', '$q', 'Principal', 'ElectoralPeriod', 'ElectoralDistrict'];
 
     function VotesAcceptanceController($scope, VotesAcceptance, VotesSum, Candidate, $q, Principal,
-                                       ElectoralPeriod) {
+                                       ElectoralPeriod, ElectoralDistrict) {
         var vm = this;
         vm.result = {};
 
@@ -20,6 +20,8 @@
         vm.saved=false;
         vm.round = -1;
         vm.districtId = -1;
+
+        vm.canAcceptProtocol = true;
 
         vm.outEntity = {
             no_can_vote:0,
