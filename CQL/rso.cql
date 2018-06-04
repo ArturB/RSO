@@ -28,9 +28,9 @@ CREATE INDEX commune_commune_name ON commune ( commune_name );
 
 CREATE TABLE electoral_period (
     period_id uuid PRIMARY KEY,
-    period_name timestamp,
+    period_name text,
     date_from timestamp,
-    date_to date
+    date_to timestamp
 );
 CREATE INDEX electoral_period_period_name ON electoral_period ( period_name );
 
