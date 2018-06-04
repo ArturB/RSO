@@ -28,8 +28,8 @@ CREATE INDEX commune_commune_name ON commune ( commune_name );
 
 CREATE TABLE electoral_period (
     period_id uuid PRIMARY KEY,
-    period_name text,
-    date_from date,
+    period_name timestamp,
+    date_from timestamp,
     date_to date
 );
 CREATE INDEX electoral_period_period_name ON electoral_period ( period_name );
@@ -46,8 +46,8 @@ CREATE TABLE turn (
     turn_id uuid PRIMARY KEY,
     no_turn int,
     is_last_turn boolean,
-    date_from date,
-    date_to date,
+    date_from timestamp,
+    date_to timestamp,
     commune uuid
 );
 
@@ -55,7 +55,6 @@ CREATE TABLE user (
     user_id uuid PRIMARY KEY,
     username text,
     password_hash text,
-    password_salt text,
     group text,
     commune uuid,
     ward uuid
@@ -98,6 +97,8 @@ CREATE INDEX voting_data_ward ON voting_data ( ward );
 CREATE TABLE voting_report (
     report_id uuid PRIMARY KEY,
     commune_name text,
+    ward_id uuid,
+    turn_id uuid,
     ward_name text,
     no_turn int,
     no_can_vote int,
@@ -110,10 +111,14 @@ CREATE TABLE voting_report (
     date_generated date,
     is_voting_finished boolean
 );
+CREATE INDEX voting_report_ward ON voting_report ( ward_id);
+CREATE INDEX voting_report_turn ON voting_report ( turn_id);
 
 CREATE TABLE voting_results (
     result_id uuid PRIMARY KEY,
     commune_name text,
+    turn_id uuid,
+    commune_id uuid,
     no_turn int,
     no_can_vote int,
     no_cards_used int,
@@ -125,3 +130,5 @@ CREATE TABLE voting_results (
     date_generated date,
     is_voting_finished boolean
 );
+CREATE INDEX voting_results_commune ON voting_results  ( commune_id);
+CREATE INDEX voting_results_turn ON voting_results  ( turn_id);
