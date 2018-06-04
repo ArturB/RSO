@@ -2,12 +2,12 @@ package org.voting.gateway.domain;
 
 
 
-import com.datastax.driver.core.LocalDate;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,10 +29,10 @@ public class ElectoralPeriod implements Serializable {
     private String name;
 
     @Column(name = "date_to")
-    private LocalDate endDate;
+    private Date endDate;
 
     @Column(name = "date_from")
-    private LocalDate startDate;
+    private Date startDate;
 
     public UUID getId() {
         return id;
@@ -55,28 +55,28 @@ public class ElectoralPeriod implements Serializable {
         return this;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public ElectoralPeriod startDate(LocalDate startDate) {
+    public ElectoralPeriod startDate(Date startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public ElectoralPeriod endDate(LocalDate endDate) {
+    public ElectoralPeriod endDate(Date endDate) {
         this.endDate = endDate;
         return this;
     }
