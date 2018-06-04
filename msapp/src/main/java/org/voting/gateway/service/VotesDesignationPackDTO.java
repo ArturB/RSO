@@ -18,9 +18,12 @@ public class VotesDesignationPackDTO implements Serializable {
 	private int noneMarksCardsUsed;
 	private int erasedMarksCardsUsed;
 
+
+
 	public List<VotesDesignationSingleCandidateDTO> getCandidate_votes() {
 		return candidate_votes;
 	}
+
 
 	public void setCandidate_votes(List<VotesDesignationSingleCandidateDTO> candidate_votes) {
 		this.candidate_votes = candidate_votes;

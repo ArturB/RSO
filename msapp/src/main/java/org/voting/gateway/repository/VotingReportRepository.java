@@ -1,10 +1,17 @@
 package org.voting.gateway.repository;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Repository;
+import org.voting.gateway.domain.Candidate;
 import org.voting.gateway.domain.VotingData;
 import org.voting.gateway.domain.VotingReport;
 
+import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.mapping.Mapper;
+import com.datastax.driver.mapping.Result;
 
 @Repository
 public class VotingReportRepository {
@@ -15,5 +22,12 @@ public class VotingReportRepository {
     public VotingReportRepository(CassandraSession cassandraSession) {
         this.cassandraSession = cassandraSession;
         mapper = cassandraSession.getMappingManager().mapper(VotingReport.class);
+    }
+    
+    public List<VotingReport> findReportsByDistrictRound(UUID districtId, UUID roundId)
+    {   	
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_report WHERE ward_id = '" + districtId + "'"
+        		+ "AND turn_id = '" + roundId + "'");
+    	return mapper.map(results).all();
     }
 }

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class VotesResultDTO implements Serializable{
 
-    private UUID electoral_district_id;
+    //private UUID electoral_district_id;
     private int nr_cards_used;
     private int too_many_marks_cards_used;
     private int none_marks_cards_used;
@@ -17,6 +17,7 @@ public class VotesResultDTO implements Serializable{
 
 	private List<VotesDesignationSingleCandidateDTO>  candidate_votes;
 
+	/*
     public UUID getElectoral_district_id() {
         return electoral_district_id;
     }
@@ -24,6 +25,7 @@ public class VotesResultDTO implements Serializable{
     public void setElectoral_district_id(UUID electoral_district_id) {
         this.electoral_district_id = electoral_district_id;
     }
+    */
 
     public int getNr_cards_used() {
         return nr_cards_used;
