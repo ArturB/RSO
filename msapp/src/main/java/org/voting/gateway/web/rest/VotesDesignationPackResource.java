@@ -20,7 +20,7 @@ public class VotesDesignationPackResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
-    private static final String ENTITY_NAME = "votes";
+    private static final String ENTITY_NAME = "votesDesignationPack";
 
 
 
@@ -43,9 +43,23 @@ public class VotesDesignationPackResource {
        votesDesignationPackRepository.add(votesPack);
 
 
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesPack.getUserId().toString()))
+            .build();
+    }
+
+
+
+    @PutMapping("/votes_designation_pack")
+    @Timed
+    public ResponseEntity<Void> updateCandidate(@Valid @RequestBody VotesDesignationPackDTO votesPack) throws URISyntaxException {
+        log.debug("REST request to update VotesDesignationPack : {}", votesPack);
+
+        votesDesignationPackRepository.edit(votesPack);
 
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesPack.getUserId().toString()))
             .build();
     }
+
 }

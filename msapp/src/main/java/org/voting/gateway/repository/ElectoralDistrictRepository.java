@@ -86,7 +86,7 @@ public class ElectoralDistrictRepository {
         votingData.stream()
             .forEach(s->{
                 if(turns.stream()
-                    .filter(t-> t.getId() == s.getWard())
+                    .filter(t-> t.getId().equals(s.getWard()))
                     .findFirst().get().isLastTurn())
                 {
                     electoralDistrictDTO.setSecond_round_votes_accepted(s.isVotingFinished());
@@ -118,11 +118,11 @@ public class ElectoralDistrictRepository {
                 ElectoralDistrictDTO electoralDistrictDTO = new ElectoralDistrictDTO(s);
 
                 votingData.stream()
-                    .filter(v -> v.getWard() == s.getId())
+                    .filter(v -> v.getWard().equals(s.getId()))
                     .forEach(v ->
                     {
                         if(turns.stream()
-                            .filter(t-> t.getId() == v.getWard())
+                            .filter(t-> t.getId().equals(v.getWard()))
                             .findFirst().get().isLastTurn())
                         {
                             electoralDistrictDTO.setSecond_round_votes_accepted(v.isVotingFinished());

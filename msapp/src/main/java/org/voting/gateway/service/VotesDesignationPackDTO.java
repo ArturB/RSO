@@ -3,13 +3,14 @@ package org.voting.gateway.service;
 import com.datastax.driver.core.LocalDate;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public class VotesDesignationPackDTO implements Serializable {
 
 	private List<VotesDesignationSingleCandidateDTO>  candidate_votes;
-	private LocalDate date;
+	private Date date;
 
 	private UUID electoralDistrictId;
 	private UUID userId;
@@ -23,11 +24,11 @@ public class VotesDesignationPackDTO implements Serializable {
 		this.candidate_votes = candidate_votes;
 	}
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

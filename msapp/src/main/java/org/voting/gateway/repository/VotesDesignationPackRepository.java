@@ -17,30 +17,42 @@ public class VotesDesignationPackRepository {
     private final ElectoralDistrictRepository electoralDistrictRepository;
     private final VotingDataRepository votingDataRepository;
     private final VotesFromDistrictRepository votesFromDistrictRepository;
-    private final SmallUserRepository smallUserRepository;
+    private final ElectoralPeriodsRepository electoralPeriodsRepository;
 
 
     public VotesDesignationPackRepository(TurnRepository turnRepository, ElectoralDistrictRepository electoralDistrictRepository,
                                           VotingDataRepository votingDataRepository, VotesFromDistrictRepository votesFromDistrictRepository,
-                                          SmallUserRepository smallUserRepository) {
+                                          ElectoralPeriodsRepository electoralPeriodsRepository) {
         this.turnRepository = turnRepository;
         this.electoralDistrictRepository = electoralDistrictRepository;
         this.votingDataRepository = votingDataRepository;
         this.votesFromDistrictRepository = votesFromDistrictRepository;
-        this.smallUserRepository = smallUserRepository;
+        this.electoralPeriodsRepository = electoralPeriodsRepository;
     }
 
     public void add(VotesDesignationPackDTO votesPack) {
 
-        //SmallUser smallUser = smallUserRepository.findOne(votesPack.getUserId());
+
         ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(votesPack.getElectoralDistrictId());
         List<Turn> turns = turnRepository.findInMunicipality(electoralDistrict.getMunicipalityId());
+        List<ElectoralPeriod> electoralPeriods = electoralPeriodsRepository.findAll();
         Date time = new Date();
+        ElectoralPeriod ePeriod = electoralPeriods.stream()
+            .filter(p -> (time.compareTo(p.getStartDate()) > 0 && time.compareTo(p.getEndDate()) < 0 ))
+            .findFirst()
+            .orElseThrow(() ->  new RuntimeException("No ElectoralPeriod"));
+
+        boolean isSecondTurn;
+
+        if(ePeriod.getName().equals("MidRoundPeriod")) isSecondTurn = false;
+        else if(ePeriod.getName().equals("PostElectionPeriod")) isSecondTurn = true;
+        else throw new RuntimeException("Not possible in this ElectoralPeriod");
+
+
         Optional<Turn> turn = turns.stream()
-            .filter(t-> (t.getDateFrom().getDaysSinceEpoch() < time &&
-                t.getDateTo().getDaysSinceEpoch() > votesPack.getDate().getDaysSinceEpoch()))
+            .filter(t-> t.isLastTurn() == isSecondTurn)
             .findFirst();
-        if(!turn.isPresent()) throw new RuntimeException("No turn in progress");
+        if(!turn.isPresent()) throw new RuntimeException("Turn not found");
 
         List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(electoralDistrict.getId(),turn.get().getId());
         if(votingDataList.size() != 1) throw new RuntimeException("No voting data");
@@ -75,9 +87,42 @@ public class VotesDesignationPackRepository {
 
         votesFromDistrictRepository.save(votesErased);
 
+    }
+
+    public void edit(VotesDesignationPackDTO votesPack) {
 
 
+        ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(votesPack.getElectoralDistrictId());
+        List<Turn> turns = turnRepository.findInMunicipality(electoralDistrict.getMunicipalityId());
+        List<ElectoralPeriod> electoralPeriods = electoralPeriodsRepository.findAll();
+        Date time = new Date();
+        ElectoralPeriod ePeriod = electoralPeriods.stream()
+            .filter(p -> (time.compareTo(p.getStartDate()) > 0 && time.compareTo(p.getEndDate()) < 0 ))
+            .findFirst()
+            .orElseThrow(() ->  new RuntimeException("No ElectoralPeriod"));
 
+        boolean isSecondTurn;
+
+        if(ePeriod.getName().equals("MidRoundPeriod")) isSecondTurn = false;
+        else if(ePeriod.getName().equals("PostElectionPeriod")) isSecondTurn = true;
+        else throw new RuntimeException("Not possible in this ElectoralPeriod");
+
+
+        Optional<Turn> turn = turns.stream()
+            .filter(t-> t.isLastTurn() == isSecondTurn)
+            .findFirst();
+        if(!turn.isPresent()) throw new RuntimeException("Turn not found");
+
+        List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(electoralDistrict.getId(),turn.get().getId());
+        if(votingDataList.size() != 1) throw new RuntimeException("No voting data");
+
+        VotingData votingData = votingDataList.get(0);
+
+        if(votingData.isVotingFinished()) throw new RuntimeException("Voting ended");
+
+        List<VotesFromDistrict> votesFromDistrict = votesFromDistrictRepository.findByUserByVotingData(votesPack.getUserId(),votingData.getId());
+
+        
 
 
 
