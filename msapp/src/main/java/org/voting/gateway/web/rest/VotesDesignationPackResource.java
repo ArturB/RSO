@@ -2,6 +2,7 @@ package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.datastax.driver.core.utils.UUIDs;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import org.voting.gateway.web.rest.util.HeaderUtil;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -52,7 +55,7 @@ public class VotesDesignationPackResource {
 
     @PutMapping("/votes_designation_pack")
     @Timed
-    public ResponseEntity<Void> updateCandidate(@Valid @RequestBody VotesDesignationPackDTO votesPack) throws URISyntaxException {
+    public ResponseEntity<Void> updateVotes(@Valid @RequestBody VotesDesignationPackDTO votesPack) throws URISyntaxException {
         log.debug("REST request to update VotesDesignationPack : {}", votesPack);
 
         votesDesignationPackRepository.edit(votesPack);
@@ -60,6 +63,16 @@ public class VotesDesignationPackResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesPack.getUserId().toString()))
             .build();
+    }
+
+    @GetMapping("/votes_designation_pack/getFromUser/{round}/{userId}")
+    @Timed
+    public ResponseEntity<VotesDesignationPackDTO> getVotes(@PathVariable UUID turnId, @PathVariable UUID userId) {
+        log.debug("REST request to get  VotesDesignationPack : round {} userId {} ", turnId, userId);
+
+        VotesDesignationPackDTO votePack = votesDesignationPackRepository.findOneByTurnByUser(turnId,userId);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(votePack));
     }
 
 }

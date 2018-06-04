@@ -39,7 +39,7 @@ public class CandidateRepository {
 
     public Page<Candidate> findAllPaged(Pageable pageRequest)
     {
-    	Statement statement = new SimpleStatement("SELECT * FROM candidate");        
+    	Statement statement = new SimpleStatement("SELECT * FROM candidate");
         statement.setFetchSize(50);
         ResultSet results = cassandraSession.getSession().execute(statement);
         Result<Candidate> candidates = mapper.map(results);
@@ -63,6 +63,7 @@ public class CandidateRepository {
 
     public void delete(UUID id)
     {
+        //TODO sprawdzenie wiezów
         mapper.delete(id);
     }
 
@@ -76,7 +77,7 @@ public class CandidateRepository {
 
     public List<Candidate> findInMunicipalityByTurn(UUID municipalityId, UUID turn) {
         Statement statement = new SimpleStatement("SELECT * FROM candidate " +
-            "WHERE municipality_id = ? AND turns CONTAINS ?", municipalityId, turn);
+            "WHERE commune = ? AND turns CONTAINS ?", municipalityId, turn);  //TODO allow filtering
 
         ResultSet results = cassandraSession.getSession().execute(statement);
         Result<Candidate> candidates = mapper.map(results);

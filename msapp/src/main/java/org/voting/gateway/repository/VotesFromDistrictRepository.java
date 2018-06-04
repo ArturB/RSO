@@ -40,4 +40,8 @@ public class VotesFromDistrictRepository {
 
 
     }
+
+    public void delete(UUID id) {
+        mapper.delete(id);
+    }
 }
