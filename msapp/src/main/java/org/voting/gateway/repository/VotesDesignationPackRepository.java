@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.voting.gateway.domain.*;
 import org.voting.gateway.service.VotesDesignationPackDTO;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +35,9 @@ public class VotesDesignationPackRepository {
         //SmallUser smallUser = smallUserRepository.findOne(votesPack.getUserId());
         ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(votesPack.getElectoralDistrictId());
         List<Turn> turns = turnRepository.findInMunicipality(electoralDistrict.getMunicipalityId());
+        Date time = new Date();
         Optional<Turn> turn = turns.stream()
-            .filter(t-> (t.getDateFrom().getDaysSinceEpoch() < votesPack.getDate().getDaysSinceEpoch() &&
+            .filter(t-> (t.getDateFrom().getDaysSinceEpoch() < time &&
                 t.getDateTo().getDaysSinceEpoch() > votesPack.getDate().getDaysSinceEpoch()))
             .findFirst();
         if(!turn.isPresent()) throw new RuntimeException("No turn in progress");
