@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.voting.gateway.domain.Turn;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class TurnRepository {
@@ -27,4 +28,9 @@ public class TurnRepository {
     }
 
 
+    public List<Turn> findInMunicipality(UUID municipalityId) {
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM turn WHERE commune = ?" , municipalityId);
+        Result<Turn> turns = mapper.map(results);
+        return turns.all();
+    }
 }

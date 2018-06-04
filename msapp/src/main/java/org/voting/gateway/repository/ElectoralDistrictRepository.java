@@ -2,11 +2,13 @@ package org.voting.gateway.repository;
 
 
 import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.utils.UUIDs;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.Result;
 import org.springframework.stereotype.Repository;
 
 import org.voting.gateway.domain.ElectoralDistrict;
+import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.domain.Turn;
 import org.voting.gateway.domain.VotingData;
 import org.voting.gateway.service.ElectoralDistrictDTO;
@@ -22,13 +24,15 @@ public class ElectoralDistrictRepository {
     private final CassandraSession cassandraSession;
     private final VotingDataRepository votingDataRepository;
     private final TurnRepository turnRepository;
+    private final SmallUserRepository smallUserRepository;
 
 
     public ElectoralDistrictRepository(CassandraSession cassandraSession,VotingDataRepository votingDataRepository,
-                                       TurnRepository turnRepository) {
+                                       TurnRepository turnRepository, SmallUserRepository smallUserRepository) {
         this.cassandraSession = cassandraSession;
         this.votingDataRepository = votingDataRepository;
         this.turnRepository = turnRepository;
+        this.smallUserRepository = smallUserRepository;
         mapper = cassandraSession.getMappingManager().mapper(ElectoralDistrict.class);
     }
 
@@ -50,8 +54,18 @@ public class ElectoralDistrictRepository {
     }
 
     public void delete(UUID id) {
+        List<SmallUser> usersInDistrict = smallUserRepository.findInDistrict(id);
+        if(!usersInDistrict.isEmpty()) throw new RuntimeException("Cant delete district: " + id + " users present");
+
         List<VotingData> votingData = votingDataRepository.findInDistrict(id);
-        if(!votingData.isEmpty()) throw new RuntimeException("Cant delete district: " + id);
+        if(votingData.size() > 1 ) throw new RuntimeException("Cant delete district: " + id + " second turn started");
+        if(!votingData.isEmpty()) {
+            votingData.stream()
+                .forEach(v->
+                {
+                    votingDataRepository.delete(v.getId());
+                });
+        }
         mapper.delete(id);
     }
 
@@ -126,5 +140,22 @@ public class ElectoralDistrictRepository {
 
 
         return result;
+    }
+
+    public void create(ElectoralDistrict electoralDistrict) {
+
+        List<Turn> turns =  turnRepository.findInMunicipality(electoralDistrict.getMunicipalityId());
+        if(turns.size() > 1 ) throw new RuntimeException("Cant create district: " + electoralDistrict.getElectoralDistrictName() + " second turn started");
+        if(turns.isEmpty()) throw new RuntimeException("Cant create district: " + electoralDistrict.getElectoralDistrictName() + " no first turn");
+        VotingData votingData = new VotingData();
+        votingData.setId(UUIDs.timeBased());
+        votingData.setTurn(turns.get(0).getId());
+        votingData.setWard(electoralDistrict.getId());
+        votingData.setVotingFinished(false);
+        votingData.setNoCardsUsed(0);
+        votingData.setNoCardsUsed(-1);
+
+        save(electoralDistrict);
+        votingDataRepository.save(votingData);
     }
 }

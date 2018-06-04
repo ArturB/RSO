@@ -1,12 +1,13 @@
 package org.voting.gateway.service;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class PerCandidateVotesDTO implements Serializable{
-	
+
 	private int numberOfVotes;
 	private String type;
-	private int candidateId;
+	private UUID candidateId;
 	public int getNumberOfVotes() {
 		return numberOfVotes;
 	}
@@ -19,13 +20,12 @@ public class PerCandidateVotesDTO implements Serializable{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public int getCandidateId() {
-		return candidateId;
-	}
-	public void setCandidateId(int candidateId) {
-		this.candidateId = candidateId;
-	}
-	
-	
 
+    public UUID getCandidateId() {
+        return candidateId;
+    }
+
+    public void setCandidateId(UUID candidateId) {
+        this.candidateId = candidateId;
+    }
 }

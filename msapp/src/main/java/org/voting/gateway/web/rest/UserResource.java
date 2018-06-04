@@ -70,7 +70,7 @@ public class UserResource {
     @PostMapping("/account/change-password")
     @Timed
     public void changePassword(@RequestBody String password) {
-    	
+
         log.debug("REST request to change password");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
@@ -80,14 +80,14 @@ public class UserResource {
              List<SmallUser> users = smallUserRepository.findByUsername(login.get());
              if(!users.isEmpty())
              {
-                 SmallUser user = Optional.of(users.get(0)).get();
+                 SmallUser user = users.get(0);
                  user.setPassword(encoder.encode(password));
                  smallUserRepository.save(user);
              }
-        }        
+        }
     }
-    
-    
+
+
     /**
      * POST  /my-users : Create a new myUser.
      *
@@ -104,7 +104,7 @@ public class UserResource {
         }
         user.setId(UUIDs.timeBased());
         SmallUser result = smallUserRepository.save(user);
-        return ResponseEntity.created(new URI("/api/my-users/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/users/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

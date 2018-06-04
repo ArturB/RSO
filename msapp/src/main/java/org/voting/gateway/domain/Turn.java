@@ -3,6 +3,7 @@ package org.voting.gateway.domain;
 import java.util.Date;
 import java.util.UUID;
 
+import com.datastax.driver.core.LocalDate;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
@@ -22,10 +23,10 @@ public class Turn {
     private UUID commune;
 
     @Column(name = "date_from")
-    private Date dateFrom;
+    private LocalDate dateFrom;
 
     @Column(name = "date_to")
-    private Date dateTo;
+    private LocalDate dateTo;
 
     @Column(name = "no_turn")
     private Integer noTurn;
@@ -53,23 +54,23 @@ public class Turn {
         this.commune = commune;
     }
 
-    public Date getDateFrom() {
-		return dateFrom;
-	}
+    public LocalDate getDateFrom() {
+        return dateFrom;
+    }
 
-	public void setDateFrom(Date dateFrom) {
-		this.dateFrom = dateFrom;
-	}
+    public void setDateFrom(LocalDate dateFrom) {
+        this.dateFrom = dateFrom;
+    }
 
-	public Date getDateTo() {
-		return dateTo;
-	}
+    public LocalDate getDateTo() {
+        return dateTo;
+    }
 
-	public void setDateTo(Date dateTo) {
-		this.dateTo = dateTo;
-	}
+    public void setDateTo(LocalDate dateTo) {
+        this.dateTo = dateTo;
+    }
 
-	public Integer getNoTurn() {
+    public Integer getNoTurn() {
 		return noTurn;
 	}
 

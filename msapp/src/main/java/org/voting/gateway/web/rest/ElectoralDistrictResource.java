@@ -59,7 +59,7 @@ public class ElectoralDistrictResource {
         electoralDistrict.setId(UUIDs.timeBased());
         electoralDistrict.setMunicipalityId(electoralDistrictDTO.getMunicipality_id());
         electoralDistrict.setElectoralDistrictName(electoralDistrictDTO.getElectoral_district_name());
-        electoralDistrictRepository.save(electoralDistrict);
+        electoralDistrictRepository.create(electoralDistrict);
         electoralDistrictDTO.setElectoral_district_id(electoralDistrict.getId());
         return ResponseEntity.created(new URI("/api/electoral-districts/" + electoralDistrict.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, electoralDistrict.getId().toString()))

@@ -3,12 +3,13 @@ package org.voting.gateway.domain;
 
 
 
+import com.datastax.driver.core.LocalDate;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class VotesFromDistrict implements Serializable {
 
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
 
     @Column(name = "voting_data")
@@ -53,6 +54,20 @@ public class VotesFromDistrict implements Serializable {
 
     @Column(name = "user")
     private UUID userId;
+
+
+    public VotesFromDistrict() {
+    }
+
+    public VotesFromDistrict(UUID id, UUID candidateId, LocalDate date, UUID votingDataId, Integer numberOfVotes, String type, UUID userId) {
+        this.id = id;
+        this.candidateId = candidateId;
+        this.date = date;
+        this.votingDataId = votingDataId;
+        this.numberOfVotes = numberOfVotes;
+        this.type = type;
+        this.userId = userId;
+    }
 
     public UUID getId() {
         return id;
@@ -84,17 +99,12 @@ public class VotesFromDistrict implements Serializable {
     	return this;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Date getDate1() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public VotesFromDistrict date(Date date) {
-    	this.date = date;
-    	return this;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public UUID getVotingDataId() {

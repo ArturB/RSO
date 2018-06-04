@@ -27,9 +27,23 @@ public class VotingDataRepository {
         return votingData.all();
     }
 
+    public List<VotingData> findInDistrictInTurn(UUID id,UUID tId) {
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE ward = ? AND turns = ?", id , tId);
+        Result<VotingData> votingData = mapper.map(results);
+        return votingData.all();
+    }
+
     public List<VotingData> findAll() {
         ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data");
         Result<VotingData> votingData = mapper.map(results);
         return votingData.all();
+    }
+
+    public void delete(UUID id) {
+        mapper.delete(id);
+    }
+
+    public void save(VotingData votingData) {
+        mapper.save(votingData);
     }
 }
