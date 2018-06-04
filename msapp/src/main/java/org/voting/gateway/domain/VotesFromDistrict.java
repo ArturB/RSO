@@ -1,9 +1,5 @@
 package org.voting.gateway.domain;
 
-
-
-
-import com.datastax.driver.core.LocalDate;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
@@ -38,7 +34,7 @@ public class VotesFromDistrict implements Serializable {
 
 
     @Column(name = "date")
-    private LocalDate date;
+    private Date date;
 
 
     @Column(name = "voting_data")
@@ -59,7 +55,7 @@ public class VotesFromDistrict implements Serializable {
     public VotesFromDistrict() {
     }
 
-    public VotesFromDistrict(UUID id, UUID candidateId, LocalDate date, UUID votingDataId, Integer numberOfVotes, String type, UUID userId) {
+    public VotesFromDistrict(UUID id, UUID candidateId, Date date, UUID votingDataId, Integer numberOfVotes, String type, UUID userId) {
         this.id = id;
         this.candidateId = candidateId;
         this.date = date;
@@ -99,11 +95,11 @@ public class VotesFromDistrict implements Serializable {
     	return this;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
