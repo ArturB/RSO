@@ -52,8 +52,26 @@ public class VotesDesignationPackRepository {
                 VotesFromDistrict votes = new VotesFromDistrict(UUIDs.timeBased(),
                     c.getCandidate_id(),votesPack.getDate(),votingData.getId(),
                     c.getNumber_of_votes(),"VALID",votesPack.getUserId());
-                c.
+                votesFromDistrictRepository.save(votes);
             });
+
+        VotesFromDistrict votesTooMany = new VotesFromDistrict(UUIDs.timeBased(),
+            null,votesPack.getDate(),votingData.getId(),
+            votesPack.getTooManyMarksCardsUsed(),"TOO MANY",votesPack.getUserId());
+
+        votesFromDistrictRepository.save(votesTooMany);
+
+        VotesFromDistrict votesNone = new VotesFromDistrict(UUIDs.timeBased(),
+            null,votesPack.getDate(),votingData.getId(),
+            votesPack.getNoneMarksCardsUsed(),"NONE",votesPack.getUserId());
+
+        votesFromDistrictRepository.save(votesNone);
+
+        VotesFromDistrict votesErased = new VotesFromDistrict(UUIDs.timeBased(),
+            null,votesPack.getDate(),votingData.getId(),
+            votesPack.getErasedMarksCardsUsed(),"ERASED",votesPack.getUserId());
+
+        votesFromDistrictRepository.save(votesErased);
 
 
 

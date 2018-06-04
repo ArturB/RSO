@@ -18,6 +18,7 @@ public class VotesFromDistrictRepository {
     }
 
 
-
-
+    public void save(VotesFromDistrict votes) {
+        mapper.save(votes);
+    }
 }
