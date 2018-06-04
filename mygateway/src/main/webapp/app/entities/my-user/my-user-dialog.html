@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myMyUserLabel">Utwórz bądz zmień użytkownika</h4>
     </div>
     <div class="modal-body">
-        <div class="form-group">
+        <div class="form-group" ng-show="false"> <!-- POLE ZABLOKOWANE -->
             <label class="control-label" for="field_username">Login</label>
             <input type="text" class="form-control" name="username" id="field_username"
                     value={{vm.generateUsername()}}
