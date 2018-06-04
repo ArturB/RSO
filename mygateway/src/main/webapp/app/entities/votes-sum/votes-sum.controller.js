@@ -59,28 +59,28 @@
         vm.getVotes = function() {
             var district = vm.selectedDistrict;
             var municipality = vm.selectedMunicipality;
-            if (district && vm.cachedSourceOfVotes === "district" && vm.idOfLastDistrict === district.id) {
+            if (district && vm.cachedSourceOfVotes === "district" && vm.idOfLastDistrict === district.electoral_district_id) {
                 return vm.votesCache;
-            } else if (!district && municipality && vm.cachedSourceOfVotes === "municipality" && vm.idOfLastDistrict === municipality.id) {
+            } else if (!district && municipality && vm.cachedSourceOfVotes === "municipality" && vm.idOfLastDistrict === municipality.municipality_id) {
                 return vm.votesCache;
             } else if (district || municipality) {
                 var f = function () {
                     // console.log("E41 TAKING!!");
                     vm.votesCache = [];
                     if (district) {
-                        vm.idOfLastDistrict = district.id;
+                        vm.idOfLastDistrict = district.electoral_district_id;
                         vm.cachedSourceOfVotes = "district";
                         return VotesSum.votesSumFromDistrict(
                             {
-                                districtId: district.id,
+                                districtId: district.electoral_district_id,
                                 round: vm.selectedRound
                             });
                     } else if (municipality) {
                         vm.cachedSourceOfVotes = "municipality";
-                        vm.idOfLastDistrict = municipality.id;
+                        vm.idOfLastDistrict = municipality.municipality_id;
                         return VotesSum.votesSumFromMunicipality(
                             {
-                                municipalityId: municipality.id,
+                                municipalityId: municipality.municipality_id,
                                 round: vm.selectedRound
                             });
                     }

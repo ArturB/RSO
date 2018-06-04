@@ -16,7 +16,7 @@
             parent: 'entity',
             url: '/votes-acceptance',
             data: {
-                authorities: ['ROLE_OKW_LEADER'],
+                authorities: ['ROLE_OKW_LEADER','ROLE_GKW_LEADER'],
                 pageTitle: 'Zatwierdzanie głosów'
             },
             views: {

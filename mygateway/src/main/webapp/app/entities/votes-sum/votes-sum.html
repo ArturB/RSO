@@ -1,6 +1,7 @@
 <div>
     <h2>Wyniki wyborów:</h2>
     <jhi-alert></jhi-alert>
+    <jhi-alert-error></jhi-alert-error>
     <div class="container-fluid">
         <div ng-hide="vm.rounds">
             <h2>Wybory się jeszcze nie skończyły!</h2>
@@ -21,16 +22,16 @@
             <h3>Gmina:</h3>
             <select class="form-control" id="field_municipality" name="municipality" ng-model="vm.selectedMunicipality"
                     ng-options="municipality as municipality.municipality_name for municipality in vm.municipalities
-                        track by municipality.municipality_id"
+                    | orderBy:'municipality_name' track by municipality.municipality_id"
                     >
                 <option value=""></option>
             </select>
 
             <div ng-show="vm.selectedMunicipality">
                 <h4>Okręg:</h4>
-                <select class="form-control" id="field_district" name="district" ng-model="vm.selectedDistrictId"
+                <select class="form-control" id="field_district" name="district" ng-model="vm.selectedDistrict"
                         ng-options="district as district.electoral_district_name for district in vm.getDistricts(vm.selectedMunicipality)
-                            track by district.electoral_district_id"
+                         | orderBy:'electoral_district_name' track by district.electoral_district_id"
                         >
                     <option value=""></option>
                 </select>

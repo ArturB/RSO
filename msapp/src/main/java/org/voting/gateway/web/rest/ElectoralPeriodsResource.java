@@ -2,6 +2,8 @@ package org.voting.gateway.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -48,5 +50,26 @@ public class ElectoralPeriodsResource {
     public List<ElectoralPeriod> getAllElectorialPeriods() {
         log.debug("Rest request to get all electoral periods");
         return electoralPeriodsRepository.findAll();
+    }
+
+    @PostMapping("/electoral-periods/change")
+    @Timed
+    public void change(@RequestBody String currentPeriod) {
+        log.debug("Rest request to changeelectoral periods to "+currentPeriod);
+
+        List<ElectoralPeriod> allPeriods = electoralPeriodsRepository.findAll();
+        ElectoralPeriod targetPeriod = allPeriods.stream().filter(c -> c.getName().equals(currentPeriod)).findFirst().get();
+        Date currentDate = new Date();
+
+        long centerTime = targetPeriod.getStartDate().getTime()
+            + (targetPeriod.getEndDate().getTime() - targetPeriod .getStartDate ().getTime())/2;
+
+        long delta = currentDate.getTime() - centerTime;
+
+        for(ElectoralPeriod period : allPeriods){
+            period.setStartDate(new Date(period.getStartDate().getTime()+delta));
+            period.setEndDate(new Date(period.getEndDate().getTime()+delta));
+            electoralPeriodsRepository.update(period);
+        }
     }
 }
