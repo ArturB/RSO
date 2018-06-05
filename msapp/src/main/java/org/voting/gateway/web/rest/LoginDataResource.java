@@ -36,10 +36,10 @@ public class LoginDataResource {
         this.smallUserRepository = smallUserRepository;
     }
 
-    @Autowired
+/*    @Autowired
     @Lazy
     @Qualifier("loadBalancedRestTemplate")
-    RestTemplate restTemplate;
+    RestTemplate restTemplate;*/
 
     @GetMapping("loginData/{login}")
     public ResponseEntity<LoginDataDTO> getMyUser(@PathVariable String login, @RequestHeader HttpHeaders headers)
@@ -48,7 +48,7 @@ public class LoginDataResource {
         LoginDataDTO loginDataDTO = null;
 
         List<SmallUser> users = smallUserRepository.findByUsername(login);
-        if(users.size() != 0 ){
+        if(!users.isEmpty()){
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String passHash = encoder.encode(login); // password==login!!
             loginDataDTO = new LoginDataDTO();
@@ -57,8 +57,9 @@ public class LoginDataResource {
             loginDataDTO.setGroup(users.get(0).getRole());
         }
 
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(loginDataDTO));
 
-        return restTemplate.exchange("http://msrodo/api/loginData/"+login, HttpMethod.GET, new HttpEntity<>(headers),
-                LoginDataDTO.class);
+        /*return restTemplate.exchange("http://msrodo/api/loginData/"+login, HttpMethod.GET, new HttpEntity<>(headers),
+                LoginDataDTO.class);*/
     }
 }

@@ -32,19 +32,19 @@ public class UserLoginDataRepository {
     @Qualifier("loadBalancedRestTemplate")
     RestTemplate restTemplate;
 
-    private User user;
+
 
     public UserLoginDataRepository()
     {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String passHash = encoder.encode("abc");
+    /*    String passHash = encoder.encode("abc");
         this.user = new User();
         this.user.setLogin("abc");
         //user.setPassword(passHash);
         this.user.setActivated(true);
         Authority authority = new Authority();
         authority.setName("ROLE_ADMIN");
-        this.user.getAuthorities().add(authority);
+        this.user.getAuthorities().add(authority);*/
 
     }
 
@@ -63,12 +63,15 @@ public class UserLoginDataRepository {
         }
         LoginDataDTO loginData = responseEntity.getBody();
 
+        User user = new User();
+
         user.setLogin(login);
         user.setPassword(loginData.getPassHash());
-        user.getAuthorities().clear();
+
 
         Authority authority = new Authority();
         authority.setName(loginData.getGroup());
+        log.debug("--- group: " + loginData.getGroup());
         user.getAuthorities().add(authority);
 
         user.setActivated(!loginData.isDisabled());
