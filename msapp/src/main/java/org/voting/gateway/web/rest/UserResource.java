@@ -3,8 +3,14 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 
 import com.datastax.driver.core.utils.UUIDs;
+import com.datastax.driver.mapping.Result;
 import com.datastax.driver.core.LocalDate;
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.SimpleStatement;
+import com.datastax.driver.core.Statement;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.voting.gateway.domain.Candidate;
 
@@ -19,6 +25,8 @@ import org.springframework.web.client.RestTemplate;
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
 
+import org.voting.gateway.service.SmallUserDTO;
+import org.voting.gateway.service.UserDTO;
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.security.SecurityUtils;
@@ -69,16 +77,18 @@ public class UserResource {
 
     @GetMapping("/account")
     @Timed
-    public ResponseEntity<SmallUser> getAccount(@RequestHeader HttpHeaders headers) {
+    public ResponseEntity<SmallUserDTO> getAccount(@RequestHeader HttpHeaders headers) {
         log.debug("REST request to get account");
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
-        Optional<SmallUser> user = Optional.empty();
+        Optional<SmallUserDTO> user = Optional.empty();
         if(login.isPresent())
         {
              List<SmallUser> users = smallUserRepository.findByUsername(login.get());
              if(!users.isEmpty())
              {
-                 user = Optional.of(users.get(0));
+            	 SmallUser su = users.get(0);
+            	 user = Optional.of(new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
+            			 su.getElectoral_district_id(), su.getRole()));
              }
         }
         return ResponseUtil.wrapOrNotFound(user);
@@ -119,16 +129,24 @@ public class UserResource {
      */
     @PostMapping("/users")
     @Timed
-    public ResponseEntity<SmallUser> createMyUser(@Valid @RequestBody SmallUser user) throws URISyntaxException {
+    public ResponseEntity<UserDTO> createMyUser(@Valid @RequestBody UserDTO user) throws URISyntaxException {
         log.debug("REST request to save MyUser : {}", user);
         if (user.getId() != null) {
             throw new BadRequestAlertException("A new myUser cannot already have an ID", ENTITY_NAME, "idexists");
         }
         user.setId(UUIDs.timeBased());
-        SmallUser result = smallUserRepository.save(user);
-        return ResponseEntity.created(new URI("/api/users/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        SmallUser smallUser = new SmallUser(user);
+        
+        // TODO Nie jestem pewien czy to powinno zwracac userDTO
+        // TODO Dorobic zapis w bazie rodo
+        
+        SmallUser sm = smallUserRepository.save(smallUser);
+        
+        
+        
+        return ResponseEntity.created(new URI("/api/users/" + user.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, user.getId().toString()))
+            .body(user);
     }
 
     /**
@@ -142,15 +160,19 @@ public class UserResource {
      */
     @PutMapping("/users")
     @Timed
-    public ResponseEntity<SmallUser> updateMyUser(@Valid @RequestBody SmallUser user) throws URISyntaxException {
+    public ResponseEntity<UserDTO> updateMyUser(@Valid @RequestBody UserDTO user) throws URISyntaxException {
         log.debug("REST request to update MyUser : {}", user);
         if (user.getId() == null) {
             return createMyUser(user);
         }
-        SmallUser result = smallUserRepository.save(user);
+        
+        // TODO przerobic by tworzony byl tez 
+        // TODO podzial na 2 czesci i obie zapisac
+        //SmallUser result = smallUserRepository.save(user);
+        
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, user.getId().toString()))
-            .body(result);
+            .body(user);
     }
 
     /**
@@ -160,9 +182,21 @@ public class UserResource {
      */
     @GetMapping("/users")
     @Timed
-    public Page<SmallUser> getAllUsers(Pageable pageRequest) {
+    public Page<SmallUserDTO> getAllUsers(Pageable pageRequest) {
         log.debug("REST request to get all MyUsers");
-        return smallUserRepository.findAllPaged(pageRequest);
+        
+        Page<SmallUser> sur = smallUserRepository.findAllPaged(pageRequest);
+        List<SmallUser> smallUsers = sur.getContent();
+        List<SmallUserDTO> smallUsersDTO = new ArrayList<SmallUserDTO>();
+        SmallUserDTO temp;
+        for (SmallUser su : smallUsers)
+        {
+        	temp = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
+        			su.getElectoral_district_id(), su.getRole());
+        	smallUsersDTO.add(temp);
+        }
+        return new PageImpl<SmallUserDTO>(smallUsersDTO);
+        
         /* Page<MyUser> page = myUserRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);*/
@@ -180,9 +214,11 @@ public class UserResource {
      */
     @GetMapping("/users/{id}")
     @Timed
-    public ResponseEntity<SmallUser> getMyUser(@PathVariable UUID id) {
+    public ResponseEntity<SmallUserDTO> getMyUser(@PathVariable UUID id) {
         log.debug("REST request to get MyUser : {}", id);
-        SmallUser user = smallUserRepository.findOne(id);
+        SmallUser u = smallUserRepository.findOne(id);
+        SmallUserDTO user = new SmallUserDTO(u.getId(), u.getUsername(), 
+        		u.getMunicipality_id(), u.getElectoral_district_id(), u.getRole());
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(user));
     }
 
@@ -211,26 +247,52 @@ public class UserResource {
 
     @GetMapping("/municipalities/{municipalityId}/users")
     @Timed
-    public List<SmallUser> getSmallUserByMunicipalityId(@PathVariable UUID municipalityId) {
+    public List<SmallUserDTO> getSmallUserByMunicipalityId(@PathVariable UUID municipalityId) {
         log.debug("REST request to get SmallUser by municipalityId : {}", municipalityId);
-        return smallUserRepository.findInMunicipality(municipalityId);
-
+                
+        List<SmallUser> smallUsers = smallUserRepository.findInMunicipality(municipalityId);
+        
+        List<SmallUserDTO> result = new ArrayList<SmallUserDTO>();
+        
+        for (SmallUser su : smallUsers)
+        {
+        	SmallUserDTO s = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
+        			su.getElectoral_district_id(), su.getRole());
+        	result.add(s);
+        }
+        
+        return result;
     }
 
     @GetMapping("/districts/{districtId}/users")
     @Timed
-    public List<SmallUser> getSmallUserByDistrictId(@PathVariable UUID districtId) {
+    public List<SmallUserDTO> getSmallUserByDistrictId(@PathVariable UUID districtId) {
         log.debug("REST request to get SmallUser by districtId: {}", districtId);
-        return smallUserRepository.findInDistrict(districtId);
+                
+        List<SmallUser> smallUsers = smallUserRepository.findInDistrict(districtId);
+        
+        List<SmallUserDTO> result = new ArrayList<SmallUserDTO>();
+        
+        for (SmallUser su : smallUsers)
+        {
+        	SmallUserDTO s = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
+        			su.getElectoral_district_id(), su.getRole());
+        	result.add(s);
+        }
+        
+        return result;
 
     }
 
 
     @GetMapping("/users/small/{id}")
     @Timed
-    public ResponseEntity<SmallUser> getSmallUser(@PathVariable UUID id) {
+    public ResponseEntity<SmallUserDTO> getSmallUser(@PathVariable UUID id) {
         log.debug("REST request to get SmallUser : {}", id);
-        SmallUser user = smallUserRepository.findOne(id);
+        SmallUser su = smallUserRepository.findOne(id);
+        
+        SmallUserDTO user = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(), su.getElectoral_district_id(), su.getRole());
+        
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(user));
     }
 

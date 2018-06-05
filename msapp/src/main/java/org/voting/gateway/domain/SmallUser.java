@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.voting.gateway.service.UserDTO;
+
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
@@ -50,6 +52,17 @@ public class SmallUser implements Serializable {
 
     //private Set<String> authorities;
 
+    public SmallUser(UserDTO user)
+    {
+    	this.id = user.getId();
+    	this.municipality_id = user.getMunicipalityId();
+    	this.role = user.getRole();
+    	this.disabled = false;
+    	this.password = user.getPassword();
+    	this.username = user.getUsername();
+    	this.electoral_district_id = user.getElectoralDistrictId();
+    }
+    
     public String getPassword() {
 		return password;
 	}
