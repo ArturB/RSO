@@ -24,7 +24,7 @@ import java.util.UUID;
     caseSensitiveTable = false)
 public class Candidate implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+
 
 
     @PartitionKey
@@ -36,7 +36,7 @@ public class Candidate implements Serializable {
 
     @Column(name = "surname")
     private String surname;
-    
+
     @Column(name = "age")
     private int age;
 
@@ -44,94 +44,18 @@ public class Candidate implements Serializable {
     private String occupation;
 
     @Column(name = "commune")
-    private Short municipality_id;
+    private UUID municipality_id;
 
     @Column(name = "party")
-    private Short party_id;
+    private UUID party_id;
 
     @Column(name = "turns")
     private List<UUID> turns;
-    
-
-    public UUID getId() {
-        return candidate_id;
-    }
-
-    public void setId(UUID id) {
-        this.candidate_id = id;
-    }
-
-    public Candidate id(UUID id) {
-    	this.candidate_id = id;
-    	return this;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public Candidate age(Short age) {
-        this.age = age;
-        return this;
-    }
-
-    public void setAge(Short age) {
-        this.age = age;
-    }
-
-    public Short getMunicipalityId() {
-        return municipality_id;
-    }
-
-    public Candidate municipalityId(Short municipalityId) {
-        this.municipality_id = municipalityId;
-        return this;
-    }
-
-    public void setMunicipalityId(Short municipalityId)
-    {
-        this.municipality_id = municipalityId;
-    }
 
 
-    public String getName() {
-        return name;
-    }
 
-    public Candidate name(String name) {
-        this.name = name;
-        return this;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getOccupation() {
-        return occupation;
-    }
-
-    public Candidate Occupation(String occupation) {
-        this.occupation = occupation;
-        return this;
-    }
-
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
-    }
-
-    public Short getPartyId() {
-        return party_id;
-    }
-
-    public Candidate partyId(Short partyId) {
-        this.party_id = partyId;
-        return this;
-    }
-
-    public void setPartyId(Short partyId) {
-        this.party_id = partyId;
-    }
 
     public List<UUID> getTurns() {
         return turns;
@@ -154,38 +78,51 @@ public class Candidate implements Serializable {
     	return surname;
     }
 
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Candidate candidate = (Candidate) o;
-        if (candidate.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), candidate.getId());
+    public UUID getCandidate_id() {
+        return candidate_id;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
+    public void setCandidate_id(UUID candidate_id) {
+        this.candidate_id = candidate_id;
     }
 
-    @Override
-    public String toString() {
-        return "Candidate{" +
-            "id=" + getId() +
-            ", age='" + getAge() + "'" +
-            ", municipalityId='" + getMunicipalityId() + "'" +
-            ", name='" + getName() + "'" +
-            ", occupation='" + getOccupation() + "'" +
-            ", partyId = '" + getPartyId() + "'" +
-            ", surname='" + getSurname() +
-            "}";
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public UUID getMunicipality_id() {
+        return municipality_id;
+    }
+
+    public void setMunicipality_id(UUID municipality_id) {
+        this.municipality_id = municipality_id;
+    }
+
+    public UUID getParty_id() {
+        return party_id;
+    }
+
+    public void setParty_id(UUID party_id) {
+        this.party_id = party_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
     }
 }

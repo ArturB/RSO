@@ -59,14 +59,14 @@ public class CandidateResource {
     @Timed
     public ResponseEntity<Candidate> createCandidate(@Valid @RequestBody Candidate candidate) throws URISyntaxException {
         log.debug("REST request to save Candidate : {}", candidate);
-        if (candidate.getId() != null) {
+        if (candidate.getCandidate_id() != null) {
             throw new BadRequestAlertException("A new candidate cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        candidate.setId(UUIDs.timeBased());
+        candidate.setCandidate_id(UUIDs.timeBased());
         Candidate result = candidateRepository.save(candidate);
-        return ResponseEntity.created(new URI("/api/candidates/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/candidates/" + result.getCandidate_id()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getCandidate_id().toString()))
             .body(result);
     }
 
@@ -83,12 +83,12 @@ public class CandidateResource {
     @Timed
     public ResponseEntity<Candidate> updateCandidate(@Valid @RequestBody Candidate candidate) throws URISyntaxException {
         log.debug("REST request to update Candidate : {}", candidate);
-        if (candidate.getId() == null) {
+        if (candidate.getCandidate_id() == null) {
             return createCandidate(candidate);
         }
         Candidate result = candidateRepository.save(candidate);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, candidate.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, candidate.getCandidate_id().toString()))
             .body(result);
     }
 

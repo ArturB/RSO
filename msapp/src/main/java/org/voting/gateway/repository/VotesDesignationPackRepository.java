@@ -166,11 +166,11 @@ public class VotesDesignationPackRepository {
         SmallUser smallUser = smallUserRepository.findOne(userId);
         if( smallUser == null) throw new RuntimeException("User "+ userId +" doesnt exist");
 
-        if( smallUser.getElectoralDistrictId() == null) throw new RuntimeException("User "+ userId +" has no district");
+        if( smallUser.getElectoral_district_id() == null) throw new RuntimeException("User "+ userId +" has no district");
 
         //ElectoralDistrict district = electoralDistrictRepository.findOne(smallUser.getElectoralDistrictId());
 
-        List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(smallUser.getElectoralDistrictId(),turnId);
+        List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(smallUser.getElectoral_district_id(),turnId);
         if(votingDataList.size() != 1) throw new RuntimeException("No voting data");
 
         VotingData votingData = votingDataList.get(0);
@@ -183,7 +183,7 @@ public class VotesDesignationPackRepository {
 
         VotesDesignationPackDTO votesDesignationPackDTO = new VotesDesignationPackDTO();
         votesDesignationPackDTO.setUserId(userId);
-        votesDesignationPackDTO.setElectoralDistrictId(smallUser.getElectoralDistrictId());
+        votesDesignationPackDTO.setElectoralDistrictId(smallUser.getElectoral_district_id());
         votesDesignationPackDTO.setTooManyMarksCardsUsed(
             votesFromDistrict.stream()
             .filter(v -> v.getType().equals("TOO MANY"))

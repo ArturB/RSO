@@ -35,7 +35,7 @@ public class VotingResults {
     private Date dateGenerated;
 
     @Column(name = "is_voting_finished")
-    private boolean isVotingFinished;
+    private boolean votingFinished;
 
     @Column(name = "no_can_vote")
     private int noCanVote;
@@ -103,15 +103,31 @@ public class VotingResults {
 		this.dateGenerated = dateGenerated;
 	}
 
-	public boolean isVotingFinished() {
-		return isVotingFinished;
-	}
+    public UUID getCommuneId() {
+        return communeId;
+    }
 
-	public void setVotingFinished(boolean isVotingFinished) {
-		this.isVotingFinished = isVotingFinished;
-	}
+    public void setCommuneId(UUID communeId) {
+        this.communeId = communeId;
+    }
 
-	public int getNoCanVote() {
+    public boolean isVotingFinished() {
+        return votingFinished;
+    }
+
+    public void setVotingFinished(boolean votingFinished) {
+        this.votingFinished = votingFinished;
+    }
+
+    public int getTurnId() {
+        return turnId;
+    }
+
+    public void setTurnId(int turnId) {
+        this.turnId = turnId;
+    }
+
+    public int getNoCanVote() {
 		return noCanVote;
 	}
 

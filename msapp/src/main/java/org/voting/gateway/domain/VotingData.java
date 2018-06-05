@@ -18,7 +18,7 @@ public class VotingData {
     private UUID id;
 
     @Column(name = "is_voting_finished")
-    private boolean isVotingFinished;
+    private boolean votingFinished;
 
     @Column(name = "no_can_vote")
     private int noCanVote;
@@ -40,15 +40,15 @@ public class VotingData {
 		this.id = id;
 	}
 
-	public boolean isVotingFinished() {
-		return isVotingFinished;
-	}
+    public boolean isVotingFinished() {
+        return votingFinished;
+    }
 
-	public void setVotingFinished(boolean isVotingFinished) {
-		this.isVotingFinished = isVotingFinished;
-	}
+    public void setVotingFinished(boolean votingFinished) {
+        this.votingFinished = votingFinished;
+    }
 
-	public int getNoCanVote() {
+    public int getNoCanVote() {
 		return noCanVote;
 	}
 

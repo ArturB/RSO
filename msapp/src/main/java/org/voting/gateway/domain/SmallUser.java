@@ -35,16 +35,16 @@ public class SmallUser implements Serializable {
 
     @Column(name = "group")
     private String role;
-    
+
     @Column(name = "is_blocked")
     private boolean disabled;
-    
+
     @Column(name = "password_hash")
     private String password;
-    
+
     @Column(name = "username")
     private String username;
-    
+
     @Column(name = "ward")
     private UUID electoral_district_id;
 
@@ -97,20 +97,22 @@ public class SmallUser implements Serializable {
         this.role = role;
     }
 
-    public UUID getMunicipalityId() {
+
+
+    public UUID getMunicipality_id() {
         return municipality_id;
     }
 
-    public void setMunicipalityId(UUID municipalityId) {
-        this.municipality_id = municipalityId;
+    public void setMunicipality_id(UUID municipality_id) {
+        this.municipality_id = municipality_id;
     }
 
-    public UUID getElectoralDistrictId() {
+    public UUID getElectoral_district_id() {
         return electoral_district_id;
     }
 
-    public void setElectoralDistrictId(UUID electoralDistrictId) {
-        this.electoral_district_id = electoralDistrictId;
+    public void setElectoral_district_id(UUID electoral_district_id) {
+        this.electoral_district_id = electoral_district_id;
     }
 
     public boolean isDisabled() {

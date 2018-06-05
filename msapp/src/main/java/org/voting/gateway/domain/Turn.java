@@ -27,15 +27,14 @@ public class Turn {
     @Column(name = "date_to")
     private Date dateTo;
 
-    @Column(name = "no_turn")
-    private Integer noTurn;
+
 
     @Column(name = "is_last_turn")
-    private boolean isLastTurn;
+    private boolean lastTurn;
 
 
     @Column(name = "is_turn_finished")
-    private boolean isTurnFinished;
+    private boolean turnFinished;
 
 	public UUID getId() {
 		return id;
@@ -69,31 +68,24 @@ public class Turn {
         this.dateTo = dateTo;
     }
 
-    public Integer getNoTurn() {
-		return noTurn;
-	}
-
-	public void setNoTurn(Integer noTurn) {
-		this.noTurn = noTurn;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
     public boolean isLastTurn() {
-        return isLastTurn;
+        return lastTurn;
     }
 
     public void setLastTurn(boolean lastTurn) {
-        isLastTurn = lastTurn;
+        this.lastTurn = lastTurn;
     }
 
     public boolean isTurnFinished() {
-        return isTurnFinished;
+        return turnFinished;
     }
 
     public void setTurnFinished(boolean turnFinished) {
-        isTurnFinished = turnFinished;
+        this.turnFinished = turnFinished;
     }
 }
