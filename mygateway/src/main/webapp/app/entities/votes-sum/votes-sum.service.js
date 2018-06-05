@@ -16,7 +16,7 @@
             votesSumFromDistrict: {
                 url: 'msapp/api/districts/:districtId/:round/votesSum',
                 method: 'GET',
-                isArray: true,
+                isArray: false,
                 params: {
                     districtId: '@districtId',
                     round: '@round'
@@ -25,7 +25,7 @@
             votesSumFromMunicipality: {
                 url: 'msapp/api/municipalities/:municipalityId/:round/votesSum',
                 method: 'GET',
-                isArray: true,
+                isArray: false,
                 params: {
                     municipalityId: '@municipalityId',
                     round: '@round'

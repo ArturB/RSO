@@ -7,7 +7,7 @@
     MyUser.$inject = ['$resource', 'DateUtils'];
 
     function MyUser ($resource, DateUtils) {
-        var resourceUrl =  'msapp/' + 'api/my-users/:id';
+        var resourceUrl =  'msapp/' + 'api/users/:id';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
@@ -41,7 +41,7 @@
             'disable': {
                 method: 'POST',
                 isArray: false,
-                url: 'msapp/api/my-users/:id/disable',
+                url: 'msapp/api/users/:id/disable',
                 params: {
                     id: '@id'
                 }

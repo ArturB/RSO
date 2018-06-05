@@ -10,13 +10,17 @@ import com.codahale.metrics.servlets.MetricsServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.embedded.*;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import io.undertow.UndertowOptions;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -152,5 +156,12 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     @Autowired(required = false)
     public void setMetricRegistry(MetricRegistry metricRegistry) {
         this.metricRegistry = metricRegistry;
+    }
+
+    @Bean
+    @Qualifier("loadBalancedRestTemplate")
+    @LoadBalanced
+    public RestTemplate loadBalancedRestTemplate(){
+        return new RestTemplate();
     }
 }

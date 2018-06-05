@@ -127,6 +127,6 @@ public class VotesSumRepository {
 
         votesResults.setCandidate_votes(candidatesVotes);
 
-        return votesResults;  
+        return votesResults;
     }
 }

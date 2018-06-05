@@ -11,7 +11,7 @@
         $stateProvider
         .state('my-user', {
             parent: 'entity',
-            url: '/my-user',
+            url: '/my-user?page',
             data: {
                 authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN'],
                 pageTitle: 'Użytkownicy'
@@ -23,7 +23,18 @@
                     controllerAs: 'vm'
                 }
             },
+            params: {
+                page: {
+                    value: '1',
+                    squash: true
+                }
+            },
             resolve: {
+                pagingParams: ['$stateParams', 'PaginationUtil', function ($stateParams, PaginationUtil) {
+                    return {
+                        page: PaginationUtil.parsePage($stateParams.page)
+                    };
+                }]
             }
         })
         .state('my-user-detail', {

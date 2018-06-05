@@ -195,24 +195,11 @@
                         backdrop: 'static',
                         size: 'lg',
                         resolve: {
-                            entity: function () {
-                                return {
-                                    username: null,
-                                    name: null,
-                                    surname: null,
-                                    documentType: null,
-                                    documentNr: null,
-                                    email: null,
-                                    birthdate: null,
-                                    pesel: null,
-                                    role: null,
-                                    id: null
-                                };
-                            },
                             preset: {
                                 municipalityId: $stateParams.municipalityId,
                                 electoralDistrictId: $stateParams.electoralDistrictId
-                            }
+                            },
+                            entity:{}
                         }
                     }).result.then(function () {
                         $state.go('custom-user', null, {reload: 'custom-user'});
@@ -223,7 +210,7 @@
             })
             .state('custom-user.bigEdit', {
                 parent: 'custom-user',
-                url: '/bigEdit/{userId}',
+                url: '/bigEdit/{userId}/{municipalityId}/{electoralDistrictId}',
                 data: {
                     authorities: ['ROLE_GKW_MEMBER', 'ROLE_ADMIN']
                 },
@@ -235,20 +222,9 @@
                         backdrop: 'static',
                         size: 'lg',
                         resolve: {
-                            entity: function () {
-                                return {
-                                    username: null,
-                                    name: null,
-                                    surname: null,
-                                    documentType: null,
-                                    documentNr: null,
-                                    email: null,
-                                    birthdate: null,
-                                    pesel: null,
-                                    role: null,
-                                    id: null
-                                };
-                            },
+                            entity: ['MyUser', function (MyUser) {
+                                return MyUser.get({id: $stateParams.userId}).$promise;
+                            }],
                             preset: {
                                 municipalityId: $stateParams.municipalityId,
                                 electoralDistrictId: $stateParams.electoralDistrictId

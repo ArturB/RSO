@@ -126,7 +126,7 @@
             <label class="control-label" for="field_role">Rola</label>
             <select class="form-control" id="field_role" name="role" ng-model="vm.myUser.role"
                     ng-options="role as role.name for role in vm.roles track by role.code"
-                    ng-init="vm.myUser.role = vm.roles[0]"
+                    ng-init="vm.myUser.role = vm.initRole"
                     required>
             </select>
             <div ng-show="editForm.role.$invalid">

@@ -10,20 +10,29 @@
     VotesDesignation.$inject = ['$resource'];
 
     function VotesDesignation($resource) {
-        var resourceUrl =  'msapp/' + 'api/municipalities/:id';
+        var resourceUrl =  'msapp/' + 'api/votes_designation_pack/:id';
 
         return $resource(resourceUrl, {}, {
-            'query': { method: 'GET', isArray: true},
-            'get': {
+            // 'get': {
+            //     method: 'GET',
+            //     transformResponse: function (data) {
+            //         if (data) {
+            //             data = angular.fromJson(data);
+            //         }
+            //         return data;
+            //     }
+            // },
+            findByUserId: {
+                url: 'msapp/api/votes_designation_pack/getFromUser/:round/:userId',
                 method: 'GET',
-                transformResponse: function (data) {
-                    if (data) {
-                        data = angular.fromJson(data);
-                    }
-                    return data;
+                isArray: true,
+                params: {
+                    round: '@round',
+                    userId: '@userId'
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT' },
+            'save': { method:'POST' }
         });
     }
 })();

@@ -1,6 +1,10 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.voting.gateway.domain.Candidate;
 
 import org.voting.gateway.repository.CandidateRepository;
@@ -13,8 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.datastax.driver.core.utils.UUIDs;
 
+import com.datastax.driver.core.utils.UUIDs;
+import org.voting.gateway.web.rest.util.PaginationUtil;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -99,6 +104,17 @@ public class CandidateResource {
     	return candidateRepository.findAllPaged(pageRequest);
     }
     //PageImpl<Candidate>
+
+/*
+    public ResponseEntity<List<Candidate>> getAllCandidates(Pageable pageable) {
+        log.debug("REST request to get all Candidates");
+        Page<Candidate> page = candidateRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/candidates");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+*/
+
+
     /**
      * GET  /candidates/:id : get the "id" candidate.
      *
@@ -128,7 +144,7 @@ public class CandidateResource {
     }
 
     /**
-     * GET 
+     * GET
      * @param municipalityId the id of the municipalityId
      * @return the list of candidates
      */
@@ -139,7 +155,7 @@ public class CandidateResource {
     }
 
     /**
-     * 
+     *
      * @param municipalityId id of municipality
      * @param turn a given turn
      * @return a list of candidates from muncipality

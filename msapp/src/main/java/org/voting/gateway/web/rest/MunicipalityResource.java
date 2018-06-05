@@ -20,6 +20,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 
 /**
  * REST controller for managing Municipality.
@@ -53,6 +55,9 @@ public class MunicipalityResource {
             throw new BadRequestAlertException("A new municipality cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Municipality result = municipalityRepository.save(municipality);
+        result.setFirst_round_votes_accepted(false);
+        result.setSecond_round_votes_accepted(false);
+        result.setHas_second_round(true);
         return ResponseEntity.created(new URI("/api/municipalities/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -75,6 +80,7 @@ public class MunicipalityResource {
             return createMunicipality(municipality);
         }
         Municipality result = municipalityRepository.save(municipality);
+        FillMunicipality(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, municipality.getId().toString()))
             .body(result);
@@ -118,5 +124,9 @@ public class MunicipalityResource {
         log.debug("REST request to delete Municipality : {}", id);
         municipalityRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+
     }*/
+
+
+
 }

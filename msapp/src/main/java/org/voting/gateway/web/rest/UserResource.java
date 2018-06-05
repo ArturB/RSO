@@ -7,21 +7,34 @@ import com.datastax.driver.core.LocalDate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.voting.gateway.domain.Candidate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
+
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
 
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.security.SecurityUtils;
+import org.voting.gateway.service.LoginDataDTO;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.errors.InvalidPasswordException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.web.bind.annotation.*;
+import org.voting.gateway.web.rest.util.PaginationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -49,10 +62,14 @@ public class UserResource {
         this.smallUserRepository = smallUserRepository;
     }
 
+    @Autowired
+    @Lazy
+    @Qualifier("loadBalancedRestTemplate")
+    RestTemplate restTemplate;
 
     @GetMapping("/account")
     @Timed
-    public ResponseEntity<SmallUser> getAccount() {
+    public ResponseEntity<SmallUser> getAccount(@RequestHeader HttpHeaders headers) {
         log.debug("REST request to get account");
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
         Optional<SmallUser> user = Optional.empty();
@@ -65,6 +82,11 @@ public class UserResource {
              }
         }
         return ResponseUtil.wrapOrNotFound(user);
+
+       /* ResponseEntity<SmallUser> responseEntity =
+            restTemplate.exchange("http://msrodo/api/account", HttpMethod.GET, new HttpEntity<>(headers),
+            SmallUser.class);
+        return responseEntity;*/
     }
 
     @PostMapping("/account/change-password")
@@ -89,7 +111,7 @@ public class UserResource {
 
 
     /**
-     * POST  /my-users : Create a new myUser.
+     * POST  /users : Create a new myUser.
      *
      * @param user the myUser to create
      * @return the ResponseEntity with status 201 (Created) and with body the new myUser, or with status 400 (Bad Request) if the myUser has already an ID
@@ -110,7 +132,7 @@ public class UserResource {
     }
 
     /**
-     * PUT  /my-users : Updates an existing myUser.
+     * PUT  /users : Updates an existing myUser.
      *
      * @param user the myUser to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated myUser,
@@ -141,10 +163,17 @@ public class UserResource {
     public Page<SmallUser> getAllUsers(Pageable pageRequest) {
         log.debug("REST request to get all MyUsers");
         return smallUserRepository.findAllPaged(pageRequest);
-        }
+        /* Page<MyUser> page = myUserRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);*/
+    }
+
+
+
+
 
     /**
-     * GET  /my-users/:id : get the "id" myUser.
+     * GET  /users/:id : get the "id" myUser.
      *
      * @param id the id of the myUser to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the myUser, or with status 404 (Not Found)
@@ -158,7 +187,7 @@ public class UserResource {
     }
 
     /**
-     * DELETE  /my-users/:id : delete the "id" myUser.
+     * DELETE  /users/:id : delete the "id" myUser.
      *
      * @param id the id of the myUser to delete
      * @return the ResponseEntity with status 200 (OK)
