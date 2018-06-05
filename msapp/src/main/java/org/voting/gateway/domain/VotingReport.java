@@ -17,7 +17,7 @@ public class VotingReport {
     private UUID id;
 
     @Column(name = "candidate_id")
-    private Short candidateId;
+    private UUID candidateId;
 
     @Column(name = "candidate_name")
     private String candidateName;
@@ -26,7 +26,7 @@ public class VotingReport {
     private String candidateSurname;
 
     @Column(name = "commune_name")
-    private Short communeName;
+    private String communeName;
 
     @Column(name = "date_generated")
     private Date dateGenerated;
@@ -46,8 +46,14 @@ public class VotingReport {
     @Column(name = "no_turn")
     private int noTurn;
 
+    @Column(name = "turn_id")
+    private UUID turnId;
+
     @Column(name = "vote_type")
     private String voteType;
+
+    @Column(name = "ward_id")
+    private String wardId;
 
     @Column(name = "ward_name")
     private String wardName;
@@ -60,13 +66,7 @@ public class VotingReport {
 		this.id = id;
 	}
 
-	public Short getCandidateId() {
-		return candidateId;
-	}
 
-	public void setCandidateId(Short candidateId) {
-		this.candidateId = candidateId;
-	}
 
 	public String getCandidateName() {
 		return candidateName;
@@ -84,15 +84,39 @@ public class VotingReport {
 		this.candidateSurname = candidateSurname;
 	}
 
-	public Short getCommuneName() {
-		return communeName;
-	}
+    public UUID getCandidateId() {
+        return candidateId;
+    }
 
-	public void setCommuneName(Short communeName) {
-		this.communeName = communeName;
-	}
+    public void setCandidateId(UUID candidateId) {
+        this.candidateId = candidateId;
+    }
 
-	public Date getDateGenerated() {
+    public String getCommuneName() {
+        return communeName;
+    }
+
+    public void setCommuneName(String communeName) {
+        this.communeName = communeName;
+    }
+
+    public UUID getTurnId() {
+        return turnId;
+    }
+
+    public void setTurnId(UUID turnId) {
+        this.turnId = turnId;
+    }
+
+    public String getWardId() {
+        return wardId;
+    }
+
+    public void setWardId(String wardId) {
+        this.wardId = wardId;
+    }
+
+    public Date getDateGenerated() {
 		return dateGenerated;
 	}
 

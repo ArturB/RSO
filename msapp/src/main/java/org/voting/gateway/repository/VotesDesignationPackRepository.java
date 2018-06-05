@@ -74,21 +74,17 @@ public class VotesDesignationPackRepository {
         VotesFromDistrict votesTooMany = new VotesFromDistrict(UUIDs.timeBased(),
             null,votesPack.getDate(),votingData.getId(),
             votesPack.getTooManyMarksCardsUsed(),"TOO MANY",votesPack.getUserId());
-
         votesFromDistrictRepository.save(votesTooMany);
 
         VotesFromDistrict votesNone = new VotesFromDistrict(UUIDs.timeBased(),
             null,votesPack.getDate(),votingData.getId(),
             votesPack.getNoneMarksCardsUsed(),"NONE",votesPack.getUserId());
-
         votesFromDistrictRepository.save(votesNone);
 
         VotesFromDistrict votesErased = new VotesFromDistrict(UUIDs.timeBased(),
             null,votesPack.getDate(),votingData.getId(),
             votesPack.getErasedMarksCardsUsed(),"ERASED",votesPack.getUserId());
-
         votesFromDistrictRepository.save(votesErased);
-
     }
 
     public void edit(VotesDesignationPackDTO votesPack) {

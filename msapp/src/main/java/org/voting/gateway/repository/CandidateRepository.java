@@ -16,6 +16,7 @@ import org.voting.gateway.domain.SmallUser;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -63,7 +64,9 @@ public class CandidateRepository {
 
     public void delete(UUID id)
     {
-        //TODO sprawdzenie wiezów
+        ResultSet results = cassandraSession.getSession().execute("SELECT votes_id FROM votes_from_ward WHERE candidate = '" + id + "'");
+
+        if(!results.isExhausted()) throw new RuntimeException("Cant delete candidate");
         mapper.delete(id);
     }
 
@@ -77,10 +80,14 @@ public class CandidateRepository {
 
     public List<Candidate> findInMunicipalityByTurn(UUID municipalityId, UUID turn) {
         Statement statement = new SimpleStatement("SELECT * FROM candidate " +
-            "WHERE commune = ? AND turns CONTAINS ?", municipalityId, turn);  //TODO allow filtering
+            "WHERE commune = ? ", municipalityId);
 
         ResultSet results = cassandraSession.getSession().execute(statement);
         Result<Candidate> candidates = mapper.map(results);
-        return candidates.all();
+        List<Candidate> temp = candidates.all();
+        return temp.stream()
+            .filter(c -> c.getTurns().stream()
+                .anyMatch(d -> d.equals(turn)))
+            .collect(Collectors.toList());
     }
 }

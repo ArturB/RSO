@@ -17,13 +17,16 @@ public class VotingResults {
     private UUID id;
 
     @Column(name = "candidate_id")
-    private Short candidateId;
+    private UUID candidateId;
 
     @Column(name = "candidate_name")
     private String candidateName;
 
     @Column(name = "candidate_surname")
     private String candidateSurname;
+
+    @Column(name = "commune_id")
+    private UUID communeId;
 
     @Column(name = "commune_name")
     private String communeName;
@@ -46,6 +49,9 @@ public class VotingResults {
     @Column(name = "no_turn")
     private int noTurn;
 
+    @Column(name = "turn_id")
+    private int turnId;
+
     @Column(name = "vote_type")
     private String voteType;
 
@@ -57,15 +63,15 @@ public class VotingResults {
 		this.id = id;
 	}
 
-	public Short getCandidateId() {
-		return candidateId;
-	}
+    public UUID getCandidateId() {
+        return candidateId;
+    }
 
-	public void setCandidateId(Short candidateId) {
-		this.candidateId = candidateId;
-	}
+    public void setCandidateId(UUID candidateId) {
+        this.candidateId = candidateId;
+    }
 
-	public String getCandidateName() {
+    public String getCandidateName() {
 		return candidateName;
 	}
 

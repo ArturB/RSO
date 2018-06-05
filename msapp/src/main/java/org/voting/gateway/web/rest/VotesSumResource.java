@@ -38,8 +38,13 @@ public class VotesSumResource {
 
     @GetMapping("municipalities/{municipalityId}/{round}/votesSum")
     @Timed
-    public List<PerCandidateVotesDTO> getVotesFromMuniciplity(@PathVariable UUID municipalityId,
+    public ResponseEntity<VotesResultDTO> getVotesFromMunicipality(@PathVariable UUID municipalityId,
                                                            @PathVariable UUID round) {
+
+        log.debug("REST request to get all votes sum from Municipality {} and round {}", municipalityId, round);
+        VotesResultDTO votesResultDTO = votesSumRepository.getAllVotesInMunicipality( municipalityId, round);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(votesResultDTO));
+
         //return new
     	/*
     	return electoralDistrictRepository.findAll()
