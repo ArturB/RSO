@@ -24,10 +24,10 @@ import org.springframework.web.client.RestTemplate;
 
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
-import org.voting.gateway.domain.RodoUser;
 import org.voting.gateway.service.SmallUserDTO;
 import org.voting.gateway.service.UserDTO;
 import org.voting.gateway.domain.SmallUser;
+import org.voting.gateway.repository.RodoUserRepository;
 import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.service.LoginDataDTO;
@@ -66,9 +66,11 @@ public class UserResource {
     private static final String ENTITY_NAME = "user";
 
     private final SmallUserRepository smallUserRepository;
+    private final RodoUserRepository rodoUserRepository;
 
-    public UserResource(SmallUserRepository smallUserRepository) {
+    public UserResource(SmallUserRepository smallUserRepository, RodoUserRepository rodoUserRepository) {
         this.smallUserRepository = smallUserRepository;
+        this.rodoUserRepository = rodoUserRepository;
     }
 
     @Autowired
@@ -137,7 +139,8 @@ public class UserResource {
         }
         user.setId(UUIDs.timeBased());
         SmallUser smallUser = new SmallUser(user);
-        RodoUser rodoUser = new RodoUser(new RodoUserDTO(user));
+        //RodoUser rodoUser = new RodoUser(new RodoUserDTO(user));
+        
         // TODO Nie jestem pewien czy to powinno zwracac userDTO
         // TODO Dorobic zapis w bazie rodo
         
@@ -166,12 +169,15 @@ public class UserResource {
         if (user.getId() == null) {
             return createMyUser(user);
         }
+       
+        SmallUser smallUserValues = smallUserRepository.findOne(user.getId());
+        // TODO podmiana wartosci obiektu
+        RodoUserDTO rodoUserValues = rodoUserRepository.findOne(user.getId());
         
-        SmallUser smallUser = new SmallUser(user);
-        RodoUser rodoUser = new RodoUser(new RodoUserDTO(user));
-        // TODO przerobic by tworzony byl tez 
-        // TODO podzial na 2 czesci i obie zapisac
+        smallUserValues.setMunicipality_id(municipality_id);
+        
         //SmallUser result = smallUserRepository.save(user);
+        
         
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, user.getId().toString()))
