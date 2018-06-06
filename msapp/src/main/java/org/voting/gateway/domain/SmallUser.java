@@ -52,6 +52,8 @@ public class SmallUser implements Serializable {
 
     //private Set<String> authorities;
 
+    public SmallUser(){}
+
     public SmallUser(UserDTO user)
     {
     	this.id = user.getId();
@@ -62,7 +64,7 @@ public class SmallUser implements Serializable {
     	this.username = user.getUsername();
     	this.electoral_district_id = user.getElectoralDistrictId();
     }
-    
+
     public String getPassword() {
 		return password;
 	}
