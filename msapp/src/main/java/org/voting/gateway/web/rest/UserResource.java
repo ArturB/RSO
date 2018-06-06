@@ -140,11 +140,11 @@ public class UserResource {
         RodoUser rodoUser = new RodoUser(new RodoUserDTO(user));
         // TODO Nie jestem pewien czy to powinno zwracac userDTO
         // TODO Dorobic zapis w bazie rodo
-        
+
         SmallUser sm = smallUserRepository.save(smallUser);
-        
-        
-        
+
+
+
         return ResponseEntity.created(new URI("/api/users/" + user.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, user.getId().toString()))
             .body(user);
@@ -166,13 +166,13 @@ public class UserResource {
         if (user.getId() == null) {
             return createMyUser(user);
         }
-        
+
         SmallUser smallUser = new SmallUser(user);
         RodoUser rodoUser = new RodoUser(new RodoUserDTO(user));
-        // TODO przerobic by tworzony byl tez 
+        // TODO przerobic by tworzony byl tez
         // TODO podzial na 2 czesci i obie zapisac
         //SmallUser result = smallUserRepository.save(user);
-        
+
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, user.getId().toString()))
             .body(user);
@@ -187,7 +187,7 @@ public class UserResource {
     @Timed
     public Page<SmallUserDTO> getAllUsers(Pageable pageRequest) {
         log.debug("REST request to get all MyUsers");
-        
+
         Page<SmallUser> sur = smallUserRepository.findAllPaged(pageRequest);
         List<SmallUser> smallUsers = sur.getContent();
         List<SmallUserDTO> smallUsersDTO = new ArrayList<SmallUserDTO>();
@@ -198,8 +198,9 @@ public class UserResource {
         			su.getElectoral_district_id(), su.getRole());
         	smallUsersDTO.add(temp);
         }
-        return new PageImpl<SmallUserDTO>(smallUsersDTO);
         
+        return new PageImpl<SmallUserDTO>(smallUsersDTO);
+
         /* Page<MyUser> page = myUserRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);*/
@@ -220,7 +221,7 @@ public class UserResource {
     public ResponseEntity<SmallUserDTO> getMyUser(@PathVariable UUID id) {
         log.debug("REST request to get MyUser : {}", id);
         SmallUser u = smallUserRepository.findOne(id);
-        SmallUserDTO user = new SmallUserDTO(u.getId(), u.getUsername(), 
+        SmallUserDTO user = new SmallUserDTO(u.getId(), u.getUsername(),
         		u.getMunicipality_id(), u.getElectoral_district_id(), u.getRole());
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(user));
     }
@@ -252,18 +253,18 @@ public class UserResource {
     @Timed
     public List<SmallUserDTO> getSmallUserByMunicipalityId(@PathVariable UUID municipalityId) {
         log.debug("REST request to get SmallUser by municipalityId : {}", municipalityId);
-                
+
         List<SmallUser> smallUsers = smallUserRepository.findInMunicipality(municipalityId);
-        
+
         List<SmallUserDTO> result = new ArrayList<SmallUserDTO>();
-        
+
         for (SmallUser su : smallUsers)
         {
         	SmallUserDTO s = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
         			su.getElectoral_district_id(), su.getRole());
         	result.add(s);
         }
-        
+
         return result;
     }
 
@@ -271,18 +272,18 @@ public class UserResource {
     @Timed
     public List<SmallUserDTO> getSmallUserByDistrictId(@PathVariable UUID districtId) {
         log.debug("REST request to get SmallUser by districtId: {}", districtId);
-                
+
         List<SmallUser> smallUsers = smallUserRepository.findInDistrict(districtId);
-        
+
         List<SmallUserDTO> result = new ArrayList<SmallUserDTO>();
-        
+
         for (SmallUser su : smallUsers)
         {
         	SmallUserDTO s = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
         			su.getElectoral_district_id(), su.getRole());
         	result.add(s);
         }
-        
+
         return result;
 
     }
@@ -293,9 +294,9 @@ public class UserResource {
     public ResponseEntity<SmallUserDTO> getSmallUser(@PathVariable UUID id) {
         log.debug("REST request to get SmallUser : {}", id);
         SmallUser su = smallUserRepository.findOne(id);
-        
+
         SmallUserDTO user = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(), su.getElectoral_district_id(), su.getRole());
-        
+
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(user));
     }
 

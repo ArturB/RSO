@@ -22,17 +22,6 @@ public class RodoUserDTO {
     {
     	
     }
-    
-    public RodoUserDTO(UserDTO user) {
-    	this.id = user.getId();
-    	this.birthdate = user.getBirthdate();
-    	this.documentNo = user.getDocumentNr();
-    	this.documentType = user.getDocumentType();
-    	this.email = user.getEmail();
-    	this.name = user.getName();
-    	this.pesel = user.getPesel();
-    	this.surname = user.getSurname();
-    }
 
 	public UUID getId() {
 		return id;
