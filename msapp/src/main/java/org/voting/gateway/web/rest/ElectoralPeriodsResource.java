@@ -9,10 +9,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.voting.gateway.domain.Candidate;
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.repository.CandidateRepository;
@@ -29,7 +26,7 @@ import com.datastax.driver.core.utils.UUIDs;
 @RestController
 @RequestMapping("/api")
 public class ElectoralPeriodsResource {
-	
+
     private final Logger log = LoggerFactory.getLogger(ElectoralPeriodsResource.class);
 
     private static final String ENTITY_NAME = "electoralPeriods";
@@ -40,16 +37,16 @@ public class ElectoralPeriodsResource {
         this.electoralPeriodsRepository = electoralPeriodsRepository;
 
     }
-    
+
     /**
      * GET  /electoral-periods/ : get all electoral periods.
      *
      * @return returns all electoral periods
      */
-    @PostMapping("/electoral-periods/")
+    @GetMapping("/electoral-periods/")
     @Timed
     public List<ElectoralPeriod> getAllElectorialPeriods() {
-        log.debug("Rest request to get all electoral periods");    
+        log.debug("Rest request to get all electoral periods");
         return electoralPeriodsRepository.findAll();
     }
 }

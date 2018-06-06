@@ -24,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
+import org.voting.gateway.security.RandomString;
 import org.voting.gateway.service.SmallUserDTO;
 import org.voting.gateway.service.UserDTO;
 import org.voting.gateway.domain.SmallUser;
@@ -67,10 +68,15 @@ public class UserResource {
 
     private final SmallUserRepository smallUserRepository;
     private final RodoUserRepository rodoUserRepository;
+    private final RandomString randomString;
+    private BCryptPasswordEncoder encoder;
 
-    public UserResource(SmallUserRepository smallUserRepository, RodoUserRepository rodoUserRepository) {
+    public UserResource(SmallUserRepository smallUserRepository, RodoUserRepository rodoUserRepository,
+                        RandomString randomString) {
         this.smallUserRepository = smallUserRepository;
         this.rodoUserRepository = rodoUserRepository;
+        this.randomString = randomString;
+        this.encoder = new BCryptPasswordEncoder();
     }
 
     @Autowired
@@ -80,20 +86,17 @@ public class UserResource {
 
     @GetMapping("/account")
     @Timed
-    public ResponseEntity<UserDTO> getAccount(@RequestHeader HttpHeaders headers) {
+    public ResponseEntity<SmallUserDTO> getAccount(@RequestHeader HttpHeaders headers) {
         log.debug("REST request to get account");
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
-        Optional<UserDTO> user = Optional.empty();
+        Optional<SmallUserDTO> user = Optional.empty();
         if(login.isPresent())
         {
              List<SmallUser> users = smallUserRepository.findByUsername(login.get());
              if(!users.isEmpty())
              {
             	 SmallUser su = users.get(0);
-                 RodoUserDTO ru = rodoUserRepository.findOne(su.getId());
-            	 user = Optional.of(new UserDTO(su.getId(), su.getUsername(), ru.getName(), ru.getSurname(),
-            			 ru.getDocumentType(), ru.getDocumentNo(), ru.getEmail(), ru.getBirthdate(), ru.getPesel(),
-            			 su.getElectoral_district_id(), su.getMunicipality_id(), su.getRole()));
+                 user = Optional.of(new SmallUserDTO(su.getId(),su.getUsername(),su.getMunicipality_id(),su.getElectoral_district_id(),su.getRole() ));
              }
 
         }
@@ -141,8 +144,19 @@ public class UserResource {
             throw new BadRequestAlertException("A new myUser cannot already have an ID", ENTITY_NAME, "idexists");
         }
         user.setId(UUIDs.timeBased());
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(user.getPassword())); //TODO moze do zmiany
+        String password = randomString.nextString(); // losowe hasło
+
+
+        user.setPassword(encoder.encode(password));
+
+        //TODO odkomentowac - wysylanie maila
+
+        /*try {
+            Runtime.getRuntime().exec("rso-send-password "+user.getEmail()+ " " + password);
+        } catch (Exception e) {
+            System.out.println("Invalid terminal command: " + e.getMessage());
+        }*/
+
 
         SmallUser smallUser = new SmallUser(user);
         RodoUserDTO rodoUser = new RodoUserDTO(user);
