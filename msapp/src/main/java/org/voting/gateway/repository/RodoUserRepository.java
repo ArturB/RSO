@@ -19,6 +19,7 @@ public class RodoUserRepository {
     public RodoUserRepository(CassandraSession cassandraSession) {
         //this.cassandraSession = cassandraSession;
         //mapper = cassandraSession.getMappingManager().mapper(RodoUser.class);
+    	
     }
     
     public RodoUser findOne(UUID id) {
