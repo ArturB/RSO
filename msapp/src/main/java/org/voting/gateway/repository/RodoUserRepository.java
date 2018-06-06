@@ -20,17 +20,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.RestTemplate;
-<<<<<<< HEAD
-=======
 
->>>>>>> branch 'worksOnMyuaa' of https://github.com/ArturB/RSO.git
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.service.LoginDataDTO;
 import org.voting.gateway.service.RodoUserDTO;
-<<<<<<< HEAD
-=======
 
->>>>>>> branch 'worksOnMyuaa' of https://github.com/ArturB/RSO.git
 
 import com.datastax.driver.mapping.Mapper;
 
@@ -76,11 +70,6 @@ public class RodoUserRepository {
 
     public void delete(UUID id) {
     	restTemplate.delete("http://msrodo/api/deleteRodoUser/" + id);
-<<<<<<< HEAD
     	// TODO pokazywanie bledu jesli usuwanie sie nie uda
-    }    
-=======
-
     }
->>>>>>> branch 'worksOnMyuaa' of https://github.com/ArturB/RSO.git
 }
