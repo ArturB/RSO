@@ -24,13 +24,14 @@ import org.springframework.web.client.RestTemplate;
 
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
-
+import org.voting.gateway.domain.RodoUser;
 import org.voting.gateway.service.SmallUserDTO;
 import org.voting.gateway.service.UserDTO;
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.service.LoginDataDTO;
+import org.voting.gateway.service.RodoUserDTO;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.errors.InvalidPasswordException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
@@ -136,7 +137,7 @@ public class UserResource {
         }
         user.setId(UUIDs.timeBased());
         SmallUser smallUser = new SmallUser(user);
-        
+        RodoUser rodoUser = new RodoUser(new RodoUserDTO(user));
         // TODO Nie jestem pewien czy to powinno zwracac userDTO
         // TODO Dorobic zapis w bazie rodo
         
@@ -166,6 +167,8 @@ public class UserResource {
             return createMyUser(user);
         }
         
+        SmallUser smallUser = new SmallUser(user);
+        RodoUser rodoUser = new RodoUser(new RodoUserDTO(user));
         // TODO przerobic by tworzony byl tez 
         // TODO podzial na 2 czesci i obie zapisac
         //SmallUser result = smallUserRepository.save(user);
