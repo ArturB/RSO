@@ -24,7 +24,6 @@ import org.springframework.web.client.RestTemplate;
 
 import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.domain.MyUser;
-import org.voting.gateway.domain.RodoUser;
 import org.voting.gateway.service.SmallUserDTO;
 import org.voting.gateway.service.UserDTO;
 import org.voting.gateway.domain.SmallUser;
@@ -128,7 +127,10 @@ public class UserResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new myUser, or with status 400 (Bad Request) if the myUser has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/users")
+
+
+
+    /*@PostMapping("/users")
     @Timed
     public ResponseEntity<UserDTO> createMyUser(@Valid @RequestBody UserDTO user) throws URISyntaxException {
         log.debug("REST request to save MyUser : {}", user);
@@ -150,7 +152,7 @@ public class UserResource {
             .body(user);
     }
 
-    /**
+    *//**
      * PUT  /users : Updates an existing myUser.
      *
      * @param user the myUser to update
@@ -158,7 +160,7 @@ public class UserResource {
      * or with status 400 (Bad Request) if the myUser is not valid,
      * or with status 500 (Internal Server Error) if the myUser couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
+     *//*
     @PutMapping("/users")
     @Timed
     public ResponseEntity<UserDTO> updateMyUser(@Valid @RequestBody UserDTO user) throws URISyntaxException {
@@ -176,7 +178,7 @@ public class UserResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, user.getId().toString()))
             .body(user);
-    }
+    }*/
 
     /**
      * GET  /users : get all the Users.

@@ -15,7 +15,9 @@ public class CassandraSession {
 
     public CassandraSession() {
         cluster = Cluster.builder()
-            .addContactPoint("rodo.brodzki.org")
+            .addContactPoint("rodo1.brodzki.org")
+            .addContactPoint("rodo2.brodzki.org")
+            .addContactPoint("rodo3.brodzki.org")
             .withCredentials("rso", "rso2018L")
             .build();
         session = cluster.connect("rodo");
