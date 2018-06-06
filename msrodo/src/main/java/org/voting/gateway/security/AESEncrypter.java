@@ -17,7 +17,7 @@ public class AESEncrypter {
     private Cipher cipher;
     private SecretKeySpec secretKey;
 
-    public AESEncrypter() throws NoSuchPaddingException, NoSuchAlgorithmException {
+    public AESEncrypter() {
 
         String secret = "RODOKZAaZW0dt4G6";
 
@@ -26,8 +26,15 @@ public class AESEncrypter {
 
         secretKey = new SecretKeySpec(key, "AES");
 
-        cipher = Cipher.getInstance("AES");
-
+        try
+        {
+            cipher = Cipher.getInstance("AES");
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        	throw new RuntimeException("____ AESEncrypter nie dostano instancji ciphera ____");
+        }
 
     }
     public void initEncryptMode() throws InvalidKeyException {
