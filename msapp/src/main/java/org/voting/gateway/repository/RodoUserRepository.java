@@ -20,11 +20,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.RestTemplate;
-import org.voting.gateway.domain.RodoUser;
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.service.LoginDataDTO;
 import org.voting.gateway.service.RodoUserDTO;
-import org.voting.gateway.web.rest.RodoUserResource;
 
 import com.datastax.driver.mapping.Mapper;
 
@@ -70,6 +68,6 @@ public class RodoUserRepository {
     
     public void delete(UUID id) {
     	restTemplate.delete("http://msrodo/api/deleteRodoUser/" + id);
-    	
+    	// TODO pokazywanie bledu jesli usuwanie sie nie uda
     }    
 }
