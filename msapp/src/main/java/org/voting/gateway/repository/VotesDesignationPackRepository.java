@@ -161,7 +161,7 @@ public class VotesDesignationPackRepository {
 
     }
 
-    public VotesDesignationPackDTO findOneByTurnByUser(UUID turnId, UUID userId) {
+    public List<VotesDesignationPackDTO> findByTurnByUser(UUID turnId, UUID userId) {
 
         SmallUser smallUser = smallUserRepository.findOne(userId);
         if( smallUser == null) throw new RuntimeException("User "+ userId +" doesnt exist");
@@ -175,48 +175,61 @@ public class VotesDesignationPackRepository {
 
         VotingData votingData = votingDataList.get(0);
 
-        List<VotesFromDistrict> votesFromDistrict = votesFromDistrictRepository.findByUserByVotingData(userId,votingData.getId());
+        List<VotesFromDistrict> votesFromDistrictAll = votesFromDistrictRepository.findByUserByVotingData(userId,votingData.getId());
 
-        if(votesFromDistrict.isEmpty()) return null;
-
-
-
-        VotesDesignationPackDTO votesDesignationPackDTO = new VotesDesignationPackDTO();
-        votesDesignationPackDTO.setUserId(userId);
-        votesDesignationPackDTO.setElectoralDistrictId(smallUser.getElectoral_district_id());
-        votesDesignationPackDTO.setTooManyMarksCardsUsed(
-            votesFromDistrict.stream()
-            .filter(v -> v.getType().equals("TOO MANY"))
-            .mapToInt(v-> v.getNumberOfVotes()).sum()
-        );
-        votesDesignationPackDTO.setNoneMarksCardsUsed(
-            votesFromDistrict.stream()
-                .filter(v -> v.getType().equals("NONE"))
-                .mapToInt(v-> v.getNumberOfVotes()).sum()
-        );
-        votesDesignationPackDTO.setErasedMarksCardsUsed(
-            votesFromDistrict.stream()
-                .filter(v -> v.getType().equals("ERASED"))
-                .mapToInt(v-> v.getNumberOfVotes()).sum()
-
-        );
-
-        Map<UUID,Integer> votesForCandidate =
-            votesFromDistrict.stream()
-                .filter(v -> v.getType().equals("VALID"))
-                .collect(Collectors.groupingBy(VotesFromDistrict::getCandidateId, Collectors.summingInt(VotesFromDistrict::getNumberOfVotes)));
+        if(votesFromDistrictAll.isEmpty()) return null;
 
 
-        List<VotesDesignationSingleCandidateDTO> listVotesForCandidate = votesForCandidate.keySet().stream()
-            .map(v-> {
-                VotesDesignationSingleCandidateDTO voteSingle = new VotesDesignationSingleCandidateDTO();
-                voteSingle.setCandidate_id(v);
-                voteSingle.setNumber_of_votes(votesForCandidate.get(v));
-                return voteSingle;
-            }).collect(Collectors.toList());
+        Map<Date,List<VotesFromDistrict>> votesInPacks =
+            votesFromDistrictAll.stream()
+            .collect(Collectors.groupingBy(VotesFromDistrict::getDate));
 
-        votesDesignationPackDTO.setCandidate_votes(listVotesForCandidate);
 
-        return votesDesignationPackDTO;
+        List<VotesDesignationPackDTO> result = votesInPacks.keySet().stream()
+            .map(p ->{
+                List<VotesFromDistrict> votesFromDistrict =  votesInPacks.get(p);
+
+                VotesDesignationPackDTO votesDesignationPackDTO = new VotesDesignationPackDTO();
+                votesDesignationPackDTO.setUserId(userId);
+                votesDesignationPackDTO.setElectoralDistrictId(smallUser.getElectoral_district_id());
+                votesDesignationPackDTO.setTooManyMarksCardsUsed(
+                    votesFromDistrict.stream()
+                    .filter(v -> v.getType().equals("TOO MANY"))
+                    .mapToInt(v-> v.getNumberOfVotes()).sum()
+                );
+                votesDesignationPackDTO.setNoneMarksCardsUsed(
+                    votesFromDistrict.stream()
+                        .filter(v -> v.getType().equals("NONE"))
+                        .mapToInt(v-> v.getNumberOfVotes()).sum()
+                );
+                votesDesignationPackDTO.setErasedMarksCardsUsed(
+                    votesFromDistrict.stream()
+                        .filter(v -> v.getType().equals("ERASED"))
+                        .mapToInt(v-> v.getNumberOfVotes()).sum()
+
+                );
+
+                Map<UUID,Integer> votesForCandidate =
+                    votesFromDistrict.stream()
+                        .filter(v -> v.getType().equals("VALID"))
+                        .collect(Collectors.groupingBy(VotesFromDistrict::getCandidateId, Collectors.summingInt(VotesFromDistrict::getNumberOfVotes)));
+
+
+                List<VotesDesignationSingleCandidateDTO> listVotesForCandidate = votesForCandidate.keySet().stream()
+                    .map(v-> {
+                        VotesDesignationSingleCandidateDTO voteSingle = new VotesDesignationSingleCandidateDTO();
+                        voteSingle.setCandidate_id(v);
+                        voteSingle.setNumber_of_votes(votesForCandidate.get(v));
+                        return voteSingle;
+                    }).collect(Collectors.toList());
+
+                votesDesignationPackDTO.setCandidate_votes(listVotesForCandidate);
+
+                return votesDesignationPackDTO;
+
+        }).collect(Collectors.toList());
+
+
+        return result;
     }
 }

@@ -14,6 +14,7 @@ import org.voting.gateway.web.rest.util.HeaderUtil;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -67,12 +68,12 @@ public class VotesDesignationPackResource {
 
     @GetMapping("/votes_designation_pack/getFromUser/{round}/{userId}")
     @Timed
-    public ResponseEntity<VotesDesignationPackDTO> getVotes(@PathVariable UUID turnId, @PathVariable UUID userId) {
+    public List<VotesDesignationPackDTO> getVotes(@PathVariable UUID turnId, @PathVariable UUID userId) {
         log.debug("REST request to get  VotesDesignationPack : round {} userId {} ", turnId, userId);
 
-        VotesDesignationPackDTO votePack = votesDesignationPackRepository.findOneByTurnByUser(turnId,userId);
+        List<VotesDesignationPackDTO> votePack = votesDesignationPackRepository.findByTurnByUser(turnId,userId);
 
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(votePack));
+        return votePack;
     }
 
 }
