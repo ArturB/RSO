@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 import org.voting.gateway.domain.RodoUser;
-import org.voting.gateway.domain.SmallUser;
 
 import com.datastax.driver.mapping.Mapper;
 

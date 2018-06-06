@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-import org.voting.gateway.service.RodoUserDTO;
-import org.voting.gateway.service.UserDTO;
+import org.voting.gateway.security.AESEncrypter;
 
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
@@ -18,7 +17,9 @@ caseSensitiveTable = false)
 public class RodoUser implements Serializable{
 
     private static final long serialVersionUID = 1L;
-
+    private static AESEncrypter encrypter;
+    
+    
     @PartitionKey
     @Column(name = "user_id")
     private UUID id;
@@ -43,16 +44,6 @@ public class RodoUser implements Serializable{
     
     @Column(name = "surname")
     private ByteBuffer surname;
-
-    public RodoUser(RodoUserDTO user) {
-    	
-    	// TODO zrobic szyfrowanie
-    	//this.id = user.getId();
-    	//this.birthdate = user.getBirthdate();
-    	//this.document_no = user.getDocumentNr();
-    	//this.document_type = user.getDocumentType();
-    	//this.email = 
-    }
     
 	public UUID getId() {
 		return id;
@@ -62,11 +53,11 @@ public class RodoUser implements Serializable{
 		this.id = id;
 	}
 
-	public ByteBuffer getBirthdate_id() {
+	public ByteBuffer getBirthdate() {
 		return birthdate;
 	}
 
-	public void setMunicipality_id(ByteBuffer birthdate) {
+	public void setBirthdate(ByteBuffer birthdate) {
 		this.birthdate = birthdate;
 	}
 
