@@ -22,7 +22,7 @@ public class UserDTO {
     
     public UserDTO(UUID id, String username, String name, String surname,
     		String documentType, String documentNr, String email, Date birthdate,
-    		String pesel, UUID electoralDistrictId, String role)
+    		String pesel, UUID electoralDistrictId, UUID municipalityId, String role)
     {
     	this.id = id;
     	this.username = username;
@@ -34,6 +34,7 @@ public class UserDTO {
     	this.birthdate = birthdate;
     	this.pesel = pesel;
     	this.electoralDistrictId = electoralDistrictId;
+    	this.municipalityId = municipalityId;
     	this.role = role;
     }
 

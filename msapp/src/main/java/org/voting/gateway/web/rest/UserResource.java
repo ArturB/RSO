@@ -80,19 +80,22 @@ public class UserResource {
 
     @GetMapping("/account")
     @Timed
-    public ResponseEntity<SmallUserDTO> getAccount(@RequestHeader HttpHeaders headers) {
+    public ResponseEntity<UserDTO> getAccount(@RequestHeader HttpHeaders headers) {
         log.debug("REST request to get account");
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
-        Optional<SmallUserDTO> user = Optional.empty();
+        Optional<UserDTO> user = Optional.empty();
         if(login.isPresent())
         {
              List<SmallUser> users = smallUserRepository.findByUsername(login.get());
              if(!users.isEmpty())
              {
             	 SmallUser su = users.get(0);
-            	 user = Optional.of(new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
-            			 su.getElectoral_district_id(), su.getRole()));
+                 RodoUserDTO ru = rodoUserRepository.findOne(su.getId());
+            	 user = Optional.of(new UserDTO(su.getId(), su.getUsername(), ru.getName(), ru.getSurname(),
+            			 ru.getDocumentType(), ru.getDocumentNo(), ru.getEmail(), ru.getBirthdate(), ru.getPesel(),
+            			 su.getElectoral_district_id(), su.getMunicipality_id(), su.getRole()));
              }
+             
         }
         return ResponseUtil.wrapOrNotFound(user);
 
@@ -139,13 +142,10 @@ public class UserResource {
         }
         user.setId(UUIDs.timeBased());
         SmallUser smallUser = new SmallUser(user);
-        //RodoUser rodoUser = new RodoUser(new RodoUserDTO(user));
-        
-        // TODO Nie jestem pewien czy to powinno zwracac userDTO
-        // TODO Dorobic zapis w bazie rodo
+        RodoUserDTO rodoUser = new RodoUserDTO(user);
         
         SmallUser sm = smallUserRepository.save(smallUser);
-        
+        RodoUserDTO ru = rodoUserRepository.save(rodoUser);
         
         
         return ResponseEntity.created(new URI("/api/users/" + user.getId()))
@@ -170,14 +170,11 @@ public class UserResource {
             return createMyUser(user);
         }
        
-        SmallUser smallUserValues = smallUserRepository.findOne(user.getId());
-        // TODO podmiana wartosci obiektu
-        RodoUserDTO rodoUserValues = rodoUserRepository.findOne(user.getId());
+        SmallUser smallUserValues = new SmallUser(user);
+        RodoUserDTO rodoUserValues = new RodoUserDTO(user);
         
-        smallUserValues.setMunicipality_id(municipality_id);
-        
-        //SmallUser result = smallUserRepository.save(user);
-        
+        smallUserRepository.save(smallUserValues);
+        rodoUserRepository.save(rodoUserValues);        
         
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, user.getId().toString()))
@@ -191,20 +188,24 @@ public class UserResource {
      */
     @GetMapping("/users")
     @Timed
-    public Page<SmallUserDTO> getAllUsers(Pageable pageRequest) {
+    public Page<UserDTO> getAllUsers(Pageable pageRequest) {
         log.debug("REST request to get all MyUsers");
         
         Page<SmallUser> sur = smallUserRepository.findAllPaged(pageRequest);
         List<SmallUser> smallUsers = sur.getContent();
-        List<SmallUserDTO> smallUsersDTO = new ArrayList<SmallUserDTO>();
-        SmallUserDTO temp;
+        List<UserDTO> usersDTO = new ArrayList<UserDTO>();
+        RodoUserDTO ru;
+        UserDTO temp;
         for (SmallUser su : smallUsers)
         {
-        	temp = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
-        			su.getElectoral_district_id(), su.getRole());
-        	smallUsersDTO.add(temp);
+        	ru = rodoUserRepository.findOne(su.getId());
+
+        	temp = new UserDTO(su.getId(), su.getUsername(), ru.getName(), ru.getSurname(),
+          			 ru.getDocumentType(), ru.getDocumentNo(), ru.getEmail(), ru.getBirthdate(), ru.getPesel(),
+           			 su.getElectoral_district_id(), su.getMunicipality_id(), su.getRole());
+        	usersDTO.add(temp);
         }
-        return new PageImpl<SmallUserDTO>(smallUsersDTO);
+        return new PageImpl<UserDTO>(usersDTO);
         
         /* Page<MyUser> page = myUserRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
@@ -223,11 +224,13 @@ public class UserResource {
      */
     @GetMapping("/users/{id}")
     @Timed
-    public ResponseEntity<SmallUserDTO> getMyUser(@PathVariable UUID id) {
+    public ResponseEntity<UserDTO> getMyUser(@PathVariable UUID id) {
         log.debug("REST request to get MyUser : {}", id);
-        SmallUser u = smallUserRepository.findOne(id);
-        SmallUserDTO user = new SmallUserDTO(u.getId(), u.getUsername(), 
-        		u.getMunicipality_id(), u.getElectoral_district_id(), u.getRole());
+        SmallUser su = smallUserRepository.findOne(id);
+        RodoUserDTO ru = rodoUserRepository.findOne(id);
+        UserDTO user = new UserDTO(su.getId(), su.getUsername(), ru.getName(), ru.getSurname(),
+     			 ru.getDocumentType(), ru.getDocumentNo(), ru.getEmail(), ru.getBirthdate(), ru.getPesel(),
+      			 su.getElectoral_district_id(), su.getMunicipality_id(), su.getRole());
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(user));
     }
 
@@ -242,6 +245,7 @@ public class UserResource {
     public ResponseEntity<Void> deleteMyUser(@PathVariable UUID id) {
         log.debug("REST request to delete MyUser : {}", id);
         smallUserRepository.delete(id);
+        rodoUserRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
