@@ -33,4 +33,14 @@ public class TurnRepository {
         Result<Turn> turns = mapper.map(results);
         return turns.all();
     }
+
+    public Turn findOne(UUID id) {
+        Turn res = mapper.get(id);
+        return res;
+
+    }
+
+    public void save(Turn turn) {
+        mapper.save(turn);
+    }
 }

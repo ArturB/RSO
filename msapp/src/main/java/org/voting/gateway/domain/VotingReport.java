@@ -3,6 +3,7 @@ package org.voting.gateway.domain;
 import java.util.Date;
 import java.util.UUID;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
@@ -53,12 +54,30 @@ public class VotingReport {
     private String voteType;
 
     @Column(name = "ward_id")
-    private String wardId;
+    private UUID wardId;
 
     @Column(name = "ward_name")
     private String wardName;
 
-	public UUID getId() {
+    public VotingReport() {
+    }
+
+    public VotingReport(UUID districtId, UUID round, VotingData votingData, String type) {
+
+        this.id = UUIDs.timeBased();
+
+        this.wardId = districtId;
+        this.turnId = round;
+        this.noCanVote = votingData.getNoCanVote();
+        this.noCardsUsed = votingData.getNoCardsUsed();
+        this.voteType = type;
+        this.dateGenerated = new Date();
+
+
+
+    }
+
+    public UUID getId() {
 		return id;
 	}
 
@@ -108,11 +127,11 @@ public class VotingReport {
         this.turnId = turnId;
     }
 
-    public String getWardId() {
+    public UUID getWardId() {
         return wardId;
     }
 
-    public void setWardId(String wardId) {
+    public void setWardId(UUID wardId) {
         this.wardId = wardId;
     }
 

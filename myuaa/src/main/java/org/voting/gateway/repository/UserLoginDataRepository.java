@@ -71,7 +71,6 @@ public class UserLoginDataRepository {
 
         Authority authority = new Authority();
         authority.setName(loginData.getGroup());
-        log.debug("--- group: " + loginData.getGroup());
         user.getAuthorities().add(authority);
 
         user.setActivated(!loginData.isDisabled());

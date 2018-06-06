@@ -35,4 +35,9 @@ public class VotingResultsRepository {
 
 
     }
+
+    public void save(VotingResults results) {
+        mapper.save(results);
+
+    }
 }

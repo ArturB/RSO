@@ -4,20 +4,21 @@ import java.io.Serializable;
 
 public class VotesAcceptBodyDTO implements Serializable{
 
-	private int noCanVote;
-	private int noCardsUsed;
-	public int getNoCanVote() {
-		return noCanVote;
+	private int no_can_vote;
+	private int no_cards_used;
+
+	public int getNo_can_vote() {
+		return no_can_vote;
 	}
-	public void setNoCanVote(int noCanVote) {
-		this.noCanVote = noCanVote;
+	public void setNo_can_vote(int no_can_vote) {
+		this.no_can_vote = no_can_vote;
 	}
-	public int getNoCardsUsed() {
-		return noCardsUsed;
+	public int getNo_cards_used() {
+		return no_cards_used;
 	}
-	public void setNoCardsUsed(int noCardsUsed) {
-		this.noCardsUsed = noCardsUsed;
+	public void setNo_cards_used(int no_cards_used) {
+		this.no_cards_used = no_cards_used;
 	}
-	
-	
+
+
 }

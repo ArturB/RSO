@@ -44,4 +44,21 @@ public class VotesFromDistrictRepository {
     public void delete(UUID id) {
         mapper.delete(id);
     }
+
+    public List<VotesFromDistrict> findByVotingData(UUID vdId) {
+
+        Statement statement = new SimpleStatement("SELECT * FROM votes_from_ward " +
+            "WHERE voting_data = ?", vdId);
+
+        ResultSet results = cassandraSession.getSession().execute(statement);
+        Result<VotesFromDistrict> votes = mapper.map(results);
+        return votes.all();
+
+    }
+
+    public List<VotesFromDistrict> findAll() {
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM party");
+        Result<VotesFromDistrict> votes = mapper.map(results);
+        return votes.all();
+    }
 }

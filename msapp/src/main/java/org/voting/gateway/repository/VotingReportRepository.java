@@ -15,19 +15,25 @@ import com.datastax.driver.mapping.Result;
 
 @Repository
 public class VotingReportRepository {
-	
+
     private Mapper<VotingReport> mapper;
     private final CassandraSession cassandraSession;
-	
+
     public VotingReportRepository(CassandraSession cassandraSession) {
         this.cassandraSession = cassandraSession;
         mapper = cassandraSession.getMappingManager().mapper(VotingReport.class);
     }
-    
+
     public List<VotingReport> findReportsByDistrictRound(UUID districtId, UUID roundId)
-    {   	
+    {
         ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_report WHERE ward_id = '" + districtId + "'"
         		+ "AND turn_id = '" + roundId + "'");
     	return mapper.map(results).all();
+    }
+
+    public void save(VotingReport report) {
+
+        mapper.save(report);
+
     }
 }

@@ -28,7 +28,7 @@ public class VotingDataRepository {
     }
 
     public List<VotingData> findInDistrictInTurn(UUID id,UUID tId) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE ward = ? AND turns = ?", id , tId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE ward = ? AND turn = ?", id , tId);
         Result<VotingData> votingData = mapper.map(results);
         return votingData.all();
     }
@@ -45,5 +45,13 @@ public class VotingDataRepository {
 
     public void save(VotingData votingData) {
         mapper.save(votingData);
+    }
+
+    public List<VotingData> findInTurn(UUID turn) {
+
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE turn = ?", turn);
+        Result<VotingData> votingData = mapper.map(results);
+        return votingData.all();
+
     }
 }
