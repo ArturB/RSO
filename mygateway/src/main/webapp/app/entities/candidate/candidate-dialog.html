@@ -12,11 +12,16 @@
             <label class="control-label" for="field_name">Imię</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.candidate.name"
+                   pattern="{{REGEX.candidate_name}}"
                     required/>
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
                     ng-show="editForm.name.$error.required">
                     Pole jest wymagane.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.name.$error.pattern">
+                    Niepoprawna treść w polu.
                 </p>
             </div>
         </div>
@@ -24,11 +29,16 @@
             <label class="control-label" for="field_surname">Nazwisko</label>
             <input type="text" class="form-control" name="surname" id="field_surname"
                     ng-model="vm.candidate.surname"
+                   pattern="{{REGEX.candidate_surname}}"
                     required/>
             <div ng-show="editForm.surname.$invalid">
                 <p class="help-block"
                     ng-show="editForm.surname.$error.required">
                     Pole jest wymagane.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.surname.$error.pattern">
+                    Niepoprawna treść w polu.
                 </p>
             </div>
         </div>
@@ -36,7 +46,7 @@
             <label class="control-label" for="field_age">Wiek</label>
             <input type="number" class="form-control" name="age" id="field_age"
                     ng-model="vm.candidate.age"
-                    required min="18"/>
+                    required min="18" max="123"/>
             <div ng-show="editForm.age.$invalid">
                 <p class="help-block"
                     ng-show="editForm.age.$error.required">
@@ -45,6 +55,10 @@
                 <p class="help-block"
                     ng-show="editForm.age.$error.min" translate-value-min="18">
                     Minimalny wiek to 18 lat
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.age.$error.max" translate-value-max="123">
+                    Maksymalny wiek to 123 lata
                 </p>
                 <p class="help-block"
                     ng-show="editForm.age.$error.number">
