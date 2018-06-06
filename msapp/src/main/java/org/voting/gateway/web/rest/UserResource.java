@@ -198,7 +198,7 @@ public class UserResource {
         			su.getElectoral_district_id(), su.getRole());
         	smallUsersDTO.add(temp);
         }
-        
+
         return new PageImpl<SmallUserDTO>(smallUsersDTO);
 
         /* Page<MyUser> page = myUserRepository.findAll(pageable);
