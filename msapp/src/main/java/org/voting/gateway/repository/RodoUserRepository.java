@@ -20,9 +20,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.RestTemplate;
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'worksOnMyuaa' of https://github.com/ArturB/RSO.git
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.service.LoginDataDTO;
 import org.voting.gateway.service.RodoUserDTO;
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'worksOnMyuaa' of https://github.com/ArturB/RSO.git
 
 import com.datastax.driver.mapping.Mapper;
 
@@ -30,15 +38,15 @@ import io.github.jhipster.web.util.ResponseUtil;
 
 @Repository
 public class RodoUserRepository {
-	
-	
+
+
     private final Logger log = LoggerFactory.getLogger(RodoUserRepository.class);
-	
+
     @Autowired
     @Lazy
     @Qualifier("loadBalancedRestTemplate")
     RestTemplate restTemplate;
-    
+
     public RodoUserDTO findOne(UUID id) {
     	ResponseEntity<RodoUserDTO> re = restTemplate.getForEntity("http://msrodo/api/rodoUser/" + id, RodoUserDTO.class);
     	if (re.getStatusCode() != HttpStatus.OK)
@@ -48,9 +56,9 @@ public class RodoUserRepository {
     	}
     	return re.getBody();
     }
-    
+
     public RodoUserDTO save(RodoUserDTO user) {
-    	
+
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -65,9 +73,14 @@ public class RodoUserRepository {
     	}
     	return response.getBody();
     }
-    
+
     public void delete(UUID id) {
     	restTemplate.delete("http://msrodo/api/deleteRodoUser/" + id);
+<<<<<<< HEAD
     	// TODO pokazywanie bledu jesli usuwanie sie nie uda
     }    
+=======
+
+    }
+>>>>>>> branch 'worksOnMyuaa' of https://github.com/ArturB/RSO.git
 }
