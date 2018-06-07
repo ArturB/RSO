@@ -2,6 +2,7 @@ package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.datastax.driver.core.utils.UUIDs;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.voting.gateway.domain.ElectoralDistrict;
 
 import org.voting.gateway.repository.ElectoralDistrictRepository;
@@ -35,9 +36,12 @@ public class ElectoralDistrictResource {
 
     private static final String ENTITY_NAME = "electoralDistrict";
 
+    private final ElectoralPeriodsResource electoralPeriodsResource;
     private final ElectoralDistrictRepository electoralDistrictRepository;
 
-    public ElectoralDistrictResource(ElectoralDistrictRepository electoralDistrictRepository) {
+    public ElectoralDistrictResource(ElectoralPeriodsResource electoralPeriodsResource,
+                                     ElectoralDistrictRepository electoralDistrictRepository) {
+        this.electoralPeriodsResource = electoralPeriodsResource;
         this.electoralDistrictRepository = electoralDistrictRepository;
     }
 
@@ -48,10 +52,13 @@ public class ElectoralDistrictResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new electoralDistrict, or with status 400 (Bad Request) if the electoralDistrict has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @PostMapping("/electoral-districts")
     @Timed
     public ResponseEntity<ElectoralDistrictDTO> createElectoralDistrict(@Valid @RequestBody ElectoralDistrictDTO electoralDistrictDTO) throws URISyntaxException {
         log.debug("REST request to save ElectoralDistrict : {}", electoralDistrictDTO);
+        electoralPeriodsResource.isInPeriod("PreElectionPeriod");
+
         if (electoralDistrictDTO.getElectoral_district_id() != null) {
             throw new BadRequestAlertException("A new electoralDistrict cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -75,10 +82,13 @@ public class ElectoralDistrictResource {
      * or with status 500 (Internal Server Error) if the electoralDistrict couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @PutMapping("/electoral-districts")
     @Timed
     public ResponseEntity<ElectoralDistrictDTO> updateElectoralDistrict(@Valid @RequestBody ElectoralDistrictDTO electoralDistrictDTO) throws URISyntaxException {
         log.debug("REST request to update ElectoralDistrict : {}", electoralDistrictDTO);
+        electoralPeriodsResource.isInPeriod("PreElectionPeriod");
+
         if (electoralDistrictDTO.getElectoral_district_id() == null) {
             return createElectoralDistrict(electoralDistrictDTO);
         }
@@ -123,10 +133,13 @@ public class ElectoralDistrictResource {
      * @param id the id of the electoralDistrict to delete
      * @return the ResponseEntity with status 200 (OK)
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @DeleteMapping("/electoral-districts/{id}")
     @Timed
     public ResponseEntity<Void> deleteElectoralDistrict(@PathVariable UUID id) {
         log.debug("REST request to delete ElectoralDistrict : {}", id);
+        electoralPeriodsResource.isInPeriod("PreElectionPeriod");
+
         electoralDistrictRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

@@ -3,6 +3,8 @@ package org.voting.gateway.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.repository.CandidateRepository;
 import org.voting.gateway.repository.ElectoralPeriodsRepository;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
+import org.voting.gateway.web.rest.errors.ErrorValue;
+import org.voting.gateway.web.rest.errors.MyErrorException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 
 import com.codahale.metrics.annotation.Timed;
@@ -70,6 +74,17 @@ public class ElectoralPeriodsResource {
             period.setStartDate(new Date(period.getStartDate().getTime()+delta));
             period.setEndDate(new Date(period.getEndDate().getTime()+delta));
             electoralPeriodsRepository.update(period);
+        }
+    }
+
+    public void isInPeriod(String ... periods){
+        List<String> periodList = new ArrayList<>(Arrays.asList(periods));
+        long now = new Date().getTime();
+        boolean isInPeriod = getAllElectorialPeriods().stream().filter( c -> c.getEndDate().getTime() > now && c
+            .getStartDate()
+            .getTime() < now).anyMatch( c -> periodList.contains(c));
+        if(!isInPeriod){
+            throw new MyErrorException(ErrorValue.BAD_PERIOD);
         }
     }
 }
