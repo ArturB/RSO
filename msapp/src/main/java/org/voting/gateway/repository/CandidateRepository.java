@@ -25,10 +25,13 @@ public class CandidateRepository {
     private Mapper<Candidate> mapper;
     private final CassandraSession cassandraSession;
 
+    private final TurnRepository turnRepository;
 
-    public CandidateRepository(CassandraSession cassandraSession) {
+
+    public CandidateRepository(CassandraSession cassandraSession, TurnRepository turnRepository) {
         this.cassandraSession = cassandraSession;
         mapper = cassandraSession.getMappingManager().mapper(Candidate.class);
+        this.turnRepository = turnRepository;
     }
 
 
@@ -78,9 +81,12 @@ public class CandidateRepository {
     }
 
 
-    public List<Candidate> findInMunicipalityByTurn(UUID municipalityId, UUID turn) {
+    public List<Candidate> findInMunicipalityByTurn(UUID municipalityId, int turnNum) {
+
         Statement statement = new SimpleStatement("SELECT * FROM candidate " +
             "WHERE commune = ? ", municipalityId);
+
+        UUID turn = turnRepository.findUUIDInMunicipalityByNumber(municipalityId,turnNum);
 
         ResultSet results = cassandraSession.getSession().execute(statement);
         Result<Candidate> candidates = mapper.map(results);

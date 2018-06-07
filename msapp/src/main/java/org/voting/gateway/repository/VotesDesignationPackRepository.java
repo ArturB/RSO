@@ -161,14 +161,17 @@ public class VotesDesignationPackRepository {
 
     }
 
-    public List<VotesDesignationPackDTO> findByTurnByUser(UUID turnId, UUID userId) {
+    public List<VotesDesignationPackDTO> findByTurnByUser(int turnNum, UUID userId) {
 
         SmallUser smallUser = smallUserRepository.findOne(userId);
         if( smallUser == null) throw new RuntimeException("User "+ userId +" doesnt exist");
 
         if( smallUser.getElectoral_district_id() == null) throw new RuntimeException("User "+ userId +" has no district");
+        if( smallUser.getMunicipality_id() == null) throw new RuntimeException("User "+ userId +" has no Municipality");
 
         //ElectoralDistrict district = electoralDistrictRepository.findOne(smallUser.getElectoralDistrictId());
+
+        UUID turnId = turnRepository.findUUIDInMunicipalityByNumber(smallUser.getMunicipality_id(),turnNum);
 
         List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(smallUser.getElectoral_district_id(),turnId);
         if(votingDataList.size() != 1) throw new RuntimeException("No voting data");

@@ -122,7 +122,7 @@ public class ElectoralDistrictRepository {
                     .forEach(v ->
                     {
                         if(turns.stream()
-                            .filter(t-> t.getId().equals(v.getWard()))
+                            .filter(t-> t.getId().equals(v.getTurn()))
                             .findFirst().get().isLastTurn())
                         {
                             electoralDistrictDTO.setSecond_round_votes_accepted(v.isVotingFinished());
