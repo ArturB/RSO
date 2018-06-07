@@ -66,11 +66,11 @@ public class MyUser implements Serializable {
     private String role;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+    public Long getElectoral_district_id() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setElectoral_district_id(Long id) {
         this.id = id;
     }
 
@@ -227,21 +227,21 @@ public class MyUser implements Serializable {
             return false;
         }
         MyUser myUser = (MyUser) o;
-        if (myUser.getId() == null || getId() == null) {
+        if (myUser.getElectoral_district_id() == null || getElectoral_district_id() == null) {
             return false;
         }
-        return Objects.equals(getId(), myUser.getId());
+        return Objects.equals(getElectoral_district_id(), myUser.getElectoral_district_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(getElectoral_district_id());
     }
 
     @Override
     public String toString() {
         return "MyUser{" +
-            "id=" + getId() +
+            "id=" + getElectoral_district_id() +
             ", username='" + getUsername() + "'" +
             ", name='" + getName() + "'" +
             ", surname='" + getSurname() + "'" +

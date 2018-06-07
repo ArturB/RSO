@@ -49,8 +49,8 @@ public class VotesSumResource {
     	/*
     	return electoralDistrictRepository.findAll()
             .stream()
-            .filter(c -> c.getMunicipality().getId().equals(municipalityId))
-            .flatMap(district -> getVotesFromElectoralDistrict(district.getId(), round).stream())
+            .filter(c -> c.getMunicipality().getElectoral_district_id().equals(municipalityId))
+            .flatMap(district -> getVotesFromElectoralDistrict(district.getElectoral_district_id(), round).stream())
             .collect(groupingBy(PerCandidateVotes::getCandidate_id))
             .entrySet()
             .stream()

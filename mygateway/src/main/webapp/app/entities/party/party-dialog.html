@@ -11,7 +11,7 @@
         <div class="form-group">
             <label class="control-label" for="field_abbreviation">Skrót</label>
             <input type="text" class="form-control" name="abbreviation" id="field_abbreviation"
-                    ng-model="vm.party.abbreviation"
+                    ng-model="vm.party.party_abbreviation"
                     required/>
             <div ng-show="editForm.abbreviation.$invalid">
                 <p class="help-block"
@@ -23,7 +23,7 @@
         <div class="form-group">
             <label class="control-label" for="field_name">Nazwa</label>
             <input type="text" class="form-control" name="name" id="field_name"
-                    ng-model="vm.party.name"
+                    ng-model="vm.party.party_name"
                     required/>
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"

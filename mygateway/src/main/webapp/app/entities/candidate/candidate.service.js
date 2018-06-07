@@ -13,12 +13,13 @@
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
-                transformResponse: function (data) {
+                transformResponse: ['Municipality', function (Municipality, data) {
                     if (data) {
                         data = angular.fromJson(data);
                     }
+                    data.municipality = Municipality.get({id:data.municipality_id});
                     return data;
-                }
+                }]
             },
             'update': { method:'PUT' },
             findByMunicipalityId: {

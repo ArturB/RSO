@@ -1,12 +1,12 @@
 
 <div>
-    <h2><span>Okręg wyborczy</span> {{vm.electoralDistrict.id}}</h2>
+    <h2><span>Okręg wyborczy</span> {{vm.electoralDistrict.electoral_district_id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
         <dt><span>Nazwa</span></dt>
         <dd>
-            <span>{{vm.electoralDistrict.name}}</span>
+            <span>{{vm.electoralDistrict.electoral_district_name}}</span>
         </dd>
         <dt><span>Nr Can Vote</span></dt>
         <dd>
@@ -22,7 +22,8 @@
         </dd>
         <dt><span>Okręg Wyborczy</span></dt>
         <dd>
-            <a ui-sref="municipality-detail({id:vm.electoralDistrict.municipality.id})">{{vm.electoralDistrict.municipality.name}}</a>
+            <a ui-sref="municipality-detail({id:vm.electoralDistrict.municipality.municipality_id})">
+                {{vm.electoralDistrict.municipality.name}}</a>
         </dd>
     </dl>
 
@@ -32,7 +33,7 @@
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Cofnij</span>
     </button>
 
-    <button type="button" ui-sref="electoral-district-detail.edit({id:vm.electoralDistrict.id})" class="btn btn-primary">
+    <button type="button" ui-sref="electoral-district-detail.edit({id:vm.electoralDistrict.electoral_district_id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
         <span class="hidden-sm-down"> Edytuj</span>
     </button>

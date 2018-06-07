@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.datastax.driver.mapping.annotations.Transient;
 import org.voting.gateway.service.UserDTO;
 
 import com.datastax.driver.mapping.annotations.Column;
@@ -50,7 +51,8 @@ public class SmallUser implements Serializable {
     @Column(name = "ward")
     private UUID electoral_district_id;
 
-    //private Set<String> authorities;
+    @Transient
+    private Set<String> authorities;
 
     public SmallUser(){}
 
@@ -138,7 +140,7 @@ public class SmallUser implements Serializable {
         this.disabled = disabled;
     }
 
-    /*
+
     public Set<String> getAuthorities() {
         return authorities;
     }
@@ -152,7 +154,6 @@ public class SmallUser implements Serializable {
         this.authorities = authorities;
         return this;
     }
-	*/
 
     @Override
     public boolean equals(Object o) {

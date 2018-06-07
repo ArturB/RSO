@@ -32,8 +32,6 @@ public class VotingResultsRepository {
         ResultSet results = cassandraSession.getSession().execute(statement);
         Result<VotingResults> votes = mapper.map(results);
         return votes.all();
-
-
     }
 
     public void save(VotingResults results) {

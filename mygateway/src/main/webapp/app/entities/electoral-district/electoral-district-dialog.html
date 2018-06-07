@@ -9,9 +9,10 @@
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
         <div class="form-group">
+            {{vm.electoralDistrict}}
             <label class="control-label" for="field_name">Nazwa</label>
             <input type="text" class="form-control" name="name" id="field_name"
-                    ng-model="vm.electoralDistrict.name"
+                    ng-model="vm.electoralDistrict.electoral_district_name"
                     required/>
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
@@ -21,10 +22,12 @@
             </div>
         </div>
         <div class="form-group" has-authority="ROLE_ADMIN">
-            <label for="field_municipality">Okręg Wyborczy</label>
+            <label for="field_municipality">Gmina</label>
             <select class="form-control" id="field_municipality" name="municipality"
                     ng-model="vm.electoralDistrict.municipality"
-                    ng-options="municipality as municipality.name for municipality in vm.municipalities track by municipality.id">
+                    ng-options="municipality as municipality.municipality_name for municipality in vm.municipalities track by municipality.municipality_id"
+                    required
+            >
             </select>
         </div>
     </div>

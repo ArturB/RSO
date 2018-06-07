@@ -6,6 +6,7 @@ package org.voting.gateway.domain;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.Transient;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -25,7 +26,6 @@ public class Municipality implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-
     @PartitionKey
     @Column(name = "commune_id")
     private UUID municipality_id;
@@ -35,6 +35,7 @@ public class Municipality implements Serializable {
 
     @Column(name = "position_name")
     private String positionName;
+
 
     public UUID getMunicipality_id() {
         return municipality_id;

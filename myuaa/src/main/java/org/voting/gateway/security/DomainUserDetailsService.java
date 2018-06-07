@@ -27,13 +27,10 @@ public class DomainUserDetailsService implements UserDetailsService {
     //@Autowired
     private final UserLoginDataRepository userLoginDataRepository;
 
-
-
     public DomainUserDetailsService( UserLoginDataRepository userLoginDataRepository) {
         //this.userRepository = userRepository;
         this.userLoginDataRepository = userLoginDataRepository;
     }
-
 
     @Override
     @Transactional

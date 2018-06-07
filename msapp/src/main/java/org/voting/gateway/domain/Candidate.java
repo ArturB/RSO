@@ -24,9 +24,6 @@ import java.util.UUID;
     caseSensitiveTable = false)
 public class Candidate implements Serializable {
 
-
-
-
     @PartitionKey
     @Column(name = "candidate_id")
     private UUID candidate_id;

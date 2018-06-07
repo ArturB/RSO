@@ -80,29 +80,27 @@ public class UserResource {
 
     @GetMapping("/account")
     @Timed
-    public ResponseEntity<UserDTO> getAccount(@RequestHeader HttpHeaders headers) {
+    public ResponseEntity<SmallUser> getAccount(@RequestHeader HttpHeaders headers) {
         log.debug("REST request to get account");
         Optional<String> login = SecurityUtils.getCurrentUserLogin();
-        Optional<UserDTO> user = Optional.empty();
-        if(login.isPresent())
-        {
-             List<SmallUser> users = smallUserRepository.findByUsername(login.get());
-             if(!users.isEmpty())
-             {
-            	 SmallUser su = users.get(0);
-                 RodoUserDTO ru = rodoUserRepository.findOne(su.getId());
-            	 user = Optional.of(new UserDTO(su.getId(), su.getUsername(), ru.getName(), ru.getSurname(),
-            			 ru.getDocumentType(), ru.getDocumentNo(), ru.getEmail(), ru.getBirthdate(), ru.getPesel(),
-            			 su.getElectoral_district_id(), su.getMunicipality_id(), su.getRole()));
-             }
+        Optional<SmallUser> user = Optional.empty();
+        if(login.isPresent()) {
+            List<SmallUser> users = smallUserRepository.findByUsername(login.get());
+            if (!users.isEmpty()) {
+                SmallUser smallUser = users.get(0);
+                HashSet<String> authorities = new HashSet<>(Arrays.asList(smallUser.getRole(), "ROLE_USER"));
+                if (smallUser.getRole().equals("ROLE_GKW_LEADER")) {
+                    authorities.add("ROLE_GKW_MEMBER");
+                }
+                if (smallUser.getRole().equals("ROLE_OKW_LEADER")) {
+                    authorities.add("ROLE_OKW_MEMBER");
+                }
+                smallUser.setAuthorities(authorities);
+                user = Optional.of(smallUser);
+            }
 
         }
         return ResponseUtil.wrapOrNotFound(user);
-
-       /* ResponseEntity<SmallUser> responseEntity =
-            restTemplate.exchange("http://msrodo/api/account", HttpMethod.GET, new HttpEntity<>(headers),
-            SmallUser.class);
-        return responseEntity;*/
     }
 
     @PostMapping("/account/change-password")
@@ -122,6 +120,17 @@ public class UserResource {
                  user.setPassword(encoder.encode(password));
                  smallUserRepository.save(user);
              }
+        }
+    }
+    private static int l = 0;
+    private void lol(){
+        List<SmallUser> all = smallUserRepository.findAll();
+        for(SmallUser user : all){
+            UUID municipality_id = user.getMunicipality_id();
+            UUID electoral_district_id = user.getElectoral_district_id();
+            user.setMunicipality_id(electoral_district_id);
+            user.setElectoral_district_id(municipality_id);
+            smallUserRepository.save(user);
         }
     }
 
@@ -191,7 +200,7 @@ public class UserResource {
      */
     @GetMapping("/users")
     @Timed
-    public Page<UserDTO> getAllUsers(Pageable pageRequest) {
+    public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageRequest) {
         log.debug("REST request to get all MyUsers");
 
         Page<SmallUser> sur = smallUserRepository.findAllPaged(pageRequest);
@@ -208,16 +217,14 @@ public class UserResource {
            			 su.getElectoral_district_id(), su.getMunicipality_id(), su.getRole());
         	usersDTO.add(temp);
         }
-        return new PageImpl<UserDTO>(usersDTO);
+        PageImpl<UserDTO> page = new PageImpl<>(usersDTO);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/candidates");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 
         /* Page<MyUser> page = myUserRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);*/
     }
-
-
-
-
 
     /**
      * GET  /users/:id : get the "id" myUser.
@@ -332,12 +339,12 @@ public class UserResource {
     private SmallUser ToSmallUser(MyUser user) {
 
         SmallUser smallUser = new SmallUser();
-        smallUser.setId(user.getId());
+        smallUser.setElectoral_district_id(user.getElectoral_district_id());
         if(user.getElectoralDistrict() != null ) {
-            smallUser.setElectoralDistrictId(user.getElectoralDistrict().getId());
+            smallUser.setElectoralDistrictId(user.getElectoralDistrict().getElectoral_district_id());
         }
         if(user.getMunicipality() != null){
-            smallUser.setMunicipalityId(user.getMunicipality().getId());
+            smallUser.setMunicipalityId(user.getMunicipality().getElectoral_district_id());
         }
         smallUser.setRole(user.getRole());
         smallUser.setUsername(user.getUsername());

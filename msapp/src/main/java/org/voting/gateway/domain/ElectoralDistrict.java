@@ -24,12 +24,10 @@ public class ElectoralDistrict implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-
-
     @PartitionKey
 
     @Column(name = "ward_id")
-    private UUID id;
+    private UUID electoral_district_id;
 
     @Column(name = "commune")
     private UUID municipalityId;
@@ -37,17 +35,17 @@ public class ElectoralDistrict implements Serializable {
     @Column(name = "ward_name")
     private String electoralDistrictName;
 
-    public UUID getId() {
-        return id;
+    public UUID getElectoral_district_id() {
+        return electoral_district_id;
     }
 
     public ElectoralDistrict id(UUID id) {
-        this.id = id;
+        this.electoral_district_id = id;
         return this;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setElectoral_district_id(UUID electoral_district_id) {
+        this.electoral_district_id = electoral_district_id;
     }
 
     public UUID getMunicipalityId() {
@@ -85,21 +83,21 @@ public class ElectoralDistrict implements Serializable {
             return false;
         }
         ElectoralDistrict electoralDistrict = (ElectoralDistrict) o;
-        if (electoralDistrict.getId() == null || getId() == null) {
+        if (electoralDistrict.getElectoral_district_id() == null || getElectoral_district_id() == null) {
             return false;
         }
-        return Objects.equals(getId(), electoralDistrict.getId());
+        return Objects.equals(getElectoral_district_id(), electoralDistrict.getElectoral_district_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(getElectoral_district_id());
     }
 
     @Override
     public String toString() {
         return "ElectoralDistrict{" +
-            "id=" + getId() +
+            "electoral_district_id=" + getElectoral_district_id() +
             ", municipalityId='" + getMunicipalityId() + "'" +
             ", electoralDistrictName='" + getElectoralDistrictName() +
             "}";

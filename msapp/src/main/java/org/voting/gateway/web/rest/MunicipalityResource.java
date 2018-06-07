@@ -51,15 +51,15 @@ public class MunicipalityResource {
     @Timed
     public ResponseEntity<Municipality> createMunicipality(@RequestBody Municipality municipality) throws URISyntaxException {
         log.debug("REST request to save Municipality : {}", municipality);
-        if (municipality.getId() != null) {
+        if (municipality.getElectoral_district_id() != null) {
             throw new BadRequestAlertException("A new municipality cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Municipality result = municipalityRepository.save(municipality);
         result.setFirst_round_votes_accepted(false);
         result.setSecond_round_votes_accepted(false);
         result.setHas_second_round(true);
-        return ResponseEntity.created(new URI("/api/municipalities/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/municipalities/" + result.getElectoral_district_id()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getElectoral_district_id().toString()))
             .body(result);
     }*/
 
@@ -76,13 +76,13 @@ public class MunicipalityResource {
     @Timed
     public ResponseEntity<Municipality> updateMunicipality(@RequestBody Municipality municipality) throws URISyntaxException {
         log.debug("REST request to update Municipality : {}", municipality);
-        if (municipality.getId() == null) {
+        if (municipality.getElectoral_district_id() == null) {
             return createMunicipality(municipality);
         }
         Municipality result = municipalityRepository.save(municipality);
         FillMunicipality(result);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, municipality.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, municipality.getElectoral_district_id().toString()))
             .body(result);
     }*/
 

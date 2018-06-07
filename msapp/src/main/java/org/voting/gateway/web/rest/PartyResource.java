@@ -49,12 +49,12 @@ public class PartyResource {
     @Timed
     public ResponseEntity<Party> createParty(@Valid @RequestBody Party party) throws URISyntaxException {
         log.debug("REST request to save Party : {}", party);
-        if (party.getId() != null) {
+        if (party.getElectoral_district_id() != null) {
             throw new BadRequestAlertException("A new party cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Party result = partyRepository.save(party);
-        return ResponseEntity.created(new URI("/api/parties/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/parties/" + result.getElectoral_district_id()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getElectoral_district_id().toString()))
             .body(result);
     }*/
 
@@ -71,12 +71,12 @@ public class PartyResource {
     @Timed
     public ResponseEntity<Party> updateParty(@Valid @RequestBody Party party) throws URISyntaxException {
         log.debug("REST request to update Party : {}", party);
-        if (party.getId() == null) {
+        if (party.getElectoral_district_id() == null) {
             return createParty(party);
         }
         Party result = partyRepository.save(party);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, party.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, party.getElectoral_district_id().toString()))
             .body(result);
     }*/
 

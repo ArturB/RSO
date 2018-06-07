@@ -140,25 +140,25 @@
         <div class="form-group" ng-hide="vm.presetMunicipality && ! vm.presetElectoralDistrict">
             <label for="field_electoralDistrict">Okręg wyborczy</label>
             <select class="form-control" id="field_electoralDistrict" name="electoralDistrict" ng-model="vm.myUser.electoralDistrict"
-                    ng-options="electoralDistrict as electoralDistrict.name for electoralDistrict in vm.electoraldistricts
-                     | filter:{municipality:{id:vm.myUser.municipality.id}}:true track by electoralDistrict.id"
+                    ng-options="electoralDistrict as electoralDistrict.electoral_district_name for electoralDistrict in vm.electoraldistricts
+                     | filter:{municipality:{id:vm.myUser.municipality.municipality_id}}:true track by electoralDistrict.electoral_district_id"
                     ng-hide="vm.presetMunicipality">
             </select>
             <select class="form-control" id="field_electoralDistrict_preset" name="electoralDistrict"
                     ng-show="vm.presetElectoralDistrict" disabled>
-                <option value={{vm.myUser.electoralDistrict.id}}>{{vm.myUser.electoralDistrict.name}}</option>
+                <option value={{vm.myUser.electoralDistrict.electoral_district_id}}>{{vm.myUser.electoralDistrict.electoral_district_name}}</option>
             </select>
         </div>
         <div class="form-group">
             <label for="field_municipality">Gmina</label>
             <select class="form-control" id="field_municipality" name="municipality" ng-model="vm.myUser.municipality"
-                    ng-options="municipality as municipality.name for municipality in vm.municipalities track by municipality.id"
+                    ng-options="municipality as municipality.municipality_name for municipality in vm.municipalities track by municipality.municipality_id"
                     ng-hide="vm.presetMunicipality">
                 <option value=""></option>
             </select>
             <select class="form-control" id="field_municipality_preset" name="municipality"
                     ng-show="vm.presetMunicipality" disabled>
-                <option value={{vm.myUser.municipality.id}}>{{vm.myUser.municipality.name}}</option>
+                <option value={{vm.myUser.municipality.municipality_id}}>{{vm.myUser.municipality.name}}</option>
             </select>
         </div>
     </div>

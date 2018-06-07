@@ -21,11 +21,11 @@
         function loadAll() {
             Principal.identity().then(function (account) {
                 vm.account = account;
-                CustomUser.findByMunicipalityId({municipalityId: account.municipalityId}, function (result) {
+                CustomUser.findByMunicipalityId({municipalityId: account.municipality_id}, function (result) {
                     vm.customUsers = result;
                     vm.searchQuery = null;
                 });
-                return Municipality.get({id: account.municipalityId}, function (municipality) {
+                return Municipality.get({id: account.municipality_id}, function (municipality) {
                     vm.municipality = municipality;
                 });
             });
@@ -44,15 +44,15 @@
             return 'E712 Nieznana rola ' + role;
         };
 
-        vm.electoralDistrictNamesCache = [];
+        vm.electoral_district_namesCache = [];
         vm.GetElectoralDistrictName = function (id) {
             if (!id) {
                 return;
             }
-            if (!vm.electoralDistrictNamesCache[id]) {
-                vm.electoralDistrictNamesCache[id] = ElectoralDistrict.get({id: id});
+            if (!vm.electoral_district_namesCache[id]) {
+                vm.electoral_district_namesCache[id] = ElectoralDistrict.get({id: id});
             }
-            return vm.electoralDistrictNamesCache[id].name;
+            return vm.electoral_district_namesCache[id].name;
         };
 
         $scope.minRole = function (arr) {

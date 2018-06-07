@@ -37,11 +37,11 @@
         vm.electoralDistrictsCache = null;
         vm.getDistricts = function(municipality){
             if(municipality){
-                if(vm.idOfLastMunicipality === municipality.id){
+                if(vm.idOfLastMunicipality === municipality.municipality_id){
                     return vm.electoralDistrictsCache;
                 }else{
-                    vm.idOfLastMunicipality = municipality.id;
-                    vm.electoralDistrictsCache = ElectoralDistrict.findByMunicipalityId({municipalityId:municipality.id});
+                    vm.idOfLastMunicipality = municipality.municipality_id;
+                    vm.electoralDistrictsCache = ElectoralDistrict.findByMunicipalityId({municipalityId:municipality.municipality_id});
                     return vm.electoralDistrictsCache;
                 }
             } else{
@@ -55,14 +55,14 @@
         vm.votesCache = null;
         vm.getVotesFromDisctict = function(district) {
             if(district){
-                if(vm.idOfLastDistrict === district.id){
+                if(vm.idOfLastDistrict === district.electoral_district_id){
                     return vm.votesCache;
                 }else{
-                    vm.idOfLastDistrict = district.id;
+                    vm.idOfLastDistrict = district.electoral_district_id;
                     vm.votesCache = [];
                     VotesSum.votesSumFromDistrict(
                     {
-                            districtId: district.id,
+                            districtId: district.electoral_district_id,
                             round: vm.selectedRound
                     }).$promise.then(function(result){
                         vm.result = result;

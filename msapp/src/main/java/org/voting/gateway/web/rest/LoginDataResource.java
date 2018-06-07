@@ -58,7 +58,6 @@ public class LoginDataResource {
         }
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(loginDataDTO));
-
         /*return restTemplate.exchange("http://msrodo/api/loginData/"+login, HttpMethod.GET, new HttpEntity<>(headers),
                 LoginDataDTO.class);*/
     }

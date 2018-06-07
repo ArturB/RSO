@@ -41,6 +41,14 @@ public class SmallUserRepository {
 
     }
 
+    public List<SmallUser> findAll()
+    {
+        Statement statement = new SimpleStatement("SELECT * FROM user");
+        ResultSet results = cassandraSession.getSession().execute(statement);
+        Result<SmallUser> users = mapper.map(results);
+        return users.all();
+    }
+
     public Page<SmallUser> findAllPaged(Pageable pageRequest)
     {
         Statement statement = new SimpleStatement("SELECT * FROM user");

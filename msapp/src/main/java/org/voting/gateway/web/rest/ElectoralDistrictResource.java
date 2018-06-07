@@ -56,13 +56,13 @@ public class ElectoralDistrictResource {
             throw new BadRequestAlertException("A new electoralDistrict cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ElectoralDistrict electoralDistrict = new ElectoralDistrict();
-        electoralDistrict.setId(UUIDs.timeBased());
+        electoralDistrict.setElectoral_district_id(UUIDs.timeBased());
         electoralDistrict.setMunicipalityId(electoralDistrictDTO.getMunicipality_id());
         electoralDistrict.setElectoralDistrictName(electoralDistrictDTO.getElectoral_district_name());
         electoralDistrictRepository.create(electoralDistrict);
-        electoralDistrictDTO.setElectoral_district_id(electoralDistrict.getId());
-        return ResponseEntity.created(new URI("/api/electoral-districts/" + electoralDistrict.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, electoralDistrict.getId().toString()))
+        electoralDistrictDTO.setElectoral_district_id(electoralDistrict.getElectoral_district_id());
+        return ResponseEntity.created(new URI("/api/electoral-districts/" + electoralDistrict.getElectoral_district_id()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, electoralDistrict.getElectoral_district_id().toString()))
             .body(electoralDistrictDTO);
     }
 
@@ -83,12 +83,12 @@ public class ElectoralDistrictResource {
             return createElectoralDistrict(electoralDistrictDTO);
         }
         ElectoralDistrict electoralDistrict = new ElectoralDistrict();
-        electoralDistrict.setId(UUIDs.timeBased());
+        electoralDistrict.setElectoral_district_id(UUIDs.timeBased());
         electoralDistrict.setMunicipalityId(electoralDistrictDTO.getMunicipality_id());
         electoralDistrict.setElectoralDistrictName(electoralDistrictDTO.getElectoral_district_name());
         electoralDistrictRepository.save(electoralDistrict);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, electoralDistrict.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, electoralDistrict.getElectoral_district_id().toString()))
             .body(electoralDistrictDTO);
     }
 
@@ -97,12 +97,12 @@ public class ElectoralDistrictResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of electoralDistricts in body
      */
-   /* @GetMapping("/electoral-districts")
+    @GetMapping("/electoral-districts")
     @Timed
-    public List<ElectoralDistrict> getAllElectoralDistricts() {
+    public List<ElectoralDistrictDTO> getAllElectoralDistricts() {
         log.debug("REST request to get all ElectoralDistricts");
-        return electoralDistrictRepository.findAll();
-    }*/
+        return electoralDistrictRepository.findAll().stream().map(ElectoralDistrictDTO::new).collect(Collectors.toList());
+    }
 
     /**
      * GET  /electoral-districts/:id : get the "id" electoralDistrict.

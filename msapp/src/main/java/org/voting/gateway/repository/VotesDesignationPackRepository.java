@@ -1,7 +1,6 @@
 package org.voting.gateway.repository;
 
 import com.datastax.driver.core.utils.UUIDs;
-import com.datastax.driver.mapping.Mapper;
 import org.springframework.stereotype.Repository;
 import org.voting.gateway.domain.*;
 import org.voting.gateway.service.VotesDesignationPackDTO;
@@ -56,7 +55,7 @@ public class VotesDesignationPackRepository {
             .findFirst();
         if(!turn.isPresent()) throw new RuntimeException("Turn not found");
 
-        List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(electoralDistrict.getId(),turn.get().getId());
+        List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(electoralDistrict.getElectoral_district_id(),turn.get().getId());
         if(votingDataList.size() != 1) throw new RuntimeException("No voting data");
 
         VotingData votingData = votingDataList.get(0);
@@ -111,7 +110,7 @@ public class VotesDesignationPackRepository {
             .findFirst();
         if(!turn.isPresent()) throw new RuntimeException("Turn not found");
 
-        List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(electoralDistrict.getId(),turn.get().getId());
+        List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(electoralDistrict.getElectoral_district_id(),turn.get().getId());
         if(votingDataList.size() != 1) throw new RuntimeException("No voting data");
 
         VotingData votingData = votingDataList.get(0);

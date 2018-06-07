@@ -35,10 +35,10 @@
                         <td>{{votesFromDistrict.date | date:'mediumDate'}}</td>
                     <td>{{votesFromDistrict.type}}</td>
                     <td>
-                        <a ui-sref="electoral-district-detail({id:votesFromDistrict.electoralDistrict.id})">{{votesFromDistrict.electoralDistrict.id}}</a>
+                        <a ui-sref="electoral-district-detail({id:votesFromDistrict.electoralDistrict.electoral_district_id})">{{votesFromDistrict.electoralDistrict.electoral_district_id}}</a>
                     </td>
                     <td>
-                        <a ui-sref="candidate-detail({id:votesFromDistrict.candidate.id})">{{votesFromDistrict.candidate.id}}</a>
+                        <a ui-sref="candidate-detail({id:votesFromDistrict.candidate.candidate_id})">{{votesFromDistrict.candidate.candidate_id}}</a>
                     </td>
                     <td>
                         <a ui-sref="my-user-detail({id:votesFromDistrict.user.id})">{{votesFromDistrict.user.id}}</a>

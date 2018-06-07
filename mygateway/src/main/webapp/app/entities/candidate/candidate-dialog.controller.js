@@ -29,7 +29,7 @@
             vm.isSaving = true;
             if (!vm.municipality) {
                 Principal.identity().then(function (account) {
-                    return Municipality.get({id: account.municipalityId}).$promise;
+                    return Municipality.get({id: account.municipality_id}).$promise;
                 }).then(function (municipality) {
                     vm.candidate.municipality = municipality;
                     finishElectoralDistrictSetting();
@@ -40,7 +40,7 @@
         }
 
         function finishElectoralDistrictSetting() {
-            if (vm.candidate.id !== null) {
+            if (vm.candidate.candidate_id !== null) {
                 Candidate.update(vm.candidate, onSaveSuccess, onSaveError);
             } else {
                 Candidate.save(vm.candidate, onSaveSuccess, onSaveError);

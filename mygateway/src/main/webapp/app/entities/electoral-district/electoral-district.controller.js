@@ -5,9 +5,9 @@
         .module('mygatewayApp')
         .controller('ElectoralDistrictController', ElectoralDistrictController);
 
-    ElectoralDistrictController.$inject = ['ElectoralDistrict', 'Principal', '$q'];
+    ElectoralDistrictController.$inject = ['ElectoralDistrict', 'Principal', '$q', 'Municipality'];
 
-    function ElectoralDistrictController(ElectoralDistrict, Principal, $q) {
+    function ElectoralDistrictController(ElectoralDistrict, Principal, $q, Municipality) {
 
         var vm = this;
 
@@ -20,9 +20,13 @@
                 if(!authorityOk) {
                     return $q.reject();
                 }
-                return ElectoralDistrict.query();
+                return ElectoralDistrict.query().$promise;
             }).then(function(result){
-                vm.electoralDistricts = result;
+                vm.electoralDistricts = [];
+                angular.forEach(result, function(district){
+                    // district.municipality = Municipality.get({id:district.municipalityId});
+                    vm.electoralDistricts.push(district);
+                });
                 vm.searchQuery = null;
             });
 
@@ -32,9 +36,13 @@
                 }
                 return Principal.identity();
             }).then(function(account){
-                return ElectoralDistrict.findByMunicipalityId({municipalityId:account.municipalityId}).$promise;
+                return ElectoralDistrict.findByMunicipalityId({municipalityId:account.municipality_id}).$promise;
             }).then(function(result){
-                vm.electoralDistricts = result;
+                vm.electoralDistricts = [];
+                angular.forEach(result, function(district){
+                    district.municipality = Municipality.get({id:district.municipalityId});
+                    vm.electoralDistricts.push(district);
+                });
                 vm.searchQuery = null;
             });
 

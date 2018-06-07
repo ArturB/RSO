@@ -99,9 +99,11 @@ public class CandidateResource {
      */
     @GetMapping("/candidates")
     @Timed
-    public Page<Candidate> getAllCandidates(Pageable pageRequest) {
+    public ResponseEntity<List<Candidate>> getAllCandidates(Pageable pageRequest) {
         log.debug("REST request to get all Candidates");
-    	return candidateRepository.findAllPaged(pageRequest);
+        Page<Candidate> page = candidateRepository.findAllPaged(pageRequest);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/candidates");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     //PageImpl<Candidate>
 

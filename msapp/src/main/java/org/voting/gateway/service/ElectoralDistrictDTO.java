@@ -12,13 +12,14 @@ public class ElectoralDistrictDTO implements Serializable {
     private String electoral_district_name;
     private boolean first_round_votes_accepted;
     private boolean second_round_votes_accepted;
+    private MunicipalityDTO municipality;
 
     public ElectoralDistrictDTO() {
     }
 
     public ElectoralDistrictDTO(ElectoralDistrict electoralDistrict) {
 
-        this.electoral_district_id = electoralDistrict.getId();
+        this.electoral_district_id = electoralDistrict.getElectoral_district_id();
         this.municipality_id = electoralDistrict.getMunicipalityId();
         this.electoral_district_name = electoralDistrict.getElectoralDistrictName();
 
@@ -62,5 +63,13 @@ public class ElectoralDistrictDTO implements Serializable {
 
     public void setSecond_round_votes_accepted(boolean second_round_votes_accepted) {
         this.second_round_votes_accepted = second_round_votes_accepted;
+    }
+
+    public MunicipalityDTO getMunicipality() {
+        return municipality;
+    }
+
+    public void setMunicipality(MunicipalityDTO municipality) {
+        this.municipality = municipality;
     }
 }

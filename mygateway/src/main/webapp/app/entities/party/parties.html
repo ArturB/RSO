@@ -24,9 +24,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="party in vm.parties | orderBy:'name' track by party.id ">
-                    <td>{{party.abbreviation}}</td>
-                    <td>{{party.name}}</td>
+                <tr ng-repeat="party in vm.parties | orderBy:'party_name' track by party.id ">
+                    <td>{{party.party_abbreviation}}</td>
+                    <td>{{party.party_name}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

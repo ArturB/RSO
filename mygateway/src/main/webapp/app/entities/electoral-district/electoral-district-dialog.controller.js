@@ -37,20 +37,26 @@
                 vm.electoralDistrict.votingFinished=false;
             }
 
+
             if(!vm.municipality){
                 Principal.identity().then(function(account){
-                    return Municipality.get({id:account.municipalityId}).$promise;
-                }).then(function(municipality){
-                    vm.electoralDistrict.municipality = municipality;
+                    if(account.municipality_id){
+                        vm.electoralDistrict.municipality_id = account.municipality_id;
+                    }
                     finishElectoralDistrictSetting();
-                });
+                })
             }else{
                 finishElectoralDistrictSetting();
             }
         }
 
         function finishElectoralDistrictSetting(){
-            if (vm.electoralDistrict.id !== null) {
+            if(vm.electoralDistrict.municipality){
+                vm.electoralDistrict.municipality_id = vm.electoralDistrict.municipality.municipality_id;
+            }else{
+                vm.electoralDistrict.municipality_id = null;
+            }
+            if (vm.electoralDistrict.electoral_district_id !== null) {
                 ElectoralDistrict.update(vm.electoralDistrict, onSaveSuccess, onSaveError);
             } else {
                 ElectoralDistrict.save(vm.electoralDistrict, onSaveSuccess, onSaveError);

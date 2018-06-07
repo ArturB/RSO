@@ -14,6 +14,7 @@ import org.voting.gateway.domain.VotingData;
 import org.voting.gateway.service.ElectoralDistrictDTO;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -25,15 +26,17 @@ public class ElectoralDistrictRepository {
     private final VotingDataRepository votingDataRepository;
     private final TurnRepository turnRepository;
     private final SmallUserRepository smallUserRepository;
+    private final MunicipalityRepository municipalityRepository;
 
 
-    public ElectoralDistrictRepository(CassandraSession cassandraSession,VotingDataRepository votingDataRepository,
-                                       TurnRepository turnRepository, SmallUserRepository smallUserRepository) {
+    public ElectoralDistrictRepository(CassandraSession cassandraSession, VotingDataRepository votingDataRepository,
+                                       TurnRepository turnRepository, SmallUserRepository smallUserRepository, MunicipalityRepository municipalityRepository) {
         this.cassandraSession = cassandraSession;
         this.votingDataRepository = votingDataRepository;
         this.turnRepository = turnRepository;
         this.smallUserRepository = smallUserRepository;
         mapper = cassandraSession.getMappingManager().mapper(ElectoralDistrict.class);
+        this.municipalityRepository = municipalityRepository;
     }
 
 
@@ -70,7 +73,8 @@ public class ElectoralDistrictRepository {
     }
 
     public List<ElectoralDistrict> findInMunicipality(UUID municipalityId) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM ward WHERE municipality_id = ?", municipalityId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM ward WHERE commune = ?",
+            municipalityId);
         Result<ElectoralDistrict> districts = mapper.map(results);
         return districts.all();
     }
@@ -83,27 +87,22 @@ public class ElectoralDistrictRepository {
         if(votingData.size() > 2 ) throw new RuntimeException("Too many turns for District:" + electoralDistrict.getElectoralDistrictName());
         ElectoralDistrictDTO electoralDistrictDTO = new ElectoralDistrictDTO(electoralDistrict);
 
-        votingData.stream()
+        votingData
             .forEach(s->{
-                if(turns.stream()
-                    .filter(t-> t.getId().equals(s.getWard()))
-                    .findFirst().get().isLastTurn())
-                {
-                    electoralDistrictDTO.setSecond_round_votes_accepted(s.isVotingFinished());
-                }
-                else
-                {
-                    electoralDistrictDTO.setFirst_round_votes_accepted(s.isVotingFinished());
+                Optional<Turn> firstFound = turns.stream()
+                    .filter(t -> t.getId().equals(s.getWard()))
+                    .findFirst();
+                if(firstFound.isPresent()) {
+                    if (firstFound.get().isLastTurn()) {
+                        electoralDistrictDTO.setSecond_round_votes_accepted(s.isVotingFinished());
+                    } else {
+                        electoralDistrictDTO.setFirst_round_votes_accepted(s.isVotingFinished());
+                    }
                 }
             });
 
+        electoralDistrictDTO.setMunicipality(municipalityRepository.findOneDTO(electoralDistrictDTO.getMunicipality_id()));
         return electoralDistrictDTO;
-
-
-
-
-
-
     }
 
     public List<ElectoralDistrictDTO> findInMunicipalityDTO(UUID municipalityId) {
@@ -114,31 +113,23 @@ public class ElectoralDistrictRepository {
 
         List<ElectoralDistrictDTO> result = electoralDistricts.stream()
             .map(s->{
-
                 ElectoralDistrictDTO electoralDistrictDTO = new ElectoralDistrictDTO(s);
-
-                votingData.stream()
-                    .filter(v -> v.getWard().equals(s.getId()))
-                    .forEach(v ->
-                    {
-                        if(turns.stream()
-                            .filter(t-> t.getId().equals(v.getWard()))
-                            .findFirst().get().isLastTurn())
-                        {
-                            electoralDistrictDTO.setSecond_round_votes_accepted(v.isVotingFinished());
+                votingData
+                    .forEach(x->{
+                        Optional<Turn> firstFound = turns.stream()
+                            .filter(t -> t.getId().equals(x.getWard()))
+                            .findFirst();
+                        if(firstFound.isPresent()) {
+                            if (firstFound.get().isLastTurn()) {
+                                electoralDistrictDTO.setSecond_round_votes_accepted(x.isVotingFinished());
+                            } else {
+                                electoralDistrictDTO.setFirst_round_votes_accepted(x.isVotingFinished());
+                            }
                         }
-                        else
-                        {
-                            electoralDistrictDTO.setFirst_round_votes_accepted(v.isVotingFinished());
-                        }
-
                     });
-
+                electoralDistrictDTO.setMunicipality(municipalityRepository.findOneDTO(electoralDistrictDTO.getMunicipality_id()));
                 return electoralDistrictDTO;
             }).collect(Collectors.toList());
-
-
-
         return result;
     }
 
@@ -150,7 +141,7 @@ public class ElectoralDistrictRepository {
         VotingData votingData = new VotingData();
         votingData.setId(UUIDs.timeBased());
         votingData.setTurn(turns.get(0).getId());
-        votingData.setWard(electoralDistrict.getId());
+        votingData.setWard(electoralDistrict.getElectoral_district_id());
         votingData.setVotingFinished(false);
         votingData.setNoCardsUsed(0);
         votingData.setNoCardsUsed(-1);

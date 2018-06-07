@@ -48,12 +48,12 @@ public class VotesFromDistrictResource {
     @Timed
     public ResponseEntity<VotesFromDistrict> createVotesFromDistrict(@Valid @RequestBody VotesFromDistrict votesFromDistrict) throws URISyntaxException {
         log.debug("REST request to save VotesFromDistrict : {}", votesFromDistrict);
-        if (votesFromDistrict.getId() != null) {
+        if (votesFromDistrict.getElectoral_district_id() != null) {
             throw new BadRequestAlertException("A new votesFromDistrict cannot already have an ID", ENTITY_NAME, "idexists");
         }
         VotesFromDistrict result = votesFromDistrictRepository.save(votesFromDistrict);
-        return ResponseEntity.created(new URI("/api/votes-from-districts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/votes-from-districts/" + result.getElectoral_district_id()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getElectoral_district_id().toString()))
             .body(result);
     }*/
 
@@ -70,12 +70,12 @@ public class VotesFromDistrictResource {
     @Timed
     public ResponseEntity<VotesFromDistrict> updateVotesFromDistrict(@Valid @RequestBody VotesFromDistrict votesFromDistrict) throws URISyntaxException {
         log.debug("REST request to update VotesFromDistrict : {}", votesFromDistrict);
-        if (votesFromDistrict.getId() == null) {
+        if (votesFromDistrict.getElectoral_district_id() == null) {
             return createVotesFromDistrict(votesFromDistrict);
         }
         VotesFromDistrict result = votesFromDistrictRepository.save(votesFromDistrict);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesFromDistrict.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesFromDistrict.getElectoral_district_id().toString()))
             .body(result);
     }*/
 
