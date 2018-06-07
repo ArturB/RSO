@@ -50,7 +50,7 @@ public class LoginDataResource {
         List<SmallUser> users = smallUserRepository.findByUsername(login);
         if(!users.isEmpty()){
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            String passHash = encoder.encode(login); // password==login!!
+            String passHash = encoder.encode(users.get(0).getPassword()); 
             loginDataDTO = new LoginDataDTO();
             loginDataDTO.setPassHash(passHash);
             loginDataDTO.setDisabled(users.get(0).isDisabled());
