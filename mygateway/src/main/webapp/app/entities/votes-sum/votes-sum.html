@@ -9,7 +9,8 @@
         <div ng-show="vm.rounds">
             <div ng-show="vm.rounds.length > 1">
                 <h3>Tura wyborów:</h3>
-                <select class="form-control" id="field_round" name="round" ng-model="vm.selectedRound" ng-init="1"
+                <select class="form-control emphasizedSelect" id="field_round" name="round" ng-model="vm.selectedRound"
+                        ng-init="1"
                         ng-options="round  for round in vm.rounds track by round">
                 </select>
             </div>
@@ -35,12 +36,18 @@
                 </select>
                 <br/>
 
-                <ul ng-show="vm.selectedDistrictId">
+                <ul ng-show="vm.result">
+                    <h3>
+                        Głosowanie
+                        <span ng-show="vm.votingIsFinished()">zostało <b>zakończone</b></span>
+                        <span ng-hide="vm.votingIsFinished()"><u>wciąż trwa</u></span>
+                    </h3>
+
                     <li>Uprawnionych do głosowania: <b>{{vm.result.no_can_vote}}</b></li>
                     <li>Użyto kart: <b>{{vm.result.nr_cards_used}}</b></li>
                     <li>Głosów nieważnych:
                         <b>{{vm.result.too_many_marks_cards_used
-                        +vm.result.none_marks_cards_used
+                            +vm.result.none_marks_cards_used
                             +vm.result.erased_marks_cards_used}} </b>
                     </li>
                     <li>
@@ -54,7 +61,7 @@
                     </li>
                 </ul>
 
-                <div class="table-responsive" ng-show="vm.selectedDistrictId">
+                <div class="table-responsive" ng-show="vm.result">
 
                     <table class="jh-table table table-striped" ng-class="vm.getVotesSumTableClass()">
                         <thead>
@@ -65,10 +72,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="candidateVote in vm.getVotesFromDisctict(vm.selectedDistrictId)
-                            | orderBy:'votesCount':true"
-                            ng-class='{in:$first}'
-                        >
+                        <tr
+                            ng-repeat="candidateVote in vm.getVotes()| orderBy:'votesCount':true"
+                            ng-class='{in:$first}' >
                             <td>
                                 {{candidateVote.votesCount}}
                             </td>
@@ -82,8 +88,6 @@
                     </table>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
