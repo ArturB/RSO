@@ -14,6 +14,7 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import org.voting.gateway.repository.PageWithTotalCount;
+import org.voting.gateway.security.RandomString;
 import org.voting.gateway.service.SmallUserDTO;
 import org.voting.gateway.service.UserDTO;
 import org.voting.gateway.domain.SmallUser;
@@ -55,10 +56,12 @@ public class UserResource {
 
     private final SmallUserRepository smallUserRepository;
     private final RodoUserRepository rodoUserRepository;
+    private final RandomString randomString;
 
-    public UserResource(SmallUserRepository smallUserRepository, RodoUserRepository rodoUserRepository) {
+    public UserResource(SmallUserRepository smallUserRepository, RodoUserRepository rodoUserRepository, RandomString randomString) {
         this.smallUserRepository = smallUserRepository;
         this.rodoUserRepository = rodoUserRepository;
+        this.randomString = randomString;
     }
 
     @Autowired
@@ -139,7 +142,16 @@ public class UserResource {
         }
         user.setId(UUIDs.timeBased());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        String password = randomString.nextString(); // losowe hasło
+        try {
+            Runtime.getRuntime().exec("rso-send-password "+user.getEmail()+ " " + password);
+        } catch (Exception e) {
+            System.out.println("Invalid terminal command: " + e.getMessage());
+        }
+
         user.setPassword(encoder.encode(user.getPassword())); //TODO moze do zmiany
+
 
         SmallUser smallUser = new SmallUser(user);
         RodoUserDTO rodoUser = new RodoUserDTO(user);
