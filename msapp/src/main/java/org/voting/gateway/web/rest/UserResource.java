@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.client.RestTemplate;
 
 import org.voting.gateway.repository.PageWithTotalCount;
@@ -133,6 +134,7 @@ public class UserResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new myUser, or with status 400 (Bad Request) if the myUser has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @PostMapping("/users")
     @Timed
     public ResponseEntity<UserDTO> createMyUser(@Valid @RequestBody UserDTO user) throws URISyntaxException {
@@ -174,6 +176,7 @@ public class UserResource {
      * or with status 500 (Internal Server Error) if the myUser couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @PutMapping("/users")
     @Timed
     public ResponseEntity<UserDTO> updateMyUser(@Valid @RequestBody UserDTO user) throws URISyntaxException {
@@ -198,6 +201,7 @@ public class UserResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of myUsers in body
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/users")
     @Timed
     public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageRequest) {
@@ -229,6 +233,7 @@ public class UserResource {
      * @param id the id of the myUser to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the myUser, or with status 404 (Not Found)
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @GetMapping("/users/{id}")
     @Timed
     public ResponseEntity<UserDTO> getMyUser(@PathVariable UUID id) {
@@ -250,6 +255,7 @@ public class UserResource {
      * @param id the id of the myUser to delete
      * @return the ResponseEntity with status 200 (OK)
      */
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @DeleteMapping("/users/{id}")
     @Timed
     public ResponseEntity<Void> deleteMyUser(@PathVariable UUID id) {
@@ -259,6 +265,7 @@ public class UserResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @PostMapping("/users/{id}/disable")
     @Timed
     public ResponseEntity<Void> disableMyUser(@PathVariable UUID id) {
@@ -275,6 +282,7 @@ public class UserResource {
             .build();
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @GetMapping("/municipalities/{municipalityId}/users")
     @Timed
     public List<SmallUserDTO> getSmallUserByMunicipalityId(@PathVariable UUID municipalityId) {
@@ -294,6 +302,7 @@ public class UserResource {
         return result;
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @GetMapping("/districts/{districtId}/users")
     @Timed
     public List<SmallUserDTO> getSmallUserByDistrictId(@PathVariable UUID districtId) {

@@ -2,6 +2,10 @@ package org.voting.gateway.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,6 +19,8 @@ import org.voting.gateway.domain.ElectoralPeriod;
 import org.voting.gateway.repository.CandidateRepository;
 import org.voting.gateway.repository.ElectoralPeriodsRepository;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
+import org.voting.gateway.web.rest.errors.ErrorValue;
+import org.voting.gateway.web.rest.errors.MyErrorException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 
 import com.codahale.metrics.annotation.Timed;
@@ -48,5 +54,37 @@ public class ElectoralPeriodsResource {
     public List<ElectoralPeriod> getAllElectorialPeriods() {
         log.debug("Rest request to get all electoral periods");
         return electoralPeriodsRepository.findAll();
+    }
+
+    @PostMapping("/electoral-periods/change")
+    @Timed
+    public void change(@RequestBody String currentPeriod) {
+        log.debug("Rest request to changeelectoral periods to "+currentPeriod);
+
+        List<ElectoralPeriod> allPeriods = electoralPeriodsRepository.findAll();
+        ElectoralPeriod targetPeriod = allPeriods.stream().filter(c -> c.getName().equals(currentPeriod)).findFirst().get();
+        Date currentDate = new Date();
+
+        long centerTime = targetPeriod.getStartDate().getTime()
+            + (targetPeriod.getEndDate().getTime() - targetPeriod .getStartDate ().getTime())/2;
+
+        long delta = currentDate.getTime() - centerTime;
+
+        for(ElectoralPeriod period : allPeriods){
+            period.setStartDate(new Date(period.getStartDate().getTime()+delta));
+            period.setEndDate(new Date(period.getEndDate().getTime()+delta));
+            electoralPeriodsRepository.update(period);
+        }
+    }
+
+    public void isInPeriod(String ... periods){
+        List<String> periodList = new ArrayList<>(Arrays.asList(periods));
+        long now = new Date().getTime();
+        boolean isInPeriod = getAllElectorialPeriods().stream().filter( c -> c.getEndDate().getTime() > now && c
+            .getStartDate()
+            .getTime() < now).anyMatch( c -> periodList.contains(c));
+        if(!isInPeriod){
+            throw new MyErrorException(ErrorValue.BAD_PERIOD);
+        }
     }
 }

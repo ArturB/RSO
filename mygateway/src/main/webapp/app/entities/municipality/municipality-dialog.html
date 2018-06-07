@@ -12,7 +12,19 @@
             <label class="control-label" for="field_name">Nazwa</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.municipality.municipality_name"
+                   pattern="{{REGEX.commune_name}}"
+                   required
                     />
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.name.$error.required">
+                    Pole jest wymagane.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.name.$error.pattern">
+                    Niepoprawna treść w polu.
+                </p>
+            </div>
         </div>
 
     </div>

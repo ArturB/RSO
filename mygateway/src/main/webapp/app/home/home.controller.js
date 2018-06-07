@@ -5,9 +5,9 @@
         .module('mygatewayApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Municipality', 'ElectoralDistrict', 'ElectoralPeriod'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Municipality', 'ElectoralDistrict', 'ElectoralPeriod', '$window'];
 
-    function HomeController ($scope, Principal, LoginService, $state, Municipality, ElectoralDistrict, ElectoralPeriod) {
+    function HomeController ($scope, Principal, LoginService, $state, Municipality, ElectoralDistrict, ElectoralPeriod, $window) {
         var vm = this;
 
         vm.account = null;
@@ -50,8 +50,8 @@
                     if (vm.account.municipality_id) {
                         vm.municipality = Municipality.get({id: vm.account.municipality_id});
                     }
-                    if (vm.account.electoralDistrictId) {
-                        vm.electoralDistrict = ElectoralDistrict.get({id: vm.account.electoralDistrictId});
+                    if (vm.account.electoral_district_id) {
+                        vm.electoralDistrict = ElectoralDistrict.get({id: vm.account.electoral_district_id});
                     }
                 }
             });
@@ -61,8 +61,10 @@
         }
 
         function changePeriod(periodName){
-            ElectoralPeriod.setDebugPeriod(periodName);
-            $state.reload();
+            // ElectoralPeriod.setDebugPeriod(periodName);
+            ElectoralPeriod.change(periodName).$promise.then(function(){
+                $window.location.reload();
+            });
         }
 
     }

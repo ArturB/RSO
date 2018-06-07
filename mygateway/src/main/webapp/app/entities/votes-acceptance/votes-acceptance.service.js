@@ -20,6 +20,14 @@
                     districtId: '@districtId',
                     round: '@round'
                 }
+            },
+            acceptVotesFromMunicipality: {
+                url: 'msapp/api//municipality:municipalityId/:round/acceptVotes',
+                method: 'POST',
+                params: {
+                    municipalityId: '@municipalityId',
+                    round: '@round'
+                }
             }
         });
     }

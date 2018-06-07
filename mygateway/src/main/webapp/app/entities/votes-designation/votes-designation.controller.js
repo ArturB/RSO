@@ -8,15 +8,16 @@
         .module('mygatewayApp')
         .controller('VotesDesignationController', VotesDesignationController);
 
-    VotesDesignationController.$inject = ['$scope', 'VotesDesignation', 'Candidate', '$q', 'Principal', 'ElectoralPeriod'];
+    VotesDesignationController.$inject = ['$scope', 'VotesDesignation', 'ElectoralDistrict', '$q', 'Principal', 'ElectoralPeriod'];
 
-    function VotesDesignationController($scope, VotesDesignation, Candidate, $q, Principal, ElectoralPeriod) {
+    function VotesDesignationController($scope, VotesDesignation, ElectoralDistrict, $q, Principal, ElectoralPeriod) {
         var vm = this;
         vm.round = 0;
         vm.userId = 0;
         vm.account = {};
 
         vm.designationPacks = [];
+        vm.canDesignateVotes = false;
 
         loadAll();
 
@@ -42,6 +43,15 @@
             }).then(function(account) {
                 vm.account = account;
                 vm.userId = account.id;
+
+                ElectoralDistrict.query({id:account.electoralDistrict}, function(district){
+                    if(vm.round === 1){
+                        vm.canDesignateVotes = !district.first_round_votes_accepted;
+                    }else{
+                        vm.canDesignateVotes = !district.second_round_votes_accepted;
+                    }
+                });
+
                 return VotesDesignation.findByUserId({
                     round: round,
                     userId: account.id

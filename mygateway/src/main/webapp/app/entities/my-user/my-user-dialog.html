@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myMyUserLabel">Utwórz bądz zmień użytkownika</h4>
     </div>
     <div class="modal-body">
-        <div class="form-group">
+        <div class="form-group" ng-show="false"> <!-- POLE ZABLOKOWANE -->
             <label class="control-label" for="field_username">Login</label>
             <input type="text" class="form-control" name="username" id="field_username"
                     value={{vm.generateUsername()}}
@@ -19,15 +19,20 @@
                 </p>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-hide="FUN_THINGS">
             <label class="control-label" for="field_name">Imię</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.myUser.name"
+                    pattern="{{REGEX.user_name}}"
                     required/>
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
                     ng-show="editForm.name.$error.required">
                     Pole jest wymagane.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.name.$error.pattern">
+                    Niepoprawna treść w polu.
                 </p>
             </div>
         </div>
@@ -35,11 +40,16 @@
             <label class="control-label" for="field_surname">Nazwisko</label>
             <input type="text" class="form-control" name="surname" id="field_surname"
                     ng-model="vm.myUser.surname"
+                   pattern="{{REGEX.user_surname}}"
                     required/>
             <div ng-show="editForm.surname.$invalid">
                 <p class="help-block"
                     ng-show="editForm.surname.$error.required">
                     Pole jest wymagane.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.surname.$error.pattern">
+                    Niepoprawna treść w polu.
                 </p>
             </div>
         </div>

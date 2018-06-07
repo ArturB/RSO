@@ -7,7 +7,9 @@
     <div class="container-fluid">
     <br/>
         <jhi-alert-error></jhi-alert-error>
-
+        <h2 ng-hide="vm.canDesignateVotes">
+            Protokół z głosowania został już zaakceptowany! Nie można przeprowadzić dodatkowych modyfikacji!
+        </h2>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-4 no-padding-left">
@@ -19,7 +21,8 @@
                                             municipalityId:vm.account.municipality_id,
                                             electoralDistrictId:vm.account.electoral_district_id,
                                         })"
-                            class="btn btn-primary btn-sm" >
+                            class="btn btn-primary btn-sm"
+                            ng-disabled="!vm.canDesignateVotes">
                         <span class="glyphicon glyphicon-pencil"></span>
                         Dodaj zestaw głosów
                     </button>
@@ -51,7 +54,8 @@
                                             round:vm.round,
                                             designationPackId:designationPack.id
                                         })"
-                            class="btn btn-primary btn-sm" >
+                            class="btn btn-primary btn-sm"
+                            ng-disabled="!vm.canDesignateVotes">
                         <span class="glyphicon glyphicon-pencil"></span>
                         Edytuj zestaw głosów
                     </button>

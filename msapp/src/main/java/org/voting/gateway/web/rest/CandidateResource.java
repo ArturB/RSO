@@ -1,10 +1,10 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.voting.gateway.domain.Candidate;
 
 import org.voting.gateway.repository.CandidateRepository;
@@ -14,8 +14,6 @@ import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,11 +23,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Candidate.
@@ -43,10 +39,12 @@ public class CandidateResource {
     private static final String ENTITY_NAME = "candidate";
 
     private final CandidateRepository candidateRepository;
+    private final ElectoralPeriodsResource electoralPeriodsResource;
 
-    public CandidateResource(CandidateRepository candidateRepository) {
+    public CandidateResource(CandidateRepository candidateRepository, ElectoralPeriodsResource electoralPeriodsResource) {
         this.candidateRepository = candidateRepository;
 
+        this.electoralPeriodsResource = electoralPeriodsResource;
     }
 
     /**
@@ -56,9 +54,11 @@ public class CandidateResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new candidate, or with status 400 (Bad Request) if the candidate has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @PostMapping("/candidates")
     @Timed
     public ResponseEntity<Candidate> createCandidate(@Valid @RequestBody Candidate candidate) throws URISyntaxException {
+        electoralPeriodsResource.isInPeriod("PreElectionPeriod");
         log.debug("REST request to save Candidate : {}", candidate);
         if (candidate.getCandidate_id() != null) {
             throw new BadRequestAlertException("A new candidate cannot already have an ID", ENTITY_NAME, "idexists");
@@ -80,9 +80,11 @@ public class CandidateResource {
      * or with status 500 (Internal Server Error) if the candidate couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @PutMapping("/candidates")
     @Timed
     public ResponseEntity<Candidate> updateCandidate(@Valid @RequestBody Candidate candidate) throws URISyntaxException {
+        electoralPeriodsResource.isInPeriod("PreElectionPeriod");
         log.debug("REST request to update Candidate : {}", candidate);
         if (candidate.getCandidate_id() == null) {
             return createCandidate(candidate);
@@ -98,6 +100,7 @@ public class CandidateResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of candidates in body
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @GetMapping("/candidates")
     @Timed
     public ResponseEntity<List<Candidate>> getAllCandidates(Pageable pageRequest) {
@@ -124,6 +127,7 @@ public class CandidateResource {
      * @param id the id of the candidate to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the candidate, or with status 404 (Not Found)
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @GetMapping("/candidates/{id}")
     @Timed
     public ResponseEntity<Candidate> getCandidate(@PathVariable UUID id) {
@@ -138,9 +142,11 @@ public class CandidateResource {
      * @param id the id of the candidate to delete
      * @return the ResponseEntity with status 200 (OK)
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @DeleteMapping("/candidates/{id}")
     @Timed
     public ResponseEntity<Void> deleteCandidate(@PathVariable UUID id) {
+        electoralPeriodsResource.isInPeriod("PreElectionPeriod");
         log.debug("REST request to delete Candidate : {}", id);
         candidateRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();

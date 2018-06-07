@@ -64,6 +64,13 @@
                         <span>Zatwierdź głosy</span>
                     </a>
                 </li>
+                <li ui-sref-active="active" has-authority="ROLE_GKW_LEADER" >
+                    <a ui-sref="votes-acceptance" ng-click="vm.collapseNavbar()"
+                       is-period="MidRoundPeriod,PostElectionPeriod">
+                        <span class="glyphicon glyphicon-tree-conifer"></span>&nbsp;
+                        <span>Zatwierdź głosy</span>
+                    </a>
+                </li>
                 <li ui-sref-active="active" ng-switch-when="true" >
                     <a ui-sref="password" ng-click="vm.collapseNavbar()">
                         <span class="glyphicon glyphicon-lock"></span>&nbsp;

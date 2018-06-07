@@ -14,15 +14,19 @@ public class ElectoralPeriodsRepository {
 
     private Mapper<ElectoralPeriod> mapper;
     private final CassandraSession cassandraSession;
-	
+
     public ElectoralPeriodsRepository(CassandraSession cassandraSession) {
         this.cassandraSession = cassandraSession;
         mapper = cassandraSession.getMappingManager().mapper(ElectoralPeriod.class);
     }
-	
+
     public List<ElectoralPeriod> findAll() {
         ResultSet results = cassandraSession.getSession().execute("SELECT * FROM electoral_period");
         Result<ElectoralPeriod> districts = mapper.map(results);
         return districts.all();
+    }
+
+    public void update(ElectoralPeriod period) {
+        mapper.save(period);
     }
 }
