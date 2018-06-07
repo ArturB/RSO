@@ -1,5 +1,6 @@
 package org.voting.gateway.web.rest.errors;
 
+import org.springframework.http.HttpStatus;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 
 import org.springframework.dao.ConcurrencyFailureException;
@@ -9,10 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.zalando.problem.DefaultProblem;
-import org.zalando.problem.Problem;
-import org.zalando.problem.ProblemBuilder;
-import org.zalando.problem.Status;
+import org.zalando.problem.*;
+import org.zalando.problem.spring.web.advice.HttpStatusAdapter;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
 import org.zalando.problem.spring.web.advice.validation.ConstraintViolationProblem;
 
@@ -38,6 +37,7 @@ public class ExceptionTranslator implements ProblemHandling {
             return entity;
         }
         Problem problem = entity.getBody();
+
         if (!(problem instanceof ConstraintViolationProblem || problem instanceof DefaultProblem)) {
             return entity;
         }
@@ -94,5 +94,18 @@ public class ExceptionTranslator implements ProblemHandling {
             .with("message", ErrorConstants.ERR_CONCURRENCY_FAILURE)
             .build();
         return create(ex, problem, request);
+    }
+
+    @ExceptionHandler(MyErrorException.class)
+    public ResponseEntity handleConcurrencyFailure(MyErrorException myError, NativeWebRequest request) {
+        ProblemBuilder builder = Problem.builder()
+            .with("errorIndex", myError.getValue().getIndex())
+            .with("errorMessage", myError.getValue().getMessage())
+            .with("errorParameters", myError.getParameters())
+            .withStatus(new HttpStatusAdapter(HttpStatus.BAD_REQUEST))
+            .with("path", request.getNativeRequest(HttpServletRequest.class).getRequestURI());
+
+        return create(builder.build(), request);
+//        return new ResponseEntity<>(builder.build(), HttpStatus.BAD_REQUEST);
     }
 }

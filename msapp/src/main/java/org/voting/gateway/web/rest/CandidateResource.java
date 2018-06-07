@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.voting.gateway.domain.Candidate;
 
 import org.voting.gateway.repository.CandidateRepository;
+import org.voting.gateway.repository.PageWithTotalCount;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -101,9 +102,9 @@ public class CandidateResource {
     @Timed
     public ResponseEntity<List<Candidate>> getAllCandidates(Pageable pageRequest) {
         log.debug("REST request to get all Candidates");
-        Page<Candidate> page = candidateRepository.findAllPaged(pageRequest);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/candidates");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        PageWithTotalCount<Candidate> page = candidateRepository.findAllPaged(pageRequest);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page.getPage(), "/api/candidates");
+        return new ResponseEntity<>(page.getPage().getContent(), headers, HttpStatus.OK);
     }
     //PageImpl<Candidate>
 

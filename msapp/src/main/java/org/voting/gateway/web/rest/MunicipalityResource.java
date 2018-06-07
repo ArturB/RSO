@@ -7,6 +7,8 @@ import org.voting.gateway.repository.MunicipalityRepository;
 
 import org.voting.gateway.service.MunicipalityDTO;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
+import org.voting.gateway.web.rest.errors.ErrorValue;
+import org.voting.gateway.web.rest.errors.MyErrorException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -109,6 +111,9 @@ public class MunicipalityResource {
     public ResponseEntity<MunicipalityDTO> getMunicipality(@PathVariable UUID id) {
         log.debug("REST request to get Municipality : {}", id);
         MunicipalityDTO municipality = municipalityRepository.findOneDTO(id);
+        if(municipality == null ){
+            throw new MyErrorException(ErrorValue.MUNICIPALITY_NOT_FOUND, id);
+        }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(municipality));
     }
 

@@ -62,7 +62,8 @@
                         url: $state.href($state.current.name, $state.params)
                     };
                     return currentStateData;
-                }]
+                }],
+                preset:{}
             }
         })
         .state('my-user-detail.edit', {
@@ -81,7 +82,8 @@
                     resolve: {
                         entity: ['MyUser', function(MyUser) {
                             return MyUser.get({id : $stateParams.id}).$promise;
-                        }]
+                        }],
+                        preset:{}
                     }
                 }).result.then(function() {
                     $state.go('^', {}, { reload: false });
