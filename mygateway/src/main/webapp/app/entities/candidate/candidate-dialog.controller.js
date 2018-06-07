@@ -24,6 +24,12 @@
             vm.candidate.municipality = Municipality.get({id: vm.candidate.municipality_id});
         }
 
+        Principal.identity().then(function(account) {
+            if(account.municipality_id){
+                vm.candidate.municipality = Municipality.get({id: account.municipality_id});
+            }
+        });
+
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });

@@ -41,12 +41,13 @@ public class CandidateRepository {
         return candidate;
     }
 
-    public Page<Candidate> findAllPaged(Pageable pageRequest)
+    public PageWithTotalCount<Candidate> findAllPaged(Pageable pageRequest)
     {
     	Statement statement = new SimpleStatement("SELECT * FROM candidate");
         statement.setFetchSize(50);
+        int total = (int) cassandraSession.getSession().execute(new SimpleStatement("SELECT COUNT(*) FROM candidate"))
+            .one() .getLong(0);
         ResultSet results = cassandraSession.getSession().execute(statement);
-        int total = results.getAvailableWithoutFetching();
         Result<Candidate> candidates = mapper.map(results);
         //skip
         for (int i = 0; i < pageRequest.getOffset() &&  !candidates.isExhausted(); i++) {
@@ -57,7 +58,7 @@ public class CandidateRepository {
         	candidatesOnPage.add(candidates.one());
         }
 
-        return new PageImpl<Candidate>(candidatesOnPage, pageRequest, total) ;
+        return new PageWithTotalCount<Candidate>(total, new PageImpl<Candidate>(candidatesOnPage, pageRequest, total)) ;
     }
 
     public Candidate findOne(UUID id)

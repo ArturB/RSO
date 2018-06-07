@@ -5,12 +5,10 @@ import com.datastax.driver.core.SimpleStatement;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.Result;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import org.voting.gateway.domain.MyUser;
 import org.voting.gateway.domain.SmallUser;
 
 import java.util.LinkedList;
@@ -51,11 +49,13 @@ public class SmallUserRepository {
         return users.all();
     }
 
-    public Page<SmallUser> findAllPaged(Pageable pageRequest)
+    public PageWithTotalCount<SmallUser> findAllPaged(Pageable pageRequest)
     {
         Statement statement = new SimpleStatement("SELECT * FROM user");
         statement.setFetchSize(50);
         ResultSet results = cassandraSession.getSession().execute(statement);
+        int total = (int) cassandraSession.getSession().execute(new SimpleStatement("SELECT COUNT(*) FROM user")).one()
+            .getLong(0);
         Result<SmallUser> users = mapper.map(results);
         //skip
         for (int i = 0; i < pageRequest.getOffset() &&  !users.isExhausted(); i++) {
@@ -66,16 +66,12 @@ public class SmallUserRepository {
             users1.add(users.one());
         }
 
-
-        return new PageImpl<SmallUser>(users1) ;
-
+        return new PageWithTotalCount<>(total, new PageImpl<>(users1)) ;
     }
 
     public SmallUser save(SmallUser user) {
-
         mapper.save(user);
         return user;
-
     }
 
     public void delete(UUID id) {

@@ -19,7 +19,22 @@
     function jhiAlertErrorController ($scope, AlertService, $rootScope) {
         var vm = this;
 
+        vm.errorMessages = {
+            1:  "Nie znaleziono użytkownika o podanym id: {0}",
+            2:  "Użytkownik już jest zablokowany",
+            3: "Nie znaleziono gminy o id {0}"
+        };
+
         vm.alerts = [];
+
+        String.prototype.format = function() {
+            var formatted = this;
+            for (var i = 0; i < arguments.length; i++) {
+                var regexp = new RegExp('\\{' + i + '\\}', 'gi');
+                formatted = formatted.replace(regexp, arguments[i]);
+            }
+            return formatted;
+        };
 
         function addErrorAlert (message, key, data) {
             vm.alerts.push(
@@ -46,6 +61,16 @@
                 break;
 
             case 400:
+                if(httpResponse.data && httpResponse.data.errorIndex){
+                    var message = vm.errorMessages[httpResponse.data.errorIndex];
+                    if(message){
+                        addErrorAlert(message.format( httpResponse.data.errorParameters));
+                    }else{
+                        addErrorAlert("Przepraszamy, wystąpił błąd");
+                    }
+                    return;
+                }
+
                 var headers = Object.keys(httpResponse.headers()).filter(function (header) {
                     return header.indexOf('app-error', header.length - 'app-error'.length) !== -1 || header.indexOf('app-params', header.length - 'app-params'.length) !== -1;
                 }).sort();

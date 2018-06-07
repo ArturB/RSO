@@ -15,7 +15,7 @@
             vm.candidate.party = Party.get({id: entity.party_id});
         }
         if(entity.municipality_id) {
-            vm.municipality = Municipality.get({id: entity.municipality_id});
+            vm.candidate.municipality = Municipality.get({id: entity.municipality_id});
         }
         vm.previousState = previousState.name;
 

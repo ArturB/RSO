@@ -20,6 +20,13 @@
         vm.municipalities = Municipality.query();
         vm.preset=[];
 
+        if(vm.myUser.municipalityId){
+            vm.myUser.municipality = Municipality.get({id: vm.myUser.municipalityId});
+        }
+        if(vm.myUser.electoralDistrictId){
+            vm.myUser.electoralDistrict = ElectoralDistrict.get({id:vm.myUser.electoralDistrictId})
+        }
+
         if(preset.municipalityId){
             vm.myUser.municipality = Municipality.get({id:preset.municipalityId});
             vm.presetMunicipality = true;
@@ -68,6 +75,12 @@
         function save () {
             vm.isSaving = true;
             vm.myUser.username = vm.generateUsername();
+            if(vm.myUser.municipality){
+                vm.myUser.municipalityId = vm.myUser.municipality.municipality_id;
+            }
+            if(vm.myUser.electoralDistrict){
+                vm.myUser.electoralDistrictId= vm.myUser.electoralDistrict.electoral_district_id;
+            }
             var entityToSend = angular.copy(vm.myUser);
             entityToSend.role =  vm.myUser.role.code;
             if (vm.myUser.id !== null) {

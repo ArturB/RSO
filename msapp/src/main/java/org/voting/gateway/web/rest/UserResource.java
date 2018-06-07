@@ -3,37 +3,27 @@ package org.voting.gateway.web.rest;
 import com.codahale.metrics.annotation.Timed;
 
 import com.datastax.driver.core.utils.UUIDs;
-import com.datastax.driver.mapping.Result;
-import com.datastax.driver.core.LocalDate;
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.SimpleStatement;
-import com.datastax.driver.core.Statement;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.voting.gateway.domain.Candidate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import org.voting.gateway.domain.ElectoralPeriod;
-import org.voting.gateway.domain.MyUser;
+import org.voting.gateway.repository.PageWithTotalCount;
 import org.voting.gateway.service.SmallUserDTO;
 import org.voting.gateway.service.UserDTO;
 import org.voting.gateway.domain.SmallUser;
 import org.voting.gateway.repository.RodoUserRepository;
 import org.voting.gateway.repository.SmallUserRepository;
 import org.voting.gateway.security.SecurityUtils;
-import org.voting.gateway.service.LoginDataDTO;
 import org.voting.gateway.service.RodoUserDTO;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
-import org.voting.gateway.web.rest.errors.InvalidPasswordException;
+import org.voting.gateway.web.rest.errors.ErrorValue;
+import org.voting.gateway.web.rest.errors.MyErrorException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -50,9 +40,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing MyUser.
@@ -203,8 +191,8 @@ public class UserResource {
     public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageRequest) {
         log.debug("REST request to get all MyUsers");
 
-        Page<SmallUser> sur = smallUserRepository.findAllPaged(pageRequest);
-        List<SmallUser> smallUsers = sur.getContent();
+        PageWithTotalCount<SmallUser> sur = smallUserRepository.findAllPaged(pageRequest);
+        List<SmallUser> smallUsers = sur.getPage().getContent();
         List<UserDTO> usersDTO = new ArrayList<UserDTO>();
         RodoUserDTO ru;
         UserDTO temp;
@@ -217,13 +205,10 @@ public class UserResource {
            			 su.getElectoral_district_id(), su.getMunicipality_id(), su.getRole());
         	usersDTO.add(temp);
         }
-        PageImpl<UserDTO> page = new PageImpl<>(usersDTO);
+        long total = sur.getTotal();
+        PageImpl<UserDTO> page = new PageImpl<>(usersDTO, pageRequest, total);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/candidates");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-
-        /* Page<MyUser> page = myUserRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);*/
     }
 
     /**
@@ -237,6 +222,9 @@ public class UserResource {
     public ResponseEntity<UserDTO> getMyUser(@PathVariable UUID id) {
         log.debug("REST request to get MyUser : {}", id);
         SmallUser su = smallUserRepository.findOne(id);
+        if(su == null ){
+            throw new MyErrorException(ErrorValue.USER_NOT_FOUND, id);
+        }
         RodoUserDTO ru = rodoUserRepository.findOne(id);
         UserDTO user = new UserDTO(su.getId(), su.getUsername(), ru.getName(), ru.getSurname(),
      			 ru.getDocumentType(), ru.getDocumentNo(), ru.getEmail(), ru.getBirthdate(), ru.getPesel(),
@@ -263,6 +251,13 @@ public class UserResource {
     @Timed
     public ResponseEntity<Void> disableMyUser(@PathVariable UUID id) {
         log.debug("REST request to disable MyUser : {}", id);
+        SmallUser su = smallUserRepository.findOne(id);
+        if(su == null ){
+            throw new MyErrorException(ErrorValue.USER_NOT_FOUND, id);
+        }
+        if(su.isDisabled() ){
+            throw new MyErrorException(ErrorValue.USER_ARLEADY_DISABLED, id);
+        }
         smallUserRepository.disable(id);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert("Zablokowano konto użytkownika o id "+id, id.toString()))
             .build();
