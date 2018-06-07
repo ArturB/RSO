@@ -27,32 +27,33 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="candidate in vm.candidates track by candidate.id">
+                <tr ng-repeat="candidate in vm.candidates track by candidate.candidate_id">
                     <td>{{candidate.name}}</td>
                     <td>{{candidate.surname}}</td>
                     <td>{{candidate.age}}</td>
                     <td>
-                        <a ui-sref="party-detail({id:candidate.party.id})">{{candidate.party.abbreviation}}</a>
+                        <a ui-sref="party-detail({id:candidate.party.party_id})">{{candidate.party.party_abbreviation}}</a>
                     </td>
                     <td>
-                        <a ui-sref="municipality-detail({id:candidate.municipality.id})">{{candidate.municipality.name}}</a>
+                        <a ui-sref="municipality-detail({id:candidate.municipality.municipality_id})">
+                            {{candidate .municipality.municipality_name}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
-                                    ui-sref="candidate-detail({id:candidate.id})"
+                                    ui-sref="candidate-detail({id:candidate.candidate_id})"
                                     class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="candidate.edit({id:candidate.id})"
+                                    ui-sref="candidate.edit({id:candidate.candidate_id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="candidate.delete({id:candidate.id})"
+                                    ui-sref="candidate.delete({id:candidate.candidate_id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-sm-down"></span>

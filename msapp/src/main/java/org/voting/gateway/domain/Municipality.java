@@ -1,65 +1,53 @@
 package org.voting.gateway.domain;
 
 
-import javax.persistence.*;
+
+
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.Transient;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
+
 
 /**
  * A Municipality.
  */
-@Entity
-@Table(name = "municipality")
+
+@Table(name = "commune",
+    keyspace = "rso",
+    caseSensitiveKeyspace = false,
+    caseSensitiveTable = false)
 public class Municipality implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(name = "name")
+    @PartitionKey
+    @Column(name = "commune_id")
+    private UUID municipality_id;
+
+    @Column(name = "commune_name")
     private String name;
 
-    @Transient
-    private Boolean first_round_votes_accepted;
-    @Transient
-    private Boolean second_round_votes_accepted;
-    @Transient
-    private Boolean has_second_round;
+    @Column(name = "position_name")
+    private String positionName;
 
-    public Boolean getFirst_round_votes_accepted() {
-        return first_round_votes_accepted;
+
+    public UUID getMunicipality_id() {
+        return municipality_id;
     }
 
-    public void setFirst_round_votes_accepted(Boolean first_round_votes_accepted) {
-        this.first_round_votes_accepted = first_round_votes_accepted;
+    public void setMunicipality_id(UUID municipality_id) {
+        this.municipality_id = municipality_id;
     }
 
-    public Boolean getSecond_round_votes_accepted() {
-        return second_round_votes_accepted;
-    }
-
-    public void setSecond_round_votes_accepted(Boolean second_round_votes_accepted) {
-        this.second_round_votes_accepted = second_round_votes_accepted;
-    }
-
-    public Boolean getHas_second_round() {
-        return has_second_round;
-    }
-
-    public void setHas_second_round(Boolean has_second_round) {
-        this.has_second_round = has_second_round;
-    }
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Municipality id(UUID id) {
+    	this.municipality_id = id;
+    	return this;
     }
 
     public String getName() {
@@ -74,7 +62,19 @@ public class Municipality implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public Municipality positionName(String positionName) {
+        this.positionName = positionName;
+        return this;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -85,22 +85,23 @@ public class Municipality implements Serializable {
             return false;
         }
         Municipality municipality = (Municipality) o;
-        if (municipality.getId() == null || getId() == null) {
+        if (municipality.getMunicipality_id() == null || getMunicipality_id() == null) {
             return false;
         }
-        return Objects.equals(getId(), municipality.getId());
+        return Objects.equals(getMunicipality_id(), municipality.getMunicipality_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(getMunicipality_id());
     }
 
     @Override
     public String toString() {
         return "Municipality{" +
-            "id=" + getId() +
+            "id=" + getMunicipality_id() + "'" +
             ", name='" + getName() + "'" +
+            ", positionName='" + getPositionName() +
             "}";
     }
 }

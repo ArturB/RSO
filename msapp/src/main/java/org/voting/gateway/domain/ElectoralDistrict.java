@@ -1,140 +1,78 @@
 package org.voting.gateway.domain;
 
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+
+
+
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A ElectoralDistrict.
  */
-@Entity
-@Table(name = "electoral_district")
+
+@Table(name = "ward",keyspace = "rso",
+    caseSensitiveKeyspace = false,
+    caseSensitiveTable = false)
 public class ElectoralDistrict implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @PartitionKey
 
-    @NotNull
-    @Column(name = "nr_can_vote", nullable = false)
-    private Integer nrCanVote;
+    @Column(name = "ward_id")
+    private UUID electoral_district_id;
 
-    @NotNull
-    @Column(name = "nr_cards_used", nullable = false)
-    private Integer nrCardsUsed;
+    @Column(name = "commune")
+    private UUID municipalityId;
 
-    @NotNull
-    @Column(name = "voting_finished", nullable = false)
-    private Boolean votingFinished;
+    @Column(name = "ward_name")
+    private String electoralDistrictName;
 
-    @ManyToOne
-    @NotNull
-    private Municipality municipality;
-
-    @Transient
-    private Boolean first_round_votes_accepted;
-    @Transient
-    private Boolean second_round_votes_accepted;
-
-    public Boolean getFirst_round_votes_accepted() {
-        return first_round_votes_accepted;
+    public UUID getElectoral_district_id() {
+        return electoral_district_id;
     }
 
-    public void setFirst_round_votes_accepted(Boolean first_round_votes_accepted) {
-        this.first_round_votes_accepted = first_round_votes_accepted;
-    }
-
-    public Boolean getSecond_round_votes_accepted() {
-        return second_round_votes_accepted;
-    }
-
-    public void setSecond_round_votes_accepted(Boolean second_round_votes_accepted) {
-        this.second_round_votes_accepted = second_round_votes_accepted;
-    }
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ElectoralDistrict name(String name) {
-        this.name = name;
+    public ElectoralDistrict id(UUID id) {
+        this.electoral_district_id = id;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setElectoral_district_id(UUID electoral_district_id) {
+        this.electoral_district_id = electoral_district_id;
     }
 
-    public Integer getNrCanVote() {
-        return nrCanVote;
+    public UUID getMunicipalityId() {
+        return municipalityId;
     }
 
-    public ElectoralDistrict nrCanVote(Integer nrCanVote) {
-        this.nrCanVote = nrCanVote;
+    public ElectoralDistrict municipalityId(UUID municipalityId) {
+        this.municipalityId = municipalityId;
         return this;
     }
 
-    public void setNrCanVote(Integer nrCanVote) {
-        this.nrCanVote = nrCanVote;
+    public void setMunicipalityId(UUID municipalityId) {
+        this.municipalityId = municipalityId;
     }
 
-    public Integer getNrCardsUsed() {
-        return nrCardsUsed;
+    public String getElectoralDistrictName() {
+        return electoralDistrictName;
     }
 
-    public ElectoralDistrict nrCardsUsed(Integer nrCardsUsed) {
-        this.nrCardsUsed = nrCardsUsed;
+    public ElectoralDistrict electoralDistrictName(String electoralDistrictName) {
+        this.electoralDistrictName = electoralDistrictName;
         return this;
     }
 
-    public void setNrCardsUsed(Integer nrCardsUsed) {
-        this.nrCardsUsed = nrCardsUsed;
+    public void setElectoralDistrictName(String electoralDistrictName) {
+        this.electoralDistrictName = electoralDistrictName;
     }
-
-    public Boolean isVotingFinished() {
-        return votingFinished;
-    }
-
-    public ElectoralDistrict votingFinished(Boolean votingFinished) {
-        this.votingFinished = votingFinished;
-        return this;
-    }
-
-    public void setVotingFinished(Boolean votingFinished) {
-        this.votingFinished = votingFinished;
-    }
-
-    public Municipality getMunicipality() {
-        return municipality;
-    }
-
-    public ElectoralDistrict municipality(Municipality municipality) {
-        this.municipality = municipality;
-        return this;
-    }
-
-    public void setMunicipality(Municipality municipality) {
-        this.municipality = municipality;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -145,25 +83,23 @@ public class ElectoralDistrict implements Serializable {
             return false;
         }
         ElectoralDistrict electoralDistrict = (ElectoralDistrict) o;
-        if (electoralDistrict.getId() == null || getId() == null) {
+        if (electoralDistrict.getElectoral_district_id() == null || getElectoral_district_id() == null) {
             return false;
         }
-        return Objects.equals(getId(), electoralDistrict.getId());
+        return Objects.equals(getElectoral_district_id(), electoralDistrict.getElectoral_district_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(getElectoral_district_id());
     }
 
     @Override
     public String toString() {
         return "ElectoralDistrict{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", nrCanVote=" + getNrCanVote() +
-            ", nrCardsUsed=" + getNrCardsUsed() +
-            ", votingFinished='" + isVotingFinished() + "'" +
+            "electoral_district_id=" + getElectoral_district_id() +
+            ", municipalityId='" + getMunicipalityId() + "'" +
+            ", electoralDistrictName='" + getElectoralDistrictName() +
             "}";
     }
 }

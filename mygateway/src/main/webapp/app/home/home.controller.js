@@ -47,8 +47,8 @@
                         vm.role = 'administratora';
                     }
 
-                    if (vm.account.municipalityId) {
-                        vm.municipality = Municipality.get({id: vm.account.municipalityId});
+                    if (vm.account.municipality_id) {
+                        vm.municipality = Municipality.get({id: vm.account.municipality_id});
                     }
                     if (vm.account.electoralDistrictId) {
                         vm.electoralDistrict = ElectoralDistrict.get({id: vm.account.electoralDistrictId});

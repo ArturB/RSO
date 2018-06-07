@@ -20,36 +20,30 @@
             <thead>
             <tr>
                 <th><span>Nazwa</span></th>
-                <th><span>Ilość uprawnionych do głosowania</span></th>
-                <th><span>Ilość zużytych kart</span></th>
-                <th><span>Czy głosowanie skończone?</span></th>
                 <th><span>Gmina</span></th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="electoralDistrict in vm.electoralDistricts | orderBy:'name'  track by electoralDistrict.id">
-                <td>{{electoralDistrict.name}}</td>
-                <td>{{electoralDistrict.nrCanVote}}</td>
-                <td>{{electoralDistrict.nrCardsUsed}}</td>
-                <td>{{electoralDistrict.votingFinished}}</td>
-                <td>{{electoralDistrict.municipality.name}}</td>
+            <tr ng-repeat="electoralDistrict in vm.electoralDistricts | orderBy:'name'  track by electoralDistrict.electoral_district_id">
+                <td>{{electoralDistrict.electoral_district_name}}</td>
+                <td>{{electoralDistrict.municipality.municipality_name}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                ui-sref="electoral-district-detail({id:electoralDistrict.id})"
+                                ui-sref="electoral-district-detail({id:electoralDistrict.electoral_district_id})"
                                 class="btn btn-info btn-sm">
                             <span class="glyphicon glyphicon-eye-open"></span>
                             <span class="hidden-sm-down"></span>
                         </button>
                         <button type="submit"
-                                ui-sref="electoral-district.edit({id:electoralDistrict.id})"
+                                ui-sref="electoral-district.edit({id:electoralDistrict.electoral_district_id})"
                                 class="btn btn-primary btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <span class="hidden-sm-down"></span>
                         </button>
                         <button type="submit"
-                                ui-sref="electoral-district.delete({id:electoralDistrict.id})"
+                                ui-sref="electoral-district.delete({id:electoralDistrict.electoral_district_id})"
                                 class="btn btn-danger btn-sm">
                             <span class="glyphicon glyphicon-remove-circle"></span>
                             <span class="hidden-sm-down"></span>

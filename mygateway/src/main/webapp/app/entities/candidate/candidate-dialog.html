@@ -55,14 +55,16 @@
 
         <div class="form-group">
             <label for="field_party">Partia</label>
-            <select class="form-control" id="field_party" name="party" ng-model="vm.candidate.party" ng-options="party as party.name for party in vm.parties track by party.id">
+            <select class="form-control" id="field_party" name="party" ng-model="vm.candidate.party"
+                    ng-options="party as party.party_name for party in vm.parties track by party.party_id">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group" has-authority="ROLE_ADMIN">
-            <label for="field_municipality">Okręg Wyborczy</label>
-            <select class="form-control" id="field_municipality" name="municipality" ng-model="vm.candidate.municipality" ng-options="municipality as municipality.name for municipality in vm.municipalities track by municipality.id">
-                <option value=""></option>
+            <label for="field_municipality">Gmina</label>
+            <select class="form-control" id="field_municipality" name="municipality" ng-model="vm.candidate.municipality"
+                    ng-options="municipality as municipality.municipality_name for municipality in vm.municipalities track by municipality.municipality_id"
+            required>
             </select>
         </div>
     </div>

@@ -4,6 +4,8 @@ import com.codahale.metrics.annotation.Timed;
 import org.voting.gateway.domain.Municipality;
 
 import org.voting.gateway.repository.MunicipalityRepository;
+
+import org.voting.gateway.service.MunicipalityDTO;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -17,7 +19,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
 
 /**
  * REST controller for managing Municipality.
@@ -43,21 +47,21 @@ public class MunicipalityResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new municipality, or with status 400 (Bad Request) if the municipality has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/municipalities")
+   /* @PostMapping("/municipalities")
     @Timed
     public ResponseEntity<Municipality> createMunicipality(@RequestBody Municipality municipality) throws URISyntaxException {
         log.debug("REST request to save Municipality : {}", municipality);
-        if (municipality.getId() != null) {
+        if (municipality.getElectoral_district_id() != null) {
             throw new BadRequestAlertException("A new municipality cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Municipality result = municipalityRepository.save(municipality);
         result.setFirst_round_votes_accepted(false);
         result.setSecond_round_votes_accepted(false);
         result.setHas_second_round(true);
-        return ResponseEntity.created(new URI("/api/municipalities/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/municipalities/" + result.getElectoral_district_id()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getElectoral_district_id().toString()))
             .body(result);
-    }
+    }*/
 
     /**
      * PUT  /municipalities : Updates an existing municipality.
@@ -68,19 +72,19 @@ public class MunicipalityResource {
      * or with status 500 (Internal Server Error) if the municipality couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/municipalities")
+   /* @PutMapping("/municipalities")
     @Timed
     public ResponseEntity<Municipality> updateMunicipality(@RequestBody Municipality municipality) throws URISyntaxException {
         log.debug("REST request to update Municipality : {}", municipality);
-        if (municipality.getId() == null) {
+        if (municipality.getElectoral_district_id() == null) {
             return createMunicipality(municipality);
         }
         Municipality result = municipalityRepository.save(municipality);
         FillMunicipality(result);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, municipality.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, municipality.getElectoral_district_id().toString()))
             .body(result);
-    }
+    }*/
 
     /**
      * GET  /municipalities : get all the municipalities.
@@ -89,13 +93,10 @@ public class MunicipalityResource {
      */
     @GetMapping("/municipalities")
     @Timed
-    public List<Municipality> getAllMunicipalities() {
+    public List<MunicipalityDTO> getAllMunicipalities() {
         log.debug("REST request to get all Municipalities");
-        return municipalityRepository.findAll().stream().map(result -> {
-            FillMunicipality(result);
-            return result;
-        }).collect(Collectors.toList());
-    }
+        return municipalityRepository.findAllDTO();
+        }
 
     /**
      * GET  /municipalities/:id : get the "id" municipality.
@@ -105,10 +106,9 @@ public class MunicipalityResource {
      */
     @GetMapping("/municipalities/{id}")
     @Timed
-    public ResponseEntity<Municipality> getMunicipality(@PathVariable Long id) {
+    public ResponseEntity<MunicipalityDTO> getMunicipality(@PathVariable UUID id) {
         log.debug("REST request to get Municipality : {}", id);
-        Municipality municipality = municipalityRepository.findOne(id);
-        FillMunicipality(municipality);
+        MunicipalityDTO municipality = municipalityRepository.findOneDTO(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(municipality));
     }
 
@@ -118,17 +118,15 @@ public class MunicipalityResource {
      * @param id the id of the municipality to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/municipalities/{id}")
+    /*@DeleteMapping("/municipalities/{id}")
     @Timed
     public ResponseEntity<Void> deleteMunicipality(@PathVariable Long id) {
         log.debug("REST request to delete Municipality : {}", id);
         municipalityRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
 
-    private void FillMunicipality(Municipality municipality){
-        municipality.setFirst_round_votes_accepted(false);
-        municipality.setSecond_round_votes_accepted(false);
-        municipality.setHas_second_round(true);
-    }
+    }*/
+
+
+
 }

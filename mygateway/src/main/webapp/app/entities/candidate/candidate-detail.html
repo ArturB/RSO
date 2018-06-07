@@ -1,6 +1,6 @@
 
 <div>
-    <h2><span>Kandydat</span> {{vm.candidate.id}}</h2>
+    <h2><span>Kandydat</span> {{vm.candidate.name}} {{vm.candidate.surname}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
@@ -18,11 +18,11 @@
         </dd>
         <dt><span>Partia</span></dt>
         <dd>
-            <a ui-sref="party-detail({id:vm.candidate.party.id})">{{vm.candidate.party.name}}</a>
+            {{vm.candidate.party.party_name}}
         </dd>
-        <dt><span>Okręg Wyborczy</span></dt>
+        <dt><span>Gmina</span></dt>
         <dd>
-            <a ui-sref="municipality-detail({id:vm.candidate.municipality.id})">{{vm.candidate.municipality.name}}</a>
+                {{vm.candidate.municipality.municipality_name}}
         </dd>
     </dl>
 
@@ -32,7 +32,7 @@
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Cofnij</span>
     </button>
 
-    <button type="button" ui-sref="candidate-detail.edit({id:vm.candidate.id})" class="btn btn-primary">
+    <button type="button" ui-sref="candidate-detail.edit({id:vm.candidate.candidate_id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
         <span class="hidden-sm-down"> Edytuj</span>
     </button>

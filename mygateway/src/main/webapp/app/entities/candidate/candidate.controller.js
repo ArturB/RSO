@@ -5,9 +5,10 @@
         .module('mygatewayApp')
         .controller('CandidateController', CandidateController);
 
-    CandidateController.$inject = ['$state', 'Candidate', 'Principal', '$q', 'ParseLinks', 'paginationConstants', 'pagingParams'];
+    CandidateController.$inject = ['$state', 'Candidate', 'Principal', '$q', 'ParseLinks', 'paginationConstants', 'pagingParams',
+        'Municipality', 'Party'];
 
-    function CandidateController($state, Candidate, Principal, $q, ParseLinks,  paginationConstants, pagingParams) {
+    function CandidateController($state, Candidate, Principal, $q, ParseLinks,  paginationConstants, pagingParams, Municipality, Party) {
         var vm = this;
 
         vm.candidates = [];
@@ -33,6 +34,14 @@
                 vm.queryCount = vm.totalItems;
                 vm.candidates= data;
                 vm.page = pagingParams.page;
+
+
+                angular.forEach(vm.candidates, function(candidate){
+                    candidate.municipality = Municipality.get({id:candidate.municipality_id});
+                    if(candidate.party_id) {
+                        candidate.party = Party.get({id: candidate.party_id});
+                    }
+                });
             }
             function onError(error) {
                 AlertService.error(error.data.message);
@@ -44,9 +53,15 @@
                 }
                 return Principal.identity();
             }).then(function(account){
-                return Candidate.findByMunicipalityId({municipalityId:account.municipalityId}).$promise;
+                return Candidate.findByMunicipalityId({municipalityId:account.municipality_id}).$promise;
             }).then(function(result){
                 vm.candidates = result;
+                angular.forEach(vm.candidates, function(candidate){
+                    candidate.municipality = Municipality.get({id:candidate.municipality_id});
+                    if(candidate.party_id) {
+                        candidate.party = Party.get({id: candidate.party_id});
+                    }
+                });
             });
         }
 

@@ -4,12 +4,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="municipality.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span >
-                        Dodaj gminę
-                    </span>
-                </button>
             </div>
         </div>
     </div>
@@ -23,26 +17,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="municipality in vm.municipalities | orderBy:'name' track by municipality.id">
-                    <td>{{municipality.name}}</td>
+                <tr ng-repeat="municipality in vm.municipalities | orderBy:'name' track by municipality.municipality_id">
+                    <td>{{municipality.municipality_name}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
-                                    ui-sref="municipality-detail({id:municipality.id})"
+                                    ui-sref="municipality-detail({id:municipality.municipality_id})"
                                     class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="municipality.edit({id:municipality.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="municipality.delete({id:municipality.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>
                         </div>

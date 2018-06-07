@@ -1,16 +1,16 @@
 
 <div>
-    <h2><span>Partia</span> {{vm.party.id}}</h2>
+    <h2><span>Partia</span> {{vm.party.party_name}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
         <dt><span>Skrót</span></dt>
         <dd>
-            <span>{{vm.party.abbreviation}}</span>
+            <span>{{vm.party.party_abbreviation}}</span>
         </dd>
         <dt><span>Nazwa</span></dt>
         <dd>
-            <span>{{vm.party.name}}</span>
+            <span>{{vm.party.party_name}}</span>
         </dd>
     </dl>
 
@@ -20,7 +20,7 @@
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Cofnij</span>
     </button>
 
-    <button type="button" ui-sref="party-detail.edit({id:vm.party.id})" class="btn btn-primary">
+    <button type="button" ui-sref="party-detail.edit({id:vm.party.party_id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
         <span class="hidden-sm-down"> Edytuj</span>
     </button>

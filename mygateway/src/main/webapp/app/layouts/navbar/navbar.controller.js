@@ -53,7 +53,7 @@
             vm.isAuthenticated = Principal.isAuthenticated();
             if(account){
                 if(account.role !== 'ROLE_ADMIN'){
-                    return Municipality.get({id : vm.account.municipalityId }).$promise;
+                    return Municipality.get({id : vm.account.municipality_id }).$promise;
                 }
             }
         }).then(function( municipality){

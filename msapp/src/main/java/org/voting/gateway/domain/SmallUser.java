@@ -1,38 +1,89 @@
 package org.voting.gateway.domain;
 
 
-import javax.persistence.*;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.datastax.driver.mapping.annotations.Transient;
+import org.voting.gateway.service.UserDTO;
+
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
+
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * A SmallUser.
  */
+
+@Table(name = "user",keyspace = "rso",
+    caseSensitiveKeyspace = false,
+    caseSensitiveTable = false)
 public class SmallUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private String username;
-    private Long electoralDistrictId;
-    private Long municipalityId;
+    @PartitionKey
+    @Column(name = "user_id")
+    private UUID id;
+
+    @Column(name = "commune")
+    private UUID municipality_id;
+
+    @Column(name = "group")
     private String role;
+
+    @Column(name = "is_blocked")
+    private boolean disabled;
+
+    @Column(name = "password_hash")
+    private String password;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "ward")
+    private UUID electoral_district_id;
+
+    @Transient
     private Set<String> authorities;
 
-    public Long getId() {
+    public SmallUser(){}
+
+    public SmallUser(UserDTO user)
+    {
+    	this.id = user.getId();
+    	this.municipality_id = user.getMunicipalityId();
+    	this.role = user.getRole();
+    	this.disabled = false;
+    	this.password = user.getPassword();
+    	this.username = user.getUsername();
+    	this.electoral_district_id = user.getElectoralDistrictId();
+    }
+
+    public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public SmallUser id(Long id) {
+    public SmallUser id(UUID id) {
         this.id = id;
         return this;
     }
@@ -63,35 +114,37 @@ public class SmallUser implements Serializable {
         this.role = role;
     }
 
-    public Long getElectoralDistrictId() {
-        return electoralDistrictId;
+
+
+    public UUID getMunicipality_id() {
+        return municipality_id;
     }
 
-    public Long getMunicipalityId() {
-        return municipalityId;
+    public void setMunicipality_id(UUID municipality_id) {
+        this.municipality_id = municipality_id;
     }
 
-    public void setElectoralDistrictId(Long electoralDistrictId) {
-        this.electoralDistrictId = electoralDistrictId;
+    public UUID getElectoral_district_id() {
+        return electoral_district_id;
     }
 
-    public void setMunicipalityId(Long municipalityId) {
-        this.municipalityId = municipalityId;
+    public void setElectoral_district_id(UUID electoral_district_id) {
+        this.electoral_district_id = electoral_district_id;
     }
 
-    public SmallUser electoralDistrictId(Long electoralDistrictId) {
-        this.electoralDistrictId = electoralDistrictId;
-        return this;
+    public boolean isDisabled() {
+        return disabled;
     }
 
-    public SmallUser municipalityId(Long municipalityId) {
-        this.municipalityId = municipalityId;
-        return this;
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
+
 
     public Set<String> getAuthorities() {
         return authorities;
     }
+
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
@@ -111,22 +164,23 @@ public class SmallUser implements Serializable {
 
         if (id != null ? !id.equals(smallUser.id) : smallUser.id != null) return false;
         if (username != null ? !username.equals(smallUser.username) : smallUser.username != null) return false;
-        if (electoralDistrictId != null ? !electoralDistrictId.equals(smallUser.electoralDistrictId) : smallUser.electoralDistrictId != null)
+        if (electoral_district_id != null ? !electoral_district_id.equals(smallUser.electoral_district_id) : smallUser.electoral_district_id != null)
             return false;
-        if (municipalityId != null ? !municipalityId.equals(smallUser.municipalityId) : smallUser.municipalityId != null)
+        if (municipality_id != null ? !municipality_id.equals(smallUser.municipality_id) : smallUser.municipality_id != null)
             return false;
         if (role != null ? !role.equals(smallUser.role) : smallUser.role != null) return false;
-        return authorities != null ? authorities.equals(smallUser.authorities) : smallUser.authorities == null;
+        //return authorities != null ? authorities.equals(smallUser.authorities) : smallUser.authorities == null;
+        return true;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (electoralDistrictId != null ? electoralDistrictId.hashCode() : 0);
-        result = 31 * result + (municipalityId != null ? municipalityId.hashCode() : 0);
+        result = 31 * result + (electoral_district_id != null ? electoral_district_id.hashCode() : 0);
+        result = 31 * result + (municipality_id != null ? municipality_id.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
-        result = 31 * result + (authorities != null ? authorities.hashCode() : 0);
+        //result = 31 * result + (authorities != null ? authorities.hashCode() : 0);
         return result;
     }
 
@@ -135,10 +189,10 @@ public class SmallUser implements Serializable {
         return "SmallUser{" +
             "id=" + id +
             ", username='" + username + '\'' +
-            ", electoralDistrictId=" + electoralDistrictId +
-            ", municipalityId=" + municipalityId +
-            ", role='" + role + '\'' +
-            ", authorities=" + authorities +
+            ", electoralDistrictId=" + electoral_district_id +
+            ", municipalityId=" + municipality_id +
+            ", role='" + role + //'\'' +
+            //", authorities=" + authorities +
             '}';
     }
 }

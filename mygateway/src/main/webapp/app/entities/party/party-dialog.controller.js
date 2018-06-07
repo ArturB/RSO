@@ -24,7 +24,7 @@
 
         function save () {
             vm.isSaving = true;
-            if (vm.party.id !== null) {
+            if (vm.party.party_id !== null) {
                 Party.update(vm.party, onSaveSuccess, onSaveError);
             } else {
                 Party.save(vm.party, onSaveSuccess, onSaveError);

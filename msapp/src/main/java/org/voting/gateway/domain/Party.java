@@ -1,68 +1,75 @@
 package org.voting.gateway.domain;
 
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+
+
+
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Party.
  */
-@Entity
-@Table(name = "party")
+
+@Table(name = "party",
+    keyspace = "rso",
+    caseSensitiveKeyspace = false,
+    caseSensitiveTable = false)
 public class Party implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @NotNull
-    @Column(name = "abbreviation", nullable = false)
-    private String abbreviation;
 
-    @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @PartitionKey
+    @Column(name = "party_id")
+    private UUID party_id;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
+    @Column(name = "party_abbreviation")
+    private String party_abbreviation;
+
+    @Column(name = "party_name")
+    private String party_name;
+
+
+    public UUID getParty_id() {
+        return party_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setParty_id(UUID party_id) {
+        this.party_id = party_id;
     }
 
-    public String getAbbreviation() {
-        return abbreviation;
+    public String getParty_abbreviation() {
+        return party_abbreviation;
     }
 
     public Party abbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
+        this.party_abbreviation = abbreviation;
         return this;
     }
 
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
+    public void setParty_abbreviation(String party_abbreviation) {
+        this.party_abbreviation = party_abbreviation;
     }
 
-    public String getName() {
-        return name;
+    public String getParty_name() {
+        return party_name;
     }
 
     public Party name(String name) {
-        this.name = name;
+        this.party_name = name;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setParty_name(String party_name) {
+        this.party_name = party_name;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -72,24 +79,24 @@ public class Party implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Party party = (Party) o;
-        if (party.getId() == null || getId() == null) {
+        Municipality municipality = (Municipality) o;
+        if (municipality.getMunicipality_id() == null || getParty_id() == null) {
             return false;
         }
-        return Objects.equals(getId(), party.getId());
+        return Objects.equals(getParty_id(), municipality.getMunicipality_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(getParty_id());
     }
 
     @Override
     public String toString() {
-        return "Party{" +
-            "id=" + getId() +
-            ", abbreviation='" + getAbbreviation() + "'" +
-            ", name='" + getName() + "'" +
+        return "Municipality{" +
+            "id=" + getParty_id() + "'" +
+            ", abbreviation=" + getParty_abbreviation() + "'" +
+            ", name='" + getParty_name() +
             "}";
     }
 }

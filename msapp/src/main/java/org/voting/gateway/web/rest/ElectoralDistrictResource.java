@@ -1,9 +1,12 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.datastax.driver.core.utils.UUIDs;
 import org.voting.gateway.domain.ElectoralDistrict;
 
 import org.voting.gateway.repository.ElectoralDistrictRepository;
+
+import org.voting.gateway.service.ElectoralDistrictDTO;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -18,6 +21,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -40,28 +44,32 @@ public class ElectoralDistrictResource {
     /**
      * POST  /electoral-districts : Create a new electoralDistrict.
      *
-     * @param electoralDistrict the electoralDistrict to create
+     * @param electoralDistrictDTO the electoralDistrict to create
      * @return the ResponseEntity with status 201 (Created) and with body the new electoralDistrict, or with status 400 (Bad Request) if the electoralDistrict has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/electoral-districts")
     @Timed
-    public ResponseEntity<ElectoralDistrict> createElectoralDistrict(@Valid @RequestBody ElectoralDistrict electoralDistrict) throws URISyntaxException {
-        log.debug("REST request to save ElectoralDistrict : {}", electoralDistrict);
-        if (electoralDistrict.getId() != null) {
+    public ResponseEntity<ElectoralDistrictDTO> createElectoralDistrict(@Valid @RequestBody ElectoralDistrictDTO electoralDistrictDTO) throws URISyntaxException {
+        log.debug("REST request to save ElectoralDistrict : {}", electoralDistrictDTO);
+        if (electoralDistrictDTO.getElectoral_district_id() != null) {
             throw new BadRequestAlertException("A new electoralDistrict cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ElectoralDistrict result = electoralDistrictRepository.save(electoralDistrict);
-        FillElectoralDistrict(result);
-        return ResponseEntity.created(new URI("/api/electoral-districts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        ElectoralDistrict electoralDistrict = new ElectoralDistrict();
+        electoralDistrict.setElectoral_district_id(UUIDs.timeBased());
+        electoralDistrict.setMunicipalityId(electoralDistrictDTO.getMunicipality_id());
+        electoralDistrict.setElectoralDistrictName(electoralDistrictDTO.getElectoral_district_name());
+        electoralDistrictRepository.create(electoralDistrict);
+        electoralDistrictDTO.setElectoral_district_id(electoralDistrict.getElectoral_district_id());
+        return ResponseEntity.created(new URI("/api/electoral-districts/" + electoralDistrict.getElectoral_district_id()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, electoralDistrict.getElectoral_district_id().toString()))
+            .body(electoralDistrictDTO);
     }
 
     /**
      * PUT  /electoral-districts : Updates an existing electoralDistrict.
      *
-     * @param electoralDistrict the electoralDistrict to update
+     * @param electoralDistrictDTO the electoralDistrict to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated electoralDistrict,
      * or with status 400 (Bad Request) if the electoralDistrict is not valid,
      * or with status 500 (Internal Server Error) if the electoralDistrict couldn't be updated
@@ -69,16 +77,18 @@ public class ElectoralDistrictResource {
      */
     @PutMapping("/electoral-districts")
     @Timed
-    public ResponseEntity<ElectoralDistrict> updateElectoralDistrict(@Valid @RequestBody ElectoralDistrict electoralDistrict) throws URISyntaxException {
-        log.debug("REST request to update ElectoralDistrict : {}", electoralDistrict);
-        if (electoralDistrict.getId() == null) {
-            return createElectoralDistrict(electoralDistrict);
+    public ResponseEntity<ElectoralDistrictDTO> updateElectoralDistrict(@Valid @RequestBody ElectoralDistrictDTO electoralDistrictDTO) throws URISyntaxException {
+        log.debug("REST request to update ElectoralDistrict : {}", electoralDistrictDTO);
+        if (electoralDistrictDTO.getElectoral_district_id() == null) {
+            return createElectoralDistrict(electoralDistrictDTO);
         }
-        ElectoralDistrict result = electoralDistrictRepository.save(electoralDistrict);
-        FillElectoralDistrict(result);
+        ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(electoralDistrictDTO.getElectoral_district_id());
+        electoralDistrict.setMunicipalityId(electoralDistrictDTO.getMunicipality_id());
+        electoralDistrict.setElectoralDistrictName(electoralDistrictDTO.getElectoral_district_name());
+        electoralDistrictRepository.save(electoralDistrict);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, electoralDistrict.getId().toString()))
-            .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, electoralDistrict.getElectoral_district_id().toString()))
+            .body(electoralDistrictDTO);
     }
 
     /**
@@ -88,12 +98,9 @@ public class ElectoralDistrictResource {
      */
     @GetMapping("/electoral-districts")
     @Timed
-    public List<ElectoralDistrict> getAllElectoralDistricts() {
+    public List<ElectoralDistrictDTO> getAllElectoralDistricts() {
         log.debug("REST request to get all ElectoralDistricts");
-        return electoralDistrictRepository.findAll().stream().map(c -> {
-            FillElectoralDistrict(c);
-            return c;
-        }).collect(Collectors.toList());
+        return electoralDistrictRepository.findAll().stream().map(ElectoralDistrictDTO::new).collect(Collectors.toList());
     }
 
     /**
@@ -104,10 +111,9 @@ public class ElectoralDistrictResource {
      */
     @GetMapping("/electoral-districts/{id}")
     @Timed
-    public ResponseEntity<ElectoralDistrict> getElectoralDistrict(@PathVariable Long id) {
+    public ResponseEntity<ElectoralDistrictDTO> getElectoralDistrict(@PathVariable UUID id) {
         log.debug("REST request to get ElectoralDistrict : {}", id);
-        ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(id);
-        FillElectoralDistrict(electoralDistrict);
+        ElectoralDistrictDTO electoralDistrict = electoralDistrictRepository.findOneDTO(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(electoralDistrict));
     }
 
@@ -119,7 +125,7 @@ public class ElectoralDistrictResource {
      */
     @DeleteMapping("/electoral-districts/{id}")
     @Timed
-    public ResponseEntity<Void> deleteElectoralDistrict(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteElectoralDistrict(@PathVariable UUID id) {
         log.debug("REST request to delete ElectoralDistrict : {}", id);
         electoralDistrictRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -127,18 +133,7 @@ public class ElectoralDistrictResource {
 
     @GetMapping("/municipalities/{municipalityId}/electoral_districts")
     @Timed
-    public List<ElectoralDistrict> getElectoralDistrictsByMunicipalityId(@PathVariable Long municipalityId){
-        return electoralDistrictRepository.findAll()
-            .stream().filter(c -> c.getMunicipality().getId().equals(municipalityId))
-            .map(c -> {
-                FillElectoralDistrict(c);
-                return c;
-            })
-            .collect(Collectors.toList());
-    }
-
-    private void FillElectoralDistrict(ElectoralDistrict district){
-        district.setFirst_round_votes_accepted(false);
-        district.setFirst_round_votes_accepted(false);
+    public List<ElectoralDistrictDTO> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId){
+        return electoralDistrictRepository.findInMunicipalityDTO(municipalityId);
     }
 }

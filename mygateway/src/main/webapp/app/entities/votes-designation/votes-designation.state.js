@@ -62,7 +62,7 @@
                                             candidate_votes.push({
                                                 candidate:candidate,
                                                 number_of_votes:0,
-                                                candidate_id:candidate.id
+                                                candidate_id:candidate.candidate_id
                                             });
                                         });
                                         return candidate_votes;

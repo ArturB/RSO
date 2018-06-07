@@ -59,13 +59,13 @@
 
         <div class="form-group">
             <label for="field_electoralDistrict">Okręg wyborczy</label>
-            <select class="form-control" id="field_electoralDistrict" name="electoralDistrict" ng-model="vm.votesFromDistrict.electoralDistrict" ng-options="electoralDistrict as electoralDistrict.id for electoralDistrict in vm.electoraldistricts track by electoralDistrict.id">
+            <select class="form-control" id="field_electoralDistrict" name="electoralDistrict" ng-model="vm.votesFromDistrict.electoralDistrict" ng-options="electoralDistrict as electoralDistrict.electoral_district_id for electoralDistrict in vm.electoraldistricts track by electoralDistrict.electoral_district_id">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group">
             <label for="field_candidate">Kandydat</label>
-            <select class="form-control" id="field_candidate" name="candidate" ng-model="vm.votesFromDistrict.candidate" ng-options="candidate as candidate.id for candidate in vm.candidates track by candidate.id">
+            <select class="form-control" id="field_candidate" name="candidate" ng-model="vm.votesFromDistrict.candidate" ng-options="candidate as candidate.candidate_id for candidate in vm.candidates track by candidate.candidate_id">
                 <option value=""></option>
             </select>
         </div>

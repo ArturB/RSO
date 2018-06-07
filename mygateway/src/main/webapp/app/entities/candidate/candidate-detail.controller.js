@@ -11,6 +11,12 @@
         var vm = this;
 
         vm.candidate = entity;
+        if(entity.party_id) {
+            vm.candidate.party = Party.get({id: entity.party_id});
+        }
+        if(entity.municipality_id) {
+            vm.municipality = Municipality.get({id: entity.municipality_id});
+        }
         vm.previousState = previousState.name;
 
         var unsubscribe = $rootScope.$on('mygatewayApp:candidateUpdate', function(event, result) {

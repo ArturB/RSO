@@ -1,5 +1,5 @@
 <div>
-    <h2>Użytkownicy z gminy {{vm.municipality.name}}</h2>
+    <h2>Użytkownicy z gminy {{vm.municipality.municipality_name}}</h2>
     <jhi-alert></jhi-alert>
     <br/>
     <div class="table-responsive"
@@ -7,13 +7,13 @@
         <h2 ng-show="value[0].electoralDistrictId">
             Członkowie okręgowej komisji wyborczej {{vm.GetElectoralDistrictName(value[0].electoralDistrictId)}}</h2>
         <h2 ng-hide="value[0].electoralDistrictId">
-            Członkowie gminnej komisji wyborczej gminy {{vm.municipality .name}}</h2>
+            Członkowie gminnej komisji wyborczej gminy {{vm.municipality.municipality_name}}</h2>
 
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-4 no-padding-left" ng-show="value[0].electoralDistrictId">
                     <button class="btn btn-primary"
-                            ui-sref="custom-user.bigNew({municipalityId:vm.municipality.id,electoralDistrictId:value[0].electoralDistrictId})" >
+                            ui-sref="custom-user.bigNew({municipalityId:vm.municipality.municipality_id,electoralDistrictId:value[0].electoralDistrictId})" >
                         <span class="glyphicon glyphicon-plus"></span>
                         <span> Dodaj użytkownika okręgu</span>
                     </button>
@@ -21,7 +21,7 @@
                 <div class="col-xs-4 no-padding-left" ng-hide="value[0].electoralDistrictId"
                      has-authority="ROLE_GKW_LEADER">
                     <button class="btn btn-primary"
-                            ui-sref="custom-user.bigNew({municipalityId:vm.municipality.id})" >
+                            ui-sref="custom-user.bigNew({municipalityId:vm.municipality.municipality_id})" >
                         <span class="glyphicon glyphicon-plus"></span>
                         <span> Dodaj użytkownika gminy</span>
                     </button>
@@ -38,8 +38,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="customUser in value |  orderBy:['role','username'] track by customUser.id ">
-                    <td>{{customUser.username}}</td>
+                <tr ng-repeat="customUser in value |  orderBy:['role','username'] track by customUser.id "
+                    ng-class="vm.getRowCssClass(customUser)">
+                    <td>{{customUser.username}} </td>
                     <td>{{vm.translateRole(customUser.role)}}</td>
                     <td class="text-right" >
                         <div class="btn-group flex-btn-group-container" >
@@ -47,7 +48,7 @@
                                     ui-sref="custom-user.bigEdit(
                                         {
                                         userId:customUser.id,
-                                        municipalityId:vm.municipality.id,
+                                        municipalityId:vm.municipality.municipality_id,
                                         electoralDistrictId:value[0].electoralDistrictId
                                         })"
                                     ng-disabled="!vm.canDisableUser(customUser)"

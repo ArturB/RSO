@@ -24,7 +24,7 @@
 
         function save () {
             vm.isSaving = true;
-            if (vm.municipality.id !== null) {
+            if (vm.municipality.municipality_id !== null) {
                 Municipality.update(vm.municipality, onSaveSuccess, onSaveError);
             } else {
                 Municipality.save(vm.municipality, onSaveSuccess, onSaveError);

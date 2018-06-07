@@ -1,5 +1,5 @@
 <div>
-    <h2>Potwierdź protokół z okręgu wyborczego <b>{{vm.electoralDistrict.name}}</b>
+    <h2>Potwierdź protokół z okręgu wyborczego <b>{{vm.electoralDistrict.electoral_district_name}}</b>
         , z tury
         <b is-period="MidRoundPeriod">pierwszej</b>
         <b is-period="PostElectionPeriod">drugiej</b>
@@ -24,7 +24,7 @@
                     <b>{{candidateVote.candidate.name}} {{candidateVote.candidate.surname}}</b>
                 </td>
                 <td>
-                    {{candidateVote.candidate.party.name}}
+                    {{candidateVote.candidate.party.party_name}}
                 </td>
                 <td>
                     <input type="number" class="form-control" name="votesCount" id="field_votesCount"

@@ -1,7 +1,9 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.datastax.driver.core.utils.UUIDs;
 import org.voting.gateway.domain.Party;
+
 
 import org.voting.gateway.repository.PartyRepository;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
@@ -18,6 +20,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * REST controller for managing Party.
@@ -43,16 +46,17 @@ public class PartyResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new party, or with status 400 (Bad Request) if the party has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/parties")
+   @PostMapping("/parties")
     @Timed
     public ResponseEntity<Party> createParty(@Valid @RequestBody Party party) throws URISyntaxException {
         log.debug("REST request to save Party : {}", party);
-        if (party.getId() != null) {
+        if (party.getParty_id() != null) {
             throw new BadRequestAlertException("A new party cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        party.setParty_id(UUIDs.timeBased());
         Party result = partyRepository.save(party);
-        return ResponseEntity.created(new URI("/api/parties/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/parties/" + result.getParty_id()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getParty_id().toString()))
             .body(result);
     }
 
@@ -69,12 +73,12 @@ public class PartyResource {
     @Timed
     public ResponseEntity<Party> updateParty(@Valid @RequestBody Party party) throws URISyntaxException {
         log.debug("REST request to update Party : {}", party);
-        if (party.getId() == null) {
+        if (party.getParty_id() == null) {
             return createParty(party);
         }
         Party result = partyRepository.save(party);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, party.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, party.getParty_id().toString()))
             .body(result);
     }
 
@@ -98,7 +102,7 @@ public class PartyResource {
      */
     @GetMapping("/parties/{id}")
     @Timed
-    public ResponseEntity<Party> getParty(@PathVariable Long id) {
+    public ResponseEntity<Party> getParty(@PathVariable UUID id) {
         log.debug("REST request to get Party : {}", id);
         Party party = partyRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(party));
@@ -112,7 +116,7 @@ public class PartyResource {
      */
     @DeleteMapping("/parties/{id}")
     @Timed
-    public ResponseEntity<Void> deleteParty(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteParty(@PathVariable UUID id) {
         log.debug("REST request to delete Party : {}", id);
         partyRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
