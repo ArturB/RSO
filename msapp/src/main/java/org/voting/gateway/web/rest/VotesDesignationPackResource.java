@@ -1,8 +1,6 @@
 package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.datastax.driver.core.utils.UUIDs;
-import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +10,8 @@ import org.voting.gateway.service.VotesDesignationPackDTO;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -48,7 +44,7 @@ public class VotesDesignationPackResource {
 
 
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesPack.getUserId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesPack.getUser_id().toString()))
             .build();
     }
 
@@ -62,16 +58,16 @@ public class VotesDesignationPackResource {
         votesDesignationPackRepository.edit(votesPack);
 
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesPack.getUserId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesPack.getUser_id().toString()))
             .build();
     }
 
     @GetMapping("/votes_designation_pack/getFromUser/{round}/{userId}")
     @Timed
-    public List<VotesDesignationPackDTO> getVotes(@PathVariable UUID turnId, @PathVariable UUID userId) {
-        log.debug("REST request to get  VotesDesignationPack : round {} userId {} ", turnId, userId);
+    public List<VotesDesignationPackDTO> getVotes(@PathVariable Integer round, @PathVariable UUID userId) {
+        log.debug("REST request to get  VotesDesignationPack : round {} userId {} ", round, userId);
 
-        List<VotesDesignationPackDTO> votePack = votesDesignationPackRepository.findByTurnByUser(turnId,userId);
+        List<VotesDesignationPackDTO> votePack = votesDesignationPackRepository.findByTurnByUser(round,userId);
 
         return votePack;
     }

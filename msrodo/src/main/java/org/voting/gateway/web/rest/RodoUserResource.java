@@ -35,39 +35,39 @@ public class RodoUserResource {
     private final Logger log = LoggerFactory.getLogger(RodoUserResource.class);
     private final RodoUserRepository rodoUserRepository;
     private final RodoUserEncrypter encrypter;
-    
+
     private static final String ENTITY_NAME = "RodoUser";
-    
+
     public RodoUserResource(RodoUserRepository rodoUserRepository, RodoUserEncrypter encrypter) {
     	this.rodoUserRepository = rodoUserRepository;
     	this.encrypter = encrypter;
     }
-    
-    @GetMapping("rodoUser/{id}")
+
+    @GetMapping("/rodoUser/{id}")
     public ResponseEntity<RodoUserDTO> getRodoUser(@PathVariable UUID id)
     {
     	log.debug("REST request to get rodo user data by user id : {}", id);
     	RodoUserDTO rodoUser = null;
-    	
+
     	rodoUser = encrypter.decryptUserData(rodoUserRepository.findOne(id));
-    	
+
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rodoUser));
     }
-    
-    @PutMapping("saveRodoUser")
+
+    @PutMapping("/saveRodoUser")
     public ResponseEntity<Void> saveRodoUser(@Valid @RequestBody RodoUserDTO rodoUser)
     {
     	rodoUserRepository.save(encrypter.encryptUserData(rodoUser));
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rodoUser.getId().toString())).build();
     }
-        
-    @DeleteMapping("deleteRodoUser/{id}")
+
+    @DeleteMapping("/deleteRodoUser/{id}")
     public ResponseEntity<Void> deleteRodoUser(@PathVariable UUID id)
     {
     	log.debug("REST request to delete rodo user data by user id : {}", id);
-    	rodoUserRepository.delete(id);    	
+    	rodoUserRepository.delete(id);
     	return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-    
-    
+
+
 }

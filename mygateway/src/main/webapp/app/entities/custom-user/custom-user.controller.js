@@ -52,7 +52,14 @@
             if (!vm.electoral_district_namesCache[id]) {
                 vm.electoral_district_namesCache[id] = ElectoralDistrict.get({id: id});
             }
-            return vm.electoral_district_namesCache[id].name;
+            return vm.electoral_district_namesCache[id].electoral_district_name;
+        };
+
+        vm.GetMunicipalityName = function (id) {
+            if (!id) {
+                return;
+            }
+            return ElectoralDistrict.get({id: id}).name;
         };
 
         $scope.minRole = function (arr) {
@@ -72,9 +79,17 @@
                     return false;
                 }
             }
+            if(customUser.disabled){
+                return false;
+            }
             return true;
         };
 
+        vm.getRowCssClass = function(user){
+            if(user.disabled){
+                return "disabledUser";
+            }
+        }
     }
 
 })();

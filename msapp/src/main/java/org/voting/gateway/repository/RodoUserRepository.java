@@ -38,7 +38,7 @@ public class RodoUserRepository {
 
     @Autowired
     @Lazy
-    @Qualifier("loadBalancedRestTemplate")
+    @Qualifier("loadBalancedRestTemplate2")
     RestTemplate restTemplate;
 
     public RodoUserDTO findOne(UUID id) {

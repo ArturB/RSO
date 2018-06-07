@@ -34,7 +34,7 @@ public class VotesDesignationPackRepository {
     public void add(VotesDesignationPackDTO votesPack) {
 
 
-        ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(votesPack.getElectoralDistrictId());
+        ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(votesPack.getElectoral_district_id());
         List<Turn> turns = turnRepository.findInMunicipality(electoralDistrict.getMunicipalityId());
         List<ElectoralPeriod> electoralPeriods = electoralPeriodsRepository.findAll();
         Date time = new Date();
@@ -66,30 +66,30 @@ public class VotesDesignationPackRepository {
             .forEach(c ->{
                 VotesFromDistrict votes = new VotesFromDistrict(UUIDs.timeBased(),
                     c.getCandidate_id(),votesPack.getDate(),votingData.getId(),
-                    c.getNumber_of_votes(),"VALID",votesPack.getUserId());
+                    c.getNumber_of_votes(),"VALID",votesPack.getUser_id());
                 votesFromDistrictRepository.save(votes);
             });
 
         VotesFromDistrict votesTooMany = new VotesFromDistrict(UUIDs.timeBased(),
             null,votesPack.getDate(),votingData.getId(),
-            votesPack.getTooManyMarksCardsUsed(),"TOO MANY",votesPack.getUserId());
+            votesPack.getTooManyMarksCardsUsed(),"TOO MANY",votesPack.getUser_id());
         votesFromDistrictRepository.save(votesTooMany);
 
         VotesFromDistrict votesNone = new VotesFromDistrict(UUIDs.timeBased(),
             null,votesPack.getDate(),votingData.getId(),
-            votesPack.getNoneMarksCardsUsed(),"NONE",votesPack.getUserId());
+            votesPack.getNone_marks_cards_used(),"NONE",votesPack.getUser_id());
         votesFromDistrictRepository.save(votesNone);
 
         VotesFromDistrict votesErased = new VotesFromDistrict(UUIDs.timeBased(),
             null,votesPack.getDate(),votingData.getId(),
-            votesPack.getErasedMarksCardsUsed(),"ERASED",votesPack.getUserId());
+            votesPack.getErasedMarksCardsUsed(),"ERASED",votesPack.getUser_id());
         votesFromDistrictRepository.save(votesErased);
     }
 
     public void edit(VotesDesignationPackDTO votesPack) {
 
 
-        ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(votesPack.getElectoralDistrictId());
+        ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(votesPack.getElectoral_district_id());
         List<Turn> turns = turnRepository.findInMunicipality(electoralDistrict.getMunicipalityId());
         List<ElectoralPeriod> electoralPeriods = electoralPeriodsRepository.findAll();
         Date time = new Date();
@@ -117,7 +117,7 @@ public class VotesDesignationPackRepository {
 
         if(votingData.isVotingFinished()) throw new RuntimeException("Voting ended");
 
-        List<VotesFromDistrict> votesFromDistrict = votesFromDistrictRepository.findByUserByVotingData(votesPack.getUserId(),votingData.getId());
+        List<VotesFromDistrict> votesFromDistrict = votesFromDistrictRepository.findByUserByVotingData(votesPack.getUser_id(),votingData.getId());
 
         //kasowanie
 
@@ -136,25 +136,25 @@ public class VotesDesignationPackRepository {
             .forEach(c ->{
                 VotesFromDistrict votes = new VotesFromDistrict(UUIDs.timeBased(),
                     c.getCandidate_id(),votesPack.getDate(),votingData.getId(),
-                    c.getNumber_of_votes(),"VALID",votesPack.getUserId());
+                    c.getNumber_of_votes(),"VALID",votesPack.getUser_id());
                 votesFromDistrictRepository.save(votes);
             });
 
         VotesFromDistrict votesTooMany = new VotesFromDistrict(UUIDs.timeBased(),
             null,votesPack.getDate(),votingData.getId(),
-            votesPack.getTooManyMarksCardsUsed(),"TOO MANY",votesPack.getUserId());
+            votesPack.getTooManyMarksCardsUsed(),"TOO MANY",votesPack.getUser_id());
 
         votesFromDistrictRepository.save(votesTooMany);
 
         VotesFromDistrict votesNone = new VotesFromDistrict(UUIDs.timeBased(),
             null,votesPack.getDate(),votingData.getId(),
-            votesPack.getNoneMarksCardsUsed(),"NONE",votesPack.getUserId());
+            votesPack.getNone_marks_cards_used(),"NONE",votesPack.getUser_id());
 
         votesFromDistrictRepository.save(votesNone);
 
         VotesFromDistrict votesErased = new VotesFromDistrict(UUIDs.timeBased(),
             null,votesPack.getDate(),votingData.getId(),
-            votesPack.getErasedMarksCardsUsed(),"ERASED",votesPack.getUserId());
+            votesPack.getErasedMarksCardsUsed(),"ERASED",votesPack.getUser_id());
 
         votesFromDistrictRepository.save(votesErased);
 
@@ -168,7 +168,7 @@ public class VotesDesignationPackRepository {
         if( smallUser.getElectoral_district_id() == null) throw new RuntimeException("User "+ userId +" has no district");
         if( smallUser.getMunicipality_id() == null) throw new RuntimeException("User "+ userId +" has no Municipality");
 
-        //ElectoralDistrict district = electoralDistrictRepository.findOne(smallUser.getElectoralDistrictId());
+        //ElectoralDistrict district = electoralDistrictRepository.findOne(smallUser.getElectoral_district_id());
 
         UUID turnId = turnRepository.findUUIDInMunicipalityByNumber(smallUser.getMunicipality_id(),turnNum);
 
@@ -192,14 +192,14 @@ public class VotesDesignationPackRepository {
                 List<VotesFromDistrict> votesFromDistrict =  votesInPacks.get(p);
 
                 VotesDesignationPackDTO votesDesignationPackDTO = new VotesDesignationPackDTO();
-                votesDesignationPackDTO.setUserId(userId);
-                votesDesignationPackDTO.setElectoralDistrictId(smallUser.getElectoral_district_id());
+                votesDesignationPackDTO.setUser_id(userId);
+                votesDesignationPackDTO.setElectoral_district_id(smallUser.getElectoral_district_id());
                 votesDesignationPackDTO.setTooManyMarksCardsUsed(
                     votesFromDistrict.stream()
                     .filter(v -> v.getType().equals("TOO MANY"))
                     .mapToInt(v-> v.getNumberOfVotes()).sum()
                 );
-                votesDesignationPackDTO.setNoneMarksCardsUsed(
+                votesDesignationPackDTO.setNone_marks_cards_used(
                     votesFromDistrict.stream()
                         .filter(v -> v.getType().equals("NONE"))
                         .mapToInt(v-> v.getNumberOfVotes()).sum()

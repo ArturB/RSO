@@ -39,9 +39,9 @@
 
         service.getCurrentPeriod = function() {
             var deferred = $q.defer();
-            _debugPeriod = {
-                name:'PreElectionPeriod'
-            };
+            // _debugPeriod = {
+            //     name:'PreElectionPeriod'
+            // };
             if(_debugPeriod){
                 deferred.resolve(angular.copy(_debugPeriod));
             }else if(_periods){

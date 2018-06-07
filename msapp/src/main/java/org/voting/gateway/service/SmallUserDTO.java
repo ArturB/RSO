@@ -13,18 +13,18 @@ public class SmallUserDTO implements Serializable {
 	private UUID municipalityId;
 	private UUID electoralDistrictId;
 	private String role;
+	private boolean disabled;
     private Set<String> authorities;
 
-    public SmallUserDTO()    {}
-
-	public SmallUserDTO(UUID id, String username, UUID municipalityId, UUID electoralDistrictId, String role)
+	public SmallUserDTO(UUID id, String username, UUID municipalityId, UUID electoralDistrictId, String role, boolean disabled)
 	{
 		this.id = id;
 		this.username = username;
 		this.municipalityId = municipalityId;
 		this.electoralDistrictId = electoralDistrictId;
 		this.role = role;
-		this.authorities = new HashSet<>();
+        this.disabled = disabled;
+        this.authorities = new HashSet<>();
 		this.authorities.add(role);
 	}
 
@@ -74,5 +74,13 @@ public class SmallUserDTO implements Serializable {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 }

@@ -7,7 +7,7 @@
     CustomUser.$inject = ['$resource'];
 
     function CustomUser ($resource) {
-        var resourceUrl =  'msapp/' + 'api/custom-users/:id';
+        var resourceUrl =  'msapp/' + 'api/users/small/:id';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},

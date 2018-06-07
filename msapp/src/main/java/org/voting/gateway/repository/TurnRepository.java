@@ -29,7 +29,8 @@ public class TurnRepository {
 
 
     public List<Turn> findInMunicipality(UUID municipalityId) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM turn WHERE commune = ?" , municipalityId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM turn WHERE commune = ? ALLOW " +
+            "FILTERING" , municipalityId);
         Result<Turn> turns = mapper.map(results);
         return turns.all();
     }
@@ -45,7 +46,8 @@ public class TurnRepository {
     }
 
     public Turn findInMunicipalityByNumber(UUID municipalityId,int turnNumber) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM turn WHERE commune = ?" , municipalityId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM turn WHERE commune = ? ALLOW " +
+                "FILTERING" , municipalityId);
         Result<Turn> resTurns = mapper.map(results);
         List<Turn> turns = resTurns.all();
 

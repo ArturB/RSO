@@ -159,7 +159,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     }
 
     @Bean
-    @Qualifier("loadBalancedRestTemplate")
+    @Qualifier("loadBalancedRestTemplate2")
     @LoadBalanced
     public RestTemplate loadBalancedRestTemplate(){
         return new RestTemplate();

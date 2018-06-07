@@ -164,7 +164,8 @@ public class CandidateResource {
      */
     @GetMapping("/municipalities/{municipalityId}/{turn}/candidates")
     @Timed
-    public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId, @PathVariable UUID turn){
+    public List<Candidate> getElectoralDistrictsByMunicipalityId(@PathVariable UUID municipalityId, @PathVariable
+                                                                 Integer turn){
         return candidateRepository.findInMunicipalityByTurn(municipalityId,turn);
     }
 }

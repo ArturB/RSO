@@ -1,7 +1,5 @@
 package org.voting.gateway.service;
 
-import com.datastax.driver.core.LocalDate;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -12,11 +10,11 @@ public class VotesDesignationPackDTO implements Serializable {
 	private List<VotesDesignationSingleCandidateDTO>  candidate_votes;
 	private Date date;
 
-	private UUID electoralDistrictId;
-	private UUID userId;
-	private int tooManyMarksCardsUsed;
-	private int noneMarksCardsUsed;
-	private int erasedMarksCardsUsed;
+	private UUID electoral_district_id;
+	private UUID user_id;
+	private int too_many_marks_cards_used;
+	private int none_marks_cards_used;
+	private int erased_marks_cards_used;
 
 
 
@@ -37,39 +35,39 @@ public class VotesDesignationPackDTO implements Serializable {
         this.date = date;
     }
 
-    public UUID getElectoralDistrictId() {
-        return electoralDistrictId;
+    public UUID getElectoral_district_id() {
+        return electoral_district_id;
     }
 
-    public void setElectoralDistrictId(UUID electoralDistrictId) {
-        this.electoralDistrictId = electoralDistrictId;
+    public void setElectoral_district_id(UUID electoral_district_id) {
+        this.electoral_district_id = electoral_district_id;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public UUID getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(UUID userId) {
-        this.userId = userId;
+    public void setUser_id(UUID user_id) {
+        this.user_id = user_id;
     }
 
     public int getTooManyMarksCardsUsed() {
-		return tooManyMarksCardsUsed;
+		return too_many_marks_cards_used;
 	}
 	public void setTooManyMarksCardsUsed(int tooManyMarksCardsUsed) {
-		this.tooManyMarksCardsUsed = tooManyMarksCardsUsed;
+		this.too_many_marks_cards_used = tooManyMarksCardsUsed;
 	}
-	public int getNoneMarksCardsUsed() {
-		return noneMarksCardsUsed;
+	public int getNone_marks_cards_used() {
+		return none_marks_cards_used;
 	}
-	public void setNoneMarksCardsUsed(int noneMarksCardsUsed) {
-		this.noneMarksCardsUsed = noneMarksCardsUsed;
+	public void setNone_marks_cards_used(int none_marks_cards_used) {
+		this.none_marks_cards_used = none_marks_cards_used;
 	}
 	public int getErasedMarksCardsUsed() {
-		return erasedMarksCardsUsed;
+		return erased_marks_cards_used;
 	}
 	public void setErasedMarksCardsUsed(int erasedMarksCardsUsed) {
-		this.erasedMarksCardsUsed = erasedMarksCardsUsed;
+		this.erased_marks_cards_used = erasedMarksCardsUsed;
 	}
 
 

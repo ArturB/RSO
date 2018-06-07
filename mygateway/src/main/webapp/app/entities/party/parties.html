@@ -24,25 +24,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="party in vm.parties | orderBy:'party_name' track by party.id ">
+                <tr ng-repeat="party in vm.parties | orderBy:'party_name' track by party.party_id ">
                     <td>{{party.party_abbreviation}}</td>
                     <td>{{party.party_name}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
-                                    ui-sref="party-detail({id:party.id})"
+                                    ui-sref="party-detail({id:party.party_id})"
                                     class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="party.edit({id:party.id})"
+                                    ui-sref="party.edit({id:party.party_id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="party.delete({id:party.id})"
+                                    ui-sref="party.delete({id:party.party_id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-sm-down"></span>

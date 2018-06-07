@@ -32,7 +32,7 @@ public class VotesFromDistrictRepository {
     public List<VotesFromDistrict> findByUserByVotingData(UUID userId, UUID vdId) {
 
         Statement statement = new SimpleStatement("SELECT * FROM votes_from_ward " +
-            "WHERE user = ? AND voting_data = ?", userId, vdId);
+            "WHERE user = ? AND voting_data = ? ALLOW FILTERING", userId, vdId);
 
         ResultSet results = cassandraSession.getSession().execute(statement);
         Result<VotesFromDistrict> votes = mapper.map(results);
@@ -48,7 +48,7 @@ public class VotesFromDistrictRepository {
     public List<VotesFromDistrict> findByVotingData(UUID vdId) {
 
         Statement statement = new SimpleStatement("SELECT * FROM votes_from_ward " +
-            "WHERE voting_data = ?", vdId);
+            "WHERE voting_data = ? ALLOW FILTERING", vdId);
 
         ResultSet results = cassandraSession.getSession().execute(statement);
         Result<VotesFromDistrict> votes = mapper.map(results);

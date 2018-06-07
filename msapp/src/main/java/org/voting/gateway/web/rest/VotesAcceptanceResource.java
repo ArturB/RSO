@@ -33,7 +33,8 @@ public class VotesAcceptanceResource {
 
     @PostMapping("/districts/{districtId}/{round}/acceptVotes")
     @Timed
-    public ResponseEntity<Void> acceptVotesDistrict(@PathVariable UUID districtId, @PathVariable UUID round, @Valid @RequestBody VotesAcceptBodyDTO votesAcceptBody){
+    public ResponseEntity<Void> acceptVotesDistrict(@PathVariable UUID districtId, @PathVariable Integer round, @Valid
+    @RequestBody VotesAcceptBodyDTO votesAcceptBody){
         log.debug("REST request to accept votes from district: {} and round {}", districtId, round);
 
         votesAcceptanceRepository.acceptDistrict(districtId,round,votesAcceptBody);
@@ -45,7 +46,7 @@ public class VotesAcceptanceResource {
 
     @PostMapping("/municipalities/{municipalityId}/{round}/acceptVotes")
     @Timed
-    public ResponseEntity<Void> acceptVotesMunicipality(@PathVariable UUID municipalityId, @PathVariable UUID round){
+    public ResponseEntity<Void> acceptVotesMunicipality(@PathVariable UUID municipalityId, @PathVariable Integer round){
         log.debug("REST request to accept votes from municipality: {} and round {}", municipalityId, round);
 
         votesAcceptanceRepository.acceptMunicipality(municipalityId,round);

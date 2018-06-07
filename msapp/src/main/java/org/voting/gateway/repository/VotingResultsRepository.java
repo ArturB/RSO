@@ -27,7 +27,7 @@ public class VotingResultsRepository {
     public List<VotingResults> findByMunicipalityByRound(UUID municipalityId, UUID round) {
 
         Statement statement = new SimpleStatement("SELECT * FROM voting_results " +
-            "WHERE commune_id = ? AND turn_id = ?", municipalityId, round);
+            "WHERE commune_id = ? AND turn_id = ? ALLOW FILTERING", municipalityId, round);
 
         ResultSet results = cassandraSession.getSession().execute(statement);
         Result<VotingResults> votes = mapper.map(results);

@@ -32,4 +32,13 @@ public class PartyRepository {
         Party res = mapper.get(id);
         return res;
     }
+
+    public Party save(Party party) {
+        mapper.save(party);
+        return party;
+    }
+
+    public void delete(UUID id) {
+        mapper.delete(id);
+    }
 }

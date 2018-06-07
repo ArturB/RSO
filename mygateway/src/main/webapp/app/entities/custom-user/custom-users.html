@@ -7,7 +7,7 @@
         <h2 ng-show="value[0].electoralDistrictId">
             Członkowie okręgowej komisji wyborczej {{vm.GetElectoralDistrictName(value[0].electoralDistrictId)}}</h2>
         <h2 ng-hide="value[0].electoralDistrictId">
-            Członkowie gminnej komisji wyborczej gminy {{vm.municipality .name}}</h2>
+            Członkowie gminnej komisji wyborczej gminy {{vm.municipality.municipality_name}}</h2>
 
         <div class="container-fluid">
             <div class="row">
@@ -38,8 +38,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="customUser in value |  orderBy:['role','username'] track by customUser.id ">
-                    <td>{{customUser.username}}</td>
+                <tr ng-repeat="customUser in value |  orderBy:['role','username'] track by customUser.id "
+                    ng-class="vm.getRowCssClass(customUser)">
+                    <td>{{customUser.username}} </td>
                     <td>{{vm.translateRole(customUser.role)}}</td>
                     <td class="text-right" >
                         <div class="btn-group flex-btn-group-container" >

@@ -82,8 +82,7 @@ public class ElectoralDistrictResource {
         if (electoralDistrictDTO.getElectoral_district_id() == null) {
             return createElectoralDistrict(electoralDistrictDTO);
         }
-        ElectoralDistrict electoralDistrict = new ElectoralDistrict();
-        electoralDistrict.setElectoral_district_id(UUIDs.timeBased());
+        ElectoralDistrict electoralDistrict = electoralDistrictRepository.findOne(electoralDistrictDTO.getElectoral_district_id());
         electoralDistrict.setMunicipalityId(electoralDistrictDTO.getMunicipality_id());
         electoralDistrict.setElectoralDistrictName(electoralDistrictDTO.getElectoral_district_name());
         electoralDistrictRepository.save(electoralDistrict);

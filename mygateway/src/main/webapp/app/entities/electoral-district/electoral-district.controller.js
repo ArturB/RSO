@@ -24,7 +24,7 @@
             }).then(function(result){
                 vm.electoralDistricts = [];
                 angular.forEach(result, function(district){
-                    // district.municipality = Municipality.get({id:district.municipalityId});
+                    district.municipality = Municipality.get({id:district.municipality_id});
                     vm.electoralDistricts.push(district);
                 });
                 vm.searchQuery = null;
@@ -40,7 +40,7 @@
             }).then(function(result){
                 vm.electoralDistricts = [];
                 angular.forEach(result, function(district){
-                    district.municipality = Municipality.get({id:district.municipalityId});
+                    district.municipality = Municipality.get({id:district.municipality_id});
                     vm.electoralDistricts.push(district);
                 });
                 vm.searchQuery = null;

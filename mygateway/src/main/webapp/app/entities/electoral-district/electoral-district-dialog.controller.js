@@ -17,6 +17,15 @@
         vm.save = save;
         vm.municipalities = Municipality.query();
 
+            Principal.identity().then(function(account){
+                if(account.municipality_id){
+                    if(!vm.electoralDistrict.municipality) {
+                        vm.electoralDistrict.municipality = Municipality.get({id: account.municipality_id});
+                    }
+                    vm.electoralDistrict.municipality_id = account.municipality_id;
+                }
+            });
+
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });
@@ -41,6 +50,9 @@
             if(!vm.municipality){
                 Principal.identity().then(function(account){
                     if(account.municipality_id){
+                        if(!vm.electoralDistrict.municipality) {
+                            vm.electoralDistrict.municipality = Municipality.get({id: vm.electoralDistrict.municipalityId});
+                        }
                         vm.electoralDistrict.municipality_id = account.municipality_id;
                     }
                     finishElectoralDistrictSetting();

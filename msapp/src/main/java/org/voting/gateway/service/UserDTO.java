@@ -17,9 +17,9 @@ public class UserDTO {
     private UUID electoralDistrictId;
     private UUID municipalityId;
     private String role;
-    
+
     private String password;
-    
+
     public UserDTO(UUID id, String username, String name, String surname,
     		String documentType, String documentNr, String email, Date birthdate,
     		String pesel, UUID electoralDistrictId, UUID municipalityId, String role)
@@ -38,7 +38,10 @@ public class UserDTO {
     	this.role = role;
     }
 
-	public UUID getId() {
+    public UserDTO() {
+    }
+
+    public UUID getId() {
 		return id;
 	}
 
@@ -142,8 +145,8 @@ public class UserDTO {
 		this.password = password;
 	}
 
-    
-    
+
+
 	// TODO
 	/*
 	 * Stworzyc userdto i na podstawie tego czy aktualnie zalogowany uzytkownik to admin

@@ -26,8 +26,8 @@ public class VotingReportRepository {
 
     public List<VotingReport> findReportsByDistrictRound(UUID districtId, UUID roundId)
     {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_report WHERE ward_id = '" + districtId + "'"
-        		+ "AND turn_id = '" + roundId + "'");
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_report WHERE ward_id = ? "
+        		+ "AND turn_id = ? ALLOW FILTERING", districtId, roundId);
     	return mapper.map(results).all();
     }
 

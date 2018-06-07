@@ -39,7 +39,7 @@ public class VotesSumResource {
     @GetMapping("municipalities/{municipalityId}/{round}/votesSum")
     @Timed
     public ResponseEntity<VotesResultDTO> getVotesFromMunicipality(@PathVariable UUID municipalityId,
-                                                           @PathVariable UUID round) {
+                                                           @PathVariable Integer round) {
 
         log.debug("REST request to get all votes sum from Municipality {} and round {}", municipalityId, round);
         VotesResultDTO votesResultDTO = votesSumRepository.getAllVotesInMunicipality( municipalityId, round);
@@ -69,7 +69,7 @@ public class VotesSumResource {
     @Timed
     public ResponseEntity<VotesResultDTO> getVotesFromElectoralDistrict(
             @PathVariable UUID districtId,
-            @PathVariable UUID round) {
+            @PathVariable Integer round) {
         log.debug("REST request to get all votes sum from district {} and round {}", districtId, round);
 
         VotesResultDTO votesResultDTO = votesSumRepository.getAllVotesInDistrict(districtId, round);

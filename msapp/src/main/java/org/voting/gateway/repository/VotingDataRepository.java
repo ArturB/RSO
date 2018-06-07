@@ -22,13 +22,15 @@ public class VotingDataRepository {
     }
 
     public List<VotingData> findInDistrict(UUID id) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE ward = ?", id);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE ward = ? ALLOW " +
+            "FILTERING", id);
         Result<VotingData> votingData = mapper.map(results);
         return votingData.all();
     }
 
     public List<VotingData> findInDistrictInTurn(UUID id,UUID tId) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE ward = ? AND turn = ?", id , tId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE ward = ? AND turn" +
+            " = ? ALLOW FILTERING", id , tId);
         Result<VotingData> votingData = mapper.map(results);
         return votingData.all();
     }
@@ -49,7 +51,8 @@ public class VotingDataRepository {
 
     public List<VotingData> findInTurn(UUID turn) {
 
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE turn = ?", turn);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM voting_data WHERE turn = ? "+
+            " ALLOW FILTERING", turn);
         Result<VotingData> votingData = mapper.map(results);
         return votingData.all();
 

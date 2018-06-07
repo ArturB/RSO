@@ -46,6 +46,7 @@ public class CandidateRepository {
     	Statement statement = new SimpleStatement("SELECT * FROM candidate");
         statement.setFetchSize(50);
         ResultSet results = cassandraSession.getSession().execute(statement);
+        int total = results.getAvailableWithoutFetching();
         Result<Candidate> candidates = mapper.map(results);
         //skip
         for (int i = 0; i < pageRequest.getOffset() &&  !candidates.isExhausted(); i++) {
@@ -56,7 +57,7 @@ public class CandidateRepository {
         	candidatesOnPage.add(candidates.one());
         }
 
-        return new PageImpl<Candidate>(candidatesOnPage) ;
+        return new PageImpl<Candidate>(candidatesOnPage, pageRequest, total) ;
     }
 
     public Candidate findOne(UUID id)
@@ -67,7 +68,8 @@ public class CandidateRepository {
 
     public void delete(UUID id)
     {
-        ResultSet results = cassandraSession.getSession().execute("SELECT votes_id FROM votes_from_ward WHERE candidate = '" + id + "'");
+        ResultSet results = cassandraSession.getSession().execute("SELECT votes_id FROM votes_from_ward WHERE " +
+            "candidate = ? ALLOW FILTERING", id);
 
         if(!results.isExhausted()) throw new RuntimeException("Cant delete candidate");
         mapper.delete(id);
@@ -75,7 +77,8 @@ public class CandidateRepository {
 
     public List<Candidate> findInMunicipality(UUID municipalityId)
     {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM candidate WHERE commune = '" + municipalityId + "'");
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM candidate WHERE commune = ?",
+            municipalityId);
         Result<Candidate> candidates = mapper.map(results);
         return candidates.all();
     }

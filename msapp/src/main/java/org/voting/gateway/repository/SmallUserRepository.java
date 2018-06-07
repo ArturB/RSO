@@ -35,7 +35,9 @@ public class SmallUserRepository {
     }
 
     public List<SmallUser> findByUsername(String login) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM user WHERE username = ?" , login );
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM user WHERE username = ? ALLOW " +
+                "FILTERING" ,
+            login );
         Result<SmallUser> users = mapper.map(results);
         return users.all();
 
@@ -81,13 +83,15 @@ public class SmallUserRepository {
     }
 
     public List<SmallUser> findInMunicipality(UUID municipalityId) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM user WHERE commune = ?" , municipalityId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM user WHERE commune = ? ALLOW " +
+            "FILTERING" , municipalityId);
         Result<SmallUser> users = mapper.map(results);
         return users.all();
     }
 
     public List<SmallUser> findInDistrict(UUID districtId) {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM user WHERE ward = ?" , districtId);
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM user WHERE ward = ? ALLOW " +
+            "FILTERING" , districtId);
         Result<SmallUser> users = mapper.map(results);
         return users.all();
 

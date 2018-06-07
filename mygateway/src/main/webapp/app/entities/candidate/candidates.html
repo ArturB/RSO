@@ -32,10 +32,11 @@
                     <td>{{candidate.surname}}</td>
                     <td>{{candidate.age}}</td>
                     <td>
-                        <a ui-sref="party-detail({id:candidate.party.id})">{{candidate.party.party_abbreviation}}</a>
+                        <a ui-sref="party-detail({id:candidate.party.party_id})">{{candidate.party.party_abbreviation}}</a>
                     </td>
                     <td>
-                        <a ui-sref="municipality-detail({id:candidate.municipality.municipality_id})">{{candidate.municipality.name}}</a>
+                        <a ui-sref="municipality-detail({id:candidate.municipality.municipality_id})">
+                            {{candidate .municipality.municipality_name}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

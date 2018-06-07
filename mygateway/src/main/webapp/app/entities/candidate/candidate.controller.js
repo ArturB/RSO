@@ -38,7 +38,9 @@
 
                 angular.forEach(vm.candidates, function(candidate){
                     candidate.municipality = Municipality.get({id:candidate.municipality_id});
-                    candidate.party = Party.get({id:candidate.party_id});
+                    if(candidate.party_id) {
+                        candidate.party = Party.get({id: candidate.party_id});
+                    }
                 });
             }
             function onError(error) {
@@ -54,6 +56,12 @@
                 return Candidate.findByMunicipalityId({municipalityId:account.municipality_id}).$promise;
             }).then(function(result){
                 vm.candidates = result;
+                angular.forEach(vm.candidates, function(candidate){
+                    candidate.municipality = Municipality.get({id:candidate.municipality_id});
+                    if(candidate.party_id) {
+                        candidate.party = Party.get({id: candidate.party_id});
+                    }
+                });
             });
         }
 
