@@ -25,20 +25,27 @@ public class VotesSumRepository {
 
 	private final VotingReportRepository votingReportRepository;
 	private final VotingResultsRepository votingResultsRepository;
+    private final TurnRepository turnRepository;
+    private final ElectoralDistrictRepository electoralDistrictRepository;
 
-    public VotesSumRepository(VotingReportRepository votingReportRepository,VotingResultsRepository votingResultsRepository) {
+    public VotesSumRepository(VotingReportRepository votingReportRepository,VotingResultsRepository votingResultsRepository,
+                              TurnRepository turnRepository, ElectoralDistrictRepository electoralDistrictRepository) {
         this.votingReportRepository = votingReportRepository;
         this.votingResultsRepository = votingResultsRepository;
-
+        this.turnRepository = turnRepository;
+        this.electoralDistrictRepository = electoralDistrictRepository;
 
 
     }
 
 
 
-    public VotesResultDTO getAllVotesInDistrict(UUID districtId, UUID roundId)
+    public VotesResultDTO getAllVotesInDistrict(UUID districtId, int turnNum)
     {
     	VotesResultDTO votesResults = new VotesResultDTO();
+
+    	UUID munID = electoralDistrictRepository.findOne(districtId).getMunicipalityId();
+    	UUID roundId = turnRepository.findUUIDInMunicipalityByNumber(munID,turnNum);
 
     	List<VotingReport> reports = votingReportRepository.findReportsByDistrictRound(districtId, roundId);
     	if(reports.isEmpty()) return null;
@@ -84,8 +91,9 @@ public class VotesSumRepository {
     	return votesResults;
     }
 
-    public VotesResultDTO getAllVotesInMunicipality(UUID municipalityId, UUID round) {
+    public VotesResultDTO getAllVotesInMunicipality(UUID municipalityId, int turnNum) {
         VotesResultDTO votesResults = new VotesResultDTO();
+        UUID round = turnRepository.findUUIDInMunicipalityByNumber(municipalityId,turnNum);
         List<VotingResults> results = votingResultsRepository.findByMunicipalityByRound( municipalityId, round);
         if(results.isEmpty()) return null;
 

@@ -23,10 +23,12 @@ public class VotesAcceptanceRepository {
     private final TurnRepository turnRepository;
     private final VotingResultsRepository votingResultsRepository;
     private final ElectoralPeriodsRepository electoralPeriodsRepository;
+    private final ElectoralDistrictRepository electoralDistrictRepository;
 
     public VotesAcceptanceRepository(VotesFromDistrictRepository votesFromDistrictRepository, VotingDataRepository votingDataRepository,
                                      TurnRepository turnRepository,VotingReportRepository votingReportRepository,
-                                     VotingResultsRepository votingResultsRepository, ElectoralPeriodsRepository electoralPeriodsRepository) {
+                                     VotingResultsRepository votingResultsRepository, ElectoralPeriodsRepository electoralPeriodsRepository,
+                                     ElectoralDistrictRepository electoralDistrictRepository) {
 
         this.votesFromDistrictRepository = votesFromDistrictRepository;
         this.votingDataRepository = votingDataRepository;
@@ -34,11 +36,15 @@ public class VotesAcceptanceRepository {
         this.votingReportRepository = votingReportRepository;
         this.votingResultsRepository = votingResultsRepository;
         this.electoralPeriodsRepository= electoralPeriodsRepository;
+        this.electoralDistrictRepository = electoralDistrictRepository;
 
 
     }
 
-    public void acceptDistrict(UUID districtId, UUID round, VotesAcceptBodyDTO votesAcceptBody) {
+    public void acceptDistrict(UUID districtId, int turnNum, VotesAcceptBodyDTO votesAcceptBody) {
+
+        UUID munId = electoralDistrictRepository.findOne(districtId).getMunicipalityId();
+        UUID round = turnRepository.findUUIDInMunicipalityByNumber(munId,turnNum);
 
         List<VotingData> votingDataList = votingDataRepository.findInDistrictInTurn(districtId,round);
         if(votingDataList.size() != 1) throw new RuntimeException("Too many voting data");
@@ -107,7 +113,9 @@ public class VotesAcceptanceRepository {
 
     }
 
-    public void acceptMunicipality(UUID municipalityId, UUID round) {
+    public void acceptMunicipality(UUID municipalityId, int turnNum) {
+
+        UUID round = turnRepository.findUUIDInMunicipalityByNumber(municipalityId,turnNum);
 
         Turn turn = turnRepository.findOne(round);
         List<VotingData> votingDataList = votingDataRepository.findInTurn(round);

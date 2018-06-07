@@ -28,7 +28,7 @@ public class Party implements Serializable {
 
     @PartitionKey
     @Column(name = "party_id")
-    private UUID id;
+    private UUID party_id;
 
     @Column(name = "party_abbreviation")
     private String party_abbreviation;
@@ -36,17 +36,13 @@ public class Party implements Serializable {
     @Column(name = "party_name")
     private String party_name;
 
-    public UUID getId() {
-        return id;
+
+    public UUID getParty_id() {
+        return party_id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Party id(UUID id) {
-    	this.id = id;
-    	return this;
+    public void setParty_id(UUID party_id) {
+        this.party_id = party_id;
     }
 
     public String getParty_abbreviation() {
@@ -84,21 +80,21 @@ public class Party implements Serializable {
             return false;
         }
         Municipality municipality = (Municipality) o;
-        if (municipality.getMunicipality_id() == null || getId() == null) {
+        if (municipality.getMunicipality_id() == null || getParty_id() == null) {
             return false;
         }
-        return Objects.equals(getId(), municipality.getMunicipality_id());
+        return Objects.equals(getParty_id(), municipality.getMunicipality_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(getParty_id());
     }
 
     @Override
     public String toString() {
         return "Municipality{" +
-            "id=" + getId() + "'" +
+            "id=" + getParty_id() + "'" +
             ", abbreviation=" + getParty_abbreviation() + "'" +
             ", name='" + getParty_name() +
             "}";

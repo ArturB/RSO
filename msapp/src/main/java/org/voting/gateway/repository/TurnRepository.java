@@ -43,4 +43,34 @@ public class TurnRepository {
     public void save(Turn turn) {
         mapper.save(turn);
     }
+
+    public Turn findInMunicipalityByNumber(UUID municipalityId,int turnNumber) {
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM turn WHERE commune = ?" , municipalityId);
+        Result<Turn> resTurns = mapper.map(results);
+        List<Turn> turns = resTurns.all();
+
+        if(turns.isEmpty()) throw new RuntimeException("Brak tur dla gminy");
+
+        if(turnNumber == 1)
+        {
+           return turns.stream()
+                .filter(t-> !t.isLastTurn())
+                .findFirst().get();
+        }
+        else if(turnNumber == 2)
+        {
+            if(turns.size() != 2) throw new RuntimeException("Nie ma 2 tur w gmminie");
+
+            return turns.stream()
+                .filter(t-> t.isLastTurn())
+                .findFirst().get();
+        }
+        else throw new RuntimeException("Zly numer tury");
+
+
+    }
+
+    public UUID findUUIDInMunicipalityByNumber(UUID municipalityId,int turnNumber) {
+        return findInMunicipalityByNumber(municipalityId,turnNumber).getId();
+    }
 }
