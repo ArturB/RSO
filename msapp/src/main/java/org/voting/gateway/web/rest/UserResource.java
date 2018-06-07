@@ -150,7 +150,7 @@ public class UserResource {
             System.out.println("Invalid terminal command: " + e.getMessage());
         }
 
-        user.setPassword(encoder.encode(password)); 
+        user.setPassword(encoder.encode(password));
 
 
         SmallUser smallUser = new SmallUser(user);
