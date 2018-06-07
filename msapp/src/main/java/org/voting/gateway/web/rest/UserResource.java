@@ -280,7 +280,7 @@ public class UserResource {
         for (SmallUser su : smallUsers)
         {
         	SmallUserDTO s = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
-        			su.getElectoral_district_id(), su.getRole());
+        			su.getElectoral_district_id(), su.getRole(), su.isDisabled());
         	result.add(s);
         }
 
@@ -299,7 +299,7 @@ public class UserResource {
         for (SmallUser su : smallUsers)
         {
         	SmallUserDTO s = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(),
-        			su.getElectoral_district_id(), su.getRole());
+        			su.getElectoral_district_id(), su.getRole(), su.isDisabled());
         	result.add(s);
         }
 
@@ -314,7 +314,8 @@ public class UserResource {
         log.debug("REST request to get SmallUser : {}", id);
         SmallUser su = smallUserRepository.findOne(id);
 
-        SmallUserDTO user = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(), su.getElectoral_district_id(), su.getRole());
+        SmallUserDTO user = new SmallUserDTO(su.getId(), su.getUsername(), su.getMunicipality_id(), su
+            .getElectoral_district_id(), su.getRole(), su.isDisabled());
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(user));
     }
