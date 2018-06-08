@@ -66,7 +66,7 @@ public class VotesDesignationPackResource {
             .build();
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_OKW_MEMBER')")
+   // @PreAuthorize("hasAnyAuthority('ROLE_OKW_MEMBER')")
     @GetMapping("/votes_designation_pack/getFromUser/{round}/{userId}")
     @Timed
     public List<VotesDesignationPackDTO> getVotes(@PathVariable Integer round, @PathVariable UUID userId) {

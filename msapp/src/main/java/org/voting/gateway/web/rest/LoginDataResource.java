@@ -46,9 +46,9 @@ public class LoginDataResource {
     {
         log.debug("REST request to get login Data of user : {}", login);
         LoginDataDTO loginDataDTO = null;
-        /*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String passHash = encoder.encode(login);
-        log.debug( "hash:" + passHash);*/
+        //log.debug( "hash:" + passHash);
 
         List<SmallUser> users = smallUserRepository.findByUsername(login);
         if(!users.isEmpty()){
@@ -56,6 +56,7 @@ public class LoginDataResource {
             loginDataDTO = new LoginDataDTO();
 
             loginDataDTO.setPassHash(users.get(0).getPassword());
+            //loginDataDTO.setPassHash( passHash);
             loginDataDTO.setDisabled(users.get(0).isDisabled());
             loginDataDTO.setGroup(users.get(0).getRole());
         }
