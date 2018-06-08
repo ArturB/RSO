@@ -6,16 +6,13 @@ import com.datastax.driver.core.Statement;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.Result;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.voting.gateway.domain.Candidate;
-import org.voting.gateway.domain.SmallUser;
+import org.voting.gateway.service.VotesDesignationSingleCandidateDTO;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -24,14 +21,12 @@ public class CandidateRepository {
 
     private Mapper<Candidate> mapper;
     private final CassandraSession cassandraSession;
+    private final VotesSumRepository votesSumRepository;
 
-    private final TurnRepository turnRepository;
-
-
-    public CandidateRepository(CassandraSession cassandraSession, TurnRepository turnRepository) {
+    public CandidateRepository(CassandraSession cassandraSession, VotesSumRepository votesSumRepository) {
         this.cassandraSession = cassandraSession;
         mapper = cassandraSession.getMappingManager().mapper(Candidate.class);
-        this.turnRepository = turnRepository;
+        this.votesSumRepository = votesSumRepository;
     }
 
 
@@ -86,18 +81,30 @@ public class CandidateRepository {
 
 
     public List<Candidate> findInMunicipalityByTurn(UUID municipalityId, int turnNum) {
-
-        Statement statement = new SimpleStatement("SELECT * FROM candidate " +
-            "WHERE commune = ? ", municipalityId);
-
-        UUID turn = turnRepository.findUUIDInMunicipalityByNumber(municipalityId,turnNum);
-
-        ResultSet results = cassandraSession.getSession().execute(statement);
-        Result<Candidate> candidates = mapper.map(results);
-        List<Candidate> temp = candidates.all();
-        return temp.stream()
-            .filter(c -> c.getTurns().stream()
-                .anyMatch(d -> d.equals(turn)))
-            .collect(Collectors.toList());
+        if(turnNum == 1){
+            ResultSet results = cassandraSession.getSession().execute("SELECT * FROM candidate WHERE commune = ?",
+                municipalityId);
+            Result<Candidate> candidates = mapper.map(results);
+            return candidates.all();
+        }else if (turnNum == 2) {
+            List<VotesDesignationSingleCandidateDTO> candidateVotes = votesSumRepository
+                .getAllVotesInMunicipality(municipalityId, turnNum).getCandidate_votes().stream()
+                .sorted(Comparator.comparing(VotesDesignationSingleCandidateDTO::getNumber_of_votes))
+                .collect(Collectors.toList());
+            if( candidateVotes.size() == 0 ){
+                return new ArrayList<>();
+            }if( candidateVotes.size() == 1){
+                return Collections.singletonList(
+                    findOne(candidateVotes.get(0).getCandidate_id())
+                );
+            }else{
+                return Arrays.asList(
+                    findOne(candidateVotes.get(0).getCandidate_id()),
+                    findOne(candidateVotes.get(1).getCandidate_id())
+                );
+            }
+        }else{
+            throw new RuntimeException("E623: "+turnNum);
+        }
     }
 }

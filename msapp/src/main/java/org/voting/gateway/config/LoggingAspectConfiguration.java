@@ -1,6 +1,5 @@
 package org.voting.gateway.config;
 
-import org.voting.gateway.aop.logging.LoggingAspect;
 
 import io.github.jhipster.config.JHipsterConstants;
 
@@ -11,9 +10,9 @@ import org.springframework.core.env.Environment;
 @EnableAspectJAutoProxy
 public class LoggingAspectConfiguration {
 
-    @Bean
-    @Profile(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)
-    public LoggingAspect loggingAspect(Environment env) {
-        return new LoggingAspect(env);
-    }
+//    @Bean
+//    @Profile(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)
+//    public LoggingAspect loggingAspect(Environment env) {
+//        return new LoggingAspect(env);
+//    }
 }

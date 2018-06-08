@@ -6,7 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.voting.gateway.repository.VotesDesignationPackRepository;
+import org.voting.gateway.repository.BPlanVotesDesignationPackRepository;
+import org.voting.gateway.repository.SmallUserRepository;
+import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.service.VotesDesignationPackDTO;
 import org.voting.gateway.web.rest.util.HeaderUtil;
 
@@ -23,33 +25,32 @@ public class VotesDesignationPackResource {
 
     private static final String ENTITY_NAME = "votesDesignationPack";
 
-    private final VotesDesignationPackRepository votesDesignationPackRepository;
+    private final BPlanVotesDesignationPackRepository votesDesignationPackRepository;
     private final ElectoralPeriodsResource electoralPeriodsResource;
+    private final SmallUserRepository smallUserRepository;
 
-    public VotesDesignationPackResource(VotesDesignationPackRepository votesDesignationPackRepository, ElectoralPeriodsResource electoralPeriodsResource) {
+    public VotesDesignationPackResource(BPlanVotesDesignationPackRepository votesDesignationPackRepository, ElectoralPeriodsResource electoralPeriodsResource, SmallUserRepository smallUserRepository) {
         this.votesDesignationPackRepository = votesDesignationPackRepository;
-
         this.electoralPeriodsResource = electoralPeriodsResource;
+        this.smallUserRepository = smallUserRepository;
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_OKW_MEMBER')")
-    @PostMapping("/votes_designation_pack")
+    @PostMapping("/votes_designation_pack/{round}")
     @Timed
-    public ResponseEntity<Void> addVotes(@Valid @RequestBody VotesDesignationPackDTO votesPack) throws URISyntaxException {
+    public ResponseEntity<Void> addVotes(@Valid @PathVariable Integer round,
+                                         @Valid @RequestBody VotesDesignationPackDTO votesPack) throws URISyntaxException {
         log.debug("REST request to save votes : {}", votesPack);
         electoralPeriodsResource.isInPeriod("MidRoundPeriod", "PostElectionPeriod" );
-       /* if (user.getId() != null) {
-            throw new BadRequestAlertException("A new myUser cannot already have an ID", ENTITY_NAME, "idexists");
-        }*/
 
-       votesDesignationPackRepository.add(votesPack);
+        UUID id = smallUserRepository.findByUsername(SecurityUtils.getCurrentUserLogin().get()).get(0).getId();
 
+        votesDesignationPackRepository.add(votesPack, round, id);
 
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesPack.getUser_id().toString()))
             .build();
     }
-
 
 
     @PreAuthorize("hasAnyAuthority('ROLE_OKW_MEMBER')")
@@ -59,7 +60,7 @@ public class VotesDesignationPackResource {
         log.debug("REST request to update VotesDesignationPack : {}", votesPack);
         electoralPeriodsResource.isInPeriod("MidRoundPeriod", "PostElectionPeriod" );
 
-        votesDesignationPackRepository.edit(votesPack);
+        votesDesignationPackRepository.save(votesPack);
 
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, votesPack.getUser_id().toString()))
@@ -72,7 +73,8 @@ public class VotesDesignationPackResource {
     public List<VotesDesignationPackDTO> getVotes(@PathVariable Integer round, @PathVariable UUID userId) {
         log.debug("REST request to get  VotesDesignationPack : round {} userId {} ", round, userId);
 
-        List<VotesDesignationPackDTO> votePack = votesDesignationPackRepository.findByTurnByUser(round,userId);
+        List<VotesDesignationPackDTO> votePack =
+            votesDesignationPackRepository.findByTurnByUser(round,userId);
 
         return votePack;
     }

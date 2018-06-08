@@ -97,10 +97,7 @@
                                 userId: $stateParams.userId
                             }).$promise.then(function(result){
                                  for(var i = 0; i < result.length; i++){
-                                     if(result[i].date == $stateParams.designationPackDate){
-                                         return result[i];
-                                     }
-                                     if(!result[i].date && !$stateParams.designationPackDate){
+                                     if(result[i].id === $stateParams.designationPackId){
                                          return result[i];
                                      }
                                  }

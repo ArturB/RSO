@@ -68,7 +68,7 @@
         }
 
         vm.debugMethod = function(){
-            VotesDesignation.findByUserId({round:1, userId:"5554ae59-b62c-4380-967b-6f5b0eabf98f"})
+            VotesDesignation.lol();
         }
 
 

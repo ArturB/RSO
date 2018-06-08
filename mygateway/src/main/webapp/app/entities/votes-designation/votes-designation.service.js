@@ -32,7 +32,18 @@
                 }
             },
             'update': { method:'PUT' },
-            'save': { method:'POST' }
+            'save': {
+                method:'POST',
+                url: 'msapp/api/votes_designation_pack/:round',
+                params: {
+                    round: '@round',
+                }
+            },
+            lol: {
+                url: 'msapp/api/XXdistricts/debug',
+                method: 'GET',
+                isArray: true,
+            },
         });
     }
 })();

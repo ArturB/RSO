@@ -100,7 +100,6 @@ public class CandidateResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of candidates in body
      */
-    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @GetMapping("/candidates")
     @Timed
     public ResponseEntity<List<Candidate>> getAllCandidates(Pageable pageRequest) {
@@ -127,7 +126,6 @@ public class CandidateResource {
      * @param id the id of the candidate to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the candidate, or with status 404 (Not Found)
      */
-    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @GetMapping("/candidates/{id}")
     @Timed
     public ResponseEntity<Candidate> getCandidate(@PathVariable UUID id) {

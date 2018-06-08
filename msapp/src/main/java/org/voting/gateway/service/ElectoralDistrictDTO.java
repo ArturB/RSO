@@ -18,11 +18,11 @@ public class ElectoralDistrictDTO implements Serializable {
     }
 
     public ElectoralDistrictDTO(ElectoralDistrict electoralDistrict) {
-
         this.electoral_district_id = electoralDistrict.getElectoral_district_id();
         this.municipality_id = electoralDistrict.getMunicipalityId();
         this.electoral_district_name = electoralDistrict.getElectoralDistrictName();
-
+        this.first_round_votes_accepted = electoralDistrict.getFirst_turn_completed();
+        this.second_round_votes_accepted = electoralDistrict.getSecond_turn_completed();
     }
 
     public UUID getElectoral_district_id() {

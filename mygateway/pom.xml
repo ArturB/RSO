@@ -4,7 +4,7 @@
 
     <groupId>org.voting.gateway</groupId>
     <artifactId>mygateway</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-PERFECT</version>
     <packaging>war</packaging>
     <name>Mygateway</name>
 

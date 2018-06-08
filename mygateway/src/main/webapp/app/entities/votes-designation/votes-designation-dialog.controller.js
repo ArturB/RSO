@@ -35,7 +35,9 @@
                 Candidate.get({id: candidateVote.candidate_id}).$promise
                     .then(function (candidate) {
                         candidateVote.candidate = candidate;
-                        candidateVote.candidate.party = Party.get({id:candidate.party_id})
+                        if(candidate.party_id) {
+                            candidateVote.candidate.party = Party.get({id: candidate.party_id})
+                        }
                     });
             });
         }else {
@@ -43,12 +45,16 @@
                 vm.entity.candidate_votes.then(function (votes) {
                     vm.entity.candidate_votes = votes;
                     angular.forEach(vm.entity.candidate_votes, function (vote) {
-                        vote.candidate.party = Party.get({id: vote.candidate.party_id})
+                        if(vote.candidate.party_id) {
+                            vote.candidate.party = Party.get({id: vote.candidate.party_id})
+                        }
                     });
                 });
             } else {
                 angular.forEach(vm.entity.candidate_votes, function (vote) {
-                    vote.candidate.party = Party.get({id: vote.candidate.party_id})
+                    if(vote.candidate.party_id) {
+                        vote.candidate.party = Party.get({id: vote.candidate.party_id})
+                    }
                 });
             }
         }
@@ -58,7 +64,18 @@
             if( vm.entity.id ){
                 VotesDesignation.update(vm.entity, onSaveSuccess, onSaveError);
             }else{
-                VotesDesignation.save(vm.entity, onSaveSuccess, onSaveError);
+
+                ElectoralPeriod.getCurrentPeriod().then(function (result) {
+                    if (result.name === 'MidRoundPeriod') {
+                        vm.round = 1;
+                    } else if (result.name === 'PostElectionPeriod') {
+                        vm.round = 2;
+                    } else {
+                        vm.round = 1;
+                        console.error('!!! Wrong period to pass votes: ' + result.name);
+                    }
+                    VotesDesignation.save({round: vm.round}, vm.entity, onSaveSuccess, onSaveError);
+                });
             }
         }
 
