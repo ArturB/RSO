@@ -40,6 +40,18 @@ public class VotesFromDistrictRepository {
 
 
     }
+    
+    public List<VotesFromDistrict> findByUser(UUID userId) {
+
+        Statement statement = new SimpleStatement("SELECT * FROM votes_from_ward " +
+            "WHERE user = ? ALLOW FILTERING", userId);
+
+        ResultSet results = cassandraSession.getSession().execute(statement);
+        Result<VotesFromDistrict> votes = mapper.map(results);
+        return votes.all();
+
+
+    }
 
     public void delete(UUID id) {
         mapper.delete(id);
@@ -57,7 +69,7 @@ public class VotesFromDistrictRepository {
     }
 
     public List<VotesFromDistrict> findAll() {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM party");
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM votes_from_ward");
         Result<VotesFromDistrict> votes = mapper.map(results);
         return votes.all();
     }

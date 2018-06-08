@@ -74,13 +74,12 @@ public class MunicipalityRepository {
 
     public MunicipalityDTO findOneDTO(UUID id) {
         Municipality municipality = findOne(id);
-        List<Turn> turns = turnRepository.findAll();
+
 
         if(municipality == null) return null;
+        List<Turn> turnsForMun = turnRepository.findInMunicipality(municipality.getMunicipality_id());
 
-        List<Turn> turnsForMun = turns.stream()
-            .filter(t ->{ return t.getCommune() == municipality.getMunicipality_id();})
-            .collect(Collectors.toList());
+
 
         boolean isLastTurn = turnsForMun.stream()
             .anyMatch(a -> {return a.isLastTurn();});

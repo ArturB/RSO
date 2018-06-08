@@ -54,14 +54,14 @@ public class RodoUserResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rodoUser));
     }
 
-    @PutMapping("/saveRodoUser")
+    @PutMapping("/rodoUser")
     public ResponseEntity<Void> saveRodoUser(@Valid @RequestBody RodoUserDTO rodoUser)
     {
     	rodoUserRepository.save(encrypter.encryptUserData(rodoUser));
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rodoUser.getId().toString())).build();
     }
 
-    @DeleteMapping("/deleteRodoUser/{id}")
+    @DeleteMapping("/rodoUser/{id}")
     public ResponseEntity<Void> deleteRodoUser(@PathVariable UUID id)
     {
     	log.debug("REST request to delete rodo user data by user id : {}", id);

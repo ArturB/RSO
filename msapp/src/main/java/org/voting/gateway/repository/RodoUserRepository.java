@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,23 +54,23 @@ public class RodoUserRepository {
 
     public RodoUserDTO save(RodoUserDTO user) {
 
-        RestTemplate restTemplate = new RestTemplate();
+
 
         HttpHeaders headers = new HttpHeaders();
         //headers.set("X-TP-DeviceID", Global.deviceID);
         HttpEntity<RodoUserDTO> requestEntity = new HttpEntity<RodoUserDTO>(user, headers);
-        ResponseEntity<RodoUserDTO> response = restTemplate.exchange("http://msrodo/api/saveRodoUser", HttpMethod.PUT, requestEntity, RodoUserDTO.class);
+        /*ResponseEntity<RodoUserDTO> response =*/ restTemplate.put("http://msrodo/api/rodoUser", user);
 
-    	if (response.getStatusCode() != HttpStatus.OK)
+    	/*if (response.getStatusCode() != HttpStatus.OK)
     	{
     		log.debug("Nie udalo sie zapisac rodo user");
     		return null;
-    	}
-    	return response.getBody();
+    	}*/
+    	return user;
     }
 
     public void delete(UUID id) {
-    	restTemplate.delete("http://msrodo/api/deleteRodoUser/" + id);
+    	restTemplate.delete("http://msrodo/api/rodoUser/" + id);
     	// TODO pokazywanie bledu jesli usuwanie sie nie uda
     }
 }

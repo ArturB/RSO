@@ -19,8 +19,10 @@ import org.voting.gateway.security.RandomString;
 import org.voting.gateway.service.SmallUserDTO;
 import org.voting.gateway.service.UserDTO;
 import org.voting.gateway.domain.SmallUser;
+import org.voting.gateway.domain.VotesFromDistrict;
 import org.voting.gateway.repository.RodoUserRepository;
 import org.voting.gateway.repository.SmallUserRepository;
+import org.voting.gateway.repository.VotesFromDistrictRepository;
 import org.voting.gateway.security.SecurityUtils;
 import org.voting.gateway.service.RodoUserDTO;
 import org.voting.gateway.web.rest.errors.BadRequestAlertException;
@@ -57,12 +59,14 @@ public class UserResource {
 
     private final SmallUserRepository smallUserRepository;
     private final RodoUserRepository rodoUserRepository;
+    private final VotesFromDistrictRepository votesFromDistrictRepository;
     private final RandomString randomString;
 
-    public UserResource(SmallUserRepository smallUserRepository, RodoUserRepository rodoUserRepository, RandomString randomString) {
+    public UserResource(SmallUserRepository smallUserRepository, RodoUserRepository rodoUserRepository, RandomString randomString, VotesFromDistrictRepository votesFromDistrictRespository) {
         this.smallUserRepository = smallUserRepository;
         this.rodoUserRepository = rodoUserRepository;
         this.randomString = randomString;
+        this.votesFromDistrictRepository = votesFromDistrictRespository;
     }
 
     @Autowired
@@ -112,17 +116,6 @@ public class UserResource {
                  user.setPassword(encoder.encode(password));
                  smallUserRepository.save(user);
              }
-        }
-    }
-    private static int l = 0;
-    private void lol(){
-        List<SmallUser> all = smallUserRepository.findAll();
-        for(SmallUser user : all){
-            UUID municipality_id = user.getMunicipality_id();
-            UUID electoral_district_id = user.getElectoral_district_id();
-            user.setMunicipality_id(electoral_district_id);
-            user.setElectoral_district_id(municipality_id);
-            smallUserRepository.save(user);
         }
     }
 
@@ -183,6 +176,12 @@ public class UserResource {
         log.debug("REST request to update MyUser : {}", user);
         if (user.getId() == null) {
             return createMyUser(user);
+        }
+        
+        RodoUserDTO ru = rodoUserRepository.findOne(user.getId());
+        if (ru == null)
+        {
+            throw new MyErrorException(ErrorValue.USER_NOT_FOUND, user.getId());
         }
 
         SmallUser smallUserValues = new SmallUser(user);
@@ -260,6 +259,20 @@ public class UserResource {
     @Timed
     public ResponseEntity<Void> deleteMyUser(@PathVariable UUID id) {
         log.debug("REST request to delete MyUser : {}", id);
+        SmallUser ru = smallUserRepository.findOne(id);
+        
+        if (ru == null)
+        {
+            throw new MyErrorException(ErrorValue.USER_NOT_FOUND, id);
+        }
+        
+        List<VotesFromDistrict> votesFromDistrict = votesFromDistrictRepository.findByUser(id);
+        
+        if (!votesFromDistrict.isEmpty())
+        {
+        	throw new MyErrorException(ErrorValue.USER_HAS_VOTES, id);
+        }
+        
         smallUserRepository.delete(id);
         rodoUserRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
