@@ -22,9 +22,7 @@ import java.util.UUID;
     caseSensitiveKeyspace = false,
     caseSensitiveTable = false)
 public class Municipality implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
 
     @PartitionKey
     @Column(name = "commune_id")

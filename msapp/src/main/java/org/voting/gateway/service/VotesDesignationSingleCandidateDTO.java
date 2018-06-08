@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class VotesDesignationSingleCandidateDTO implements Serializable {
-
-
     private UUID candidate_id;
     private int number_of_votes;
 
