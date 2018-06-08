@@ -9,10 +9,10 @@
         .controller('VotesDesignationDialogController', VotesDesignationDialogController);
 
     VotesDesignationDialogController.$inject = ['$scope', '$uibModalInstance', 'VotesDesignation',
-        'Candidate', '$timeout', '$q', 'Principal', 'ElectoralPeriod', 'entity'];
+        'Candidate', '$timeout', '$q', 'Principal', 'ElectoralPeriod', 'entity', 'Party'];
 
     function VotesDesignationDialogController($scope, $uibModalInstance, VotesDesignation,
-                                              Candidate, $timeout, $q, Principal, ElectoralPeriod, entity) {
+                                              Candidate, $timeout, $q, Principal, ElectoralPeriod, entity, Party) {
         var vm = this;
         vm.entity = entity;
 
@@ -35,11 +35,15 @@
                 Candidate.get({id: candidateVote.candidate_id}).$promise
                     .then(function (candidate) {
                         candidateVote.candidate = candidate;
+                        candidateVote.candidate.party = Party.get({id:candidate.party_id})
                     });
             });
         }else{
             vm.entity.candidate_votes.then(function (votes) {
                 vm.entity.candidate_votes = votes;
+                angular.forEach(vm.entity.candidate_votes, function(vote){
+                    vote.candidate.party = Party.get({id:vote.candidate.party_id})
+                });
             });
         }
 
