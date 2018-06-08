@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class VotesDesignationPackDTO implements Serializable {
 
+    private UUID id;
 	private List<VotesDesignationSingleCandidateDTO>  candidate_votes;
 	private Date date;
 
@@ -70,7 +71,13 @@ public class VotesDesignationPackDTO implements Serializable {
 		this.erased_marks_cards_used = erasedMarksCardsUsed;
 	}
 
+    public UUID getId() {
+        return id;
+    }
 
+    public void setId(UUID id) {
 
+        this.id = id;
 
+    }
 }

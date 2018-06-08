@@ -22,9 +22,7 @@ import java.util.UUID;
     caseSensitiveKeyspace = false,
     caseSensitiveTable = false)
 public class Municipality implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
 
     @PartitionKey
     @Column(name = "commune_id")
@@ -36,6 +34,14 @@ public class Municipality implements Serializable {
     @Column(name = "position_name")
     private String positionName;
 
+    @Column(name = "first_round_completed")
+    private Boolean first_turn_completed;
+
+    @Column(name = "second_round_completed")
+    private Boolean second_turn_completed;
+
+    @Column(name = "has_second_round")
+    private Boolean has_second_round;
 
     public UUID getMunicipality_id() {
         return municipality_id;
@@ -103,5 +109,29 @@ public class Municipality implements Serializable {
             ", name='" + getName() + "'" +
             ", positionName='" + getPositionName() +
             "}";
+    }
+
+    public Boolean getFirst_turn_completed() {
+        return first_turn_completed;
+    }
+
+    public void setFirst_turn_completed(Boolean first_turn_completed) {
+        this.first_turn_completed = first_turn_completed;
+    }
+
+    public Boolean getSecond_turn_completed() {
+        return second_turn_completed;
+    }
+
+    public void setSecond_turn_completed(Boolean second_turn_completed) {
+        this.second_turn_completed = second_turn_completed;
+    }
+
+    public Boolean getHas_second_round() {
+        return has_second_round;
+    }
+
+    public void setHas_second_round(Boolean has_second_round) {
+        this.has_second_round = has_second_round;
     }
 }

@@ -33,7 +33,6 @@
             <thead>
             <tr>
                 <th><span>L.p.</span></th>
-                <th><span>Data przesłania</span></th>
                 <th></th>
             </tr>
             </thead>
@@ -44,15 +43,12 @@
                     {{$index+1}}
                 </td>
                 <td>
-                    {{designationPack}}
-                </td>
-                <td>
                     <button type="submit"
                             ui-sref="votes-designation.edit(
                                         {
                                             userId:vm.userId,
                                             round:vm.round,
-                                            designationPackDate:designationPack.date
+                                            designationPackId:designationPack.id
                                         })"
                             class="btn btn-primary btn-sm"
                             ng-disabled="!vm.canDesignateVotes">

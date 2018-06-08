@@ -23,9 +23,7 @@ public class ElectoralDistrict implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @PartitionKey
-
     @Column(name = "ward_id")
     private UUID electoral_district_id;
 
@@ -34,6 +32,24 @@ public class ElectoralDistrict implements Serializable {
 
     @Column(name = "ward_name")
     private String electoralDistrictName;
+
+    @Column(name = "first_turn_no_can_vote")
+    private int first_turn_no_can_vote ;
+
+    @Column(name = "second_turn_no_can_vote")
+    private int second_turn_no_can_vote ;
+
+    @Column(name = "first_turn_no_cards_used")
+    private int  first_turn_no_cards_used;
+
+    @Column(name = "second_turn_no_cards_used")
+    private int  second_turn_no_cards_used;
+
+    @Column(name = "first_round_completed")
+    private Boolean first_turn_completed;
+
+    @Column(name = "second_round_completed")
+    private Boolean second_turn_completed;
 
     public UUID getElectoral_district_id() {
         return electoral_district_id;
@@ -101,5 +117,53 @@ public class ElectoralDistrict implements Serializable {
             ", municipalityId='" + getMunicipalityId() + "'" +
             ", electoralDistrictName='" + getElectoralDistrictName() +
             "}";
+    }
+
+    public int getFirst_turn_no_can_vote() {
+        return first_turn_no_can_vote;
+    }
+
+    public void setFirst_turn_no_can_vote(int first_turn_no_can_vote) {
+        this.first_turn_no_can_vote = first_turn_no_can_vote;
+    }
+
+    public int getSecond_turn_no_can_vote() {
+        return second_turn_no_can_vote;
+    }
+
+    public void setSecond_turn_no_can_vote(int second_turn_no_can_vote) {
+        this.second_turn_no_can_vote = second_turn_no_can_vote;
+    }
+
+    public int getFirst_turn_no_cards_used() {
+        return first_turn_no_cards_used;
+    }
+
+    public void setFirst_turn_no_cards_used(int first_turn_no_cards_used) {
+        this.first_turn_no_cards_used = first_turn_no_cards_used;
+    }
+
+    public int getSecond_turn_no_cards_used() {
+        return second_turn_no_cards_used;
+    }
+
+    public void setSecond_turn_no_cards_used(int second_turn_no_cards_used) {
+        this.second_turn_no_cards_used = second_turn_no_cards_used;
+    }
+
+    public Boolean getFirst_turn_completed() {
+        return first_turn_completed;
+    }
+
+    public void setFirst_turn_completed(Boolean first_turn_completed) {
+        this.first_turn_completed = first_turn_completed;
+    }
+
+    public Boolean getSecond_turn_completed() {
+        return second_turn_completed;
+    }
+
+    public void setSecond_turn_completed(Boolean second_turn_completed) {
+        this.second_turn_completed = second_turn_completed;
     }
 }

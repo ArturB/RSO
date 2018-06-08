@@ -22,6 +22,9 @@ public class MunicipalityDTO implements Serializable {
         this.municipality_id = municipality.getMunicipality_id();
         this.municipality_name = municipality.getName();
         this.municipality_position_name = municipality.getPositionName();
+        this.first_round_votes_accepted = municipality.getFirst_turn_completed();
+        this.second_round_votes_accepted = municipality.getSecond_turn_completed();
+        this.has_second_round = municipality.getHas_second_round();
     }
 
     public UUID getMunicipality_id() {

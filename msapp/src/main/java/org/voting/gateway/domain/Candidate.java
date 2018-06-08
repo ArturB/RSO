@@ -49,11 +49,6 @@ public class Candidate implements Serializable {
     @Column(name = "turns")
     private List<UUID> turns;
 
-
-
-
-
-
     public List<UUID> getTurns() {
         return turns;
     }

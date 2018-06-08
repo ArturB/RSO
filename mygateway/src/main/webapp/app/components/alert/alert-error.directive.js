@@ -22,7 +22,10 @@
         vm.errorMessages = {
             1:  "Nie znaleziono użytkownika o podanym id: {0}",
             2:  "Użytkownik już jest zablokowany",
-            3: "Nie znaleziono gminy o id {0}"
+            3: "Nie znaleziono gminy o id {0}",
+            4: "Uzytkownik nie moze byc usuniety bo ma glosy {0}",
+            5: "Obecnie nie jest odpowidni okres wyborczy {0}",
+            6: "Nie można zakończyć głosowania - w "
         };
 
         vm.alerts = [];

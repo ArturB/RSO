@@ -81,7 +81,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['MyUser', function(MyUser) {
-                            return MyUser.get({id : $stateParams.id}).$promise;
+                            return MyUser.get({id : $stateParams.id});
                         }],
                         preset:{}
                     }

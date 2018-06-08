@@ -27,6 +27,18 @@ public class VotesResultDTO implements Serializable{
     }
     */
 
+    public VotesResultDTO() {
+    }
+
+    public VotesResultDTO(int nr_cards_used, int too_many_marks_cards_used, int none_marks_cards_used, int erased_marks_cards_used, int no_can_vote, List<VotesDesignationSingleCandidateDTO> candidate_votes) {
+        this.nr_cards_used = nr_cards_used;
+        this.too_many_marks_cards_used = too_many_marks_cards_used;
+        this.none_marks_cards_used = none_marks_cards_used;
+        this.erased_marks_cards_used = erased_marks_cards_used;
+        this.no_can_vote = no_can_vote;
+        this.candidate_votes = candidate_votes;
+    }
+
     public int getNr_cards_used() {
         return nr_cards_used;
     }
