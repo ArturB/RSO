@@ -57,7 +57,7 @@ public class VotesFromDistrictRepository {
     }
 
     public List<VotesFromDistrict> findAll() {
-        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM party");
+        ResultSet results = cassandraSession.getSession().execute("SELECT * FROM votes_from_ward");
         Result<VotesFromDistrict> votes = mapper.map(results);
         return votes.all();
     }
