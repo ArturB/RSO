@@ -80,9 +80,8 @@ public class ElectoralPeriodsResource {
     public void isInPeriod(String ... periods){
         List<String> periodList = new ArrayList<>(Arrays.asList(periods));
         long now = new Date().getTime();
-        boolean isInPeriod = getAllElectorialPeriods().stream().filter( c -> c.getEndDate().getTime() > now && c
-            .getStartDate()
-            .getTime() < now).anyMatch( c -> periodList.contains(c));
+        boolean isInPeriod = getAllElectorialPeriods().stream().filter( c -> c.getEndDate().getTime() > now &&
+            c.getStartDate() .getTime() < now).anyMatch( c -> periodList.contains(c.getName()));
         if(!isInPeriod){
             throw new MyErrorException(ErrorValue.BAD_PERIOD);
         }

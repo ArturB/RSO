@@ -20,7 +20,8 @@
             }).sort();
             var alertKey = response.headers(headers[0]);
             if (angular.isString(alertKey)) {
-                AlertService.success(alertKey, { param : response.headers(headers[1])});
+                // AlertService.success(alertKey, { param : response.headers(headers[1])});
+                AlertService.success("Operacja powiodła się!");
             }
             return response;
         }
