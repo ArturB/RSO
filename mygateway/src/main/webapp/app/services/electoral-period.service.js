@@ -25,6 +25,11 @@
                         return response;
                     }
                 }
+            },
+            change : {
+                url: 'msapp/api/electoral-periods/change',
+                method: 'POST',
+                isArray:false
             }
         });
 

@@ -72,13 +72,26 @@ public class UserLoginDataRepository {
         Authority authority = new Authority();
         authority.setName(loginData.getGroup());
         user.getAuthorities().add(authority);
+        if(loginData.getGroup() != null){
+            addAuthority(user, "ROLE_USER");
+        }
+        String group = loginData.getGroup();
+        if(group.equals("ROLE_GKW_LEADER")){
+            addAuthority(user, "ROLE_GKW_MEMBER");
+        }
+        if(group.equals("ROLE_OKW_LEADER")){
+            addAuthority(user, "ROLE_OKW_MEMBER");
+        }
 
         user.setActivated(!loginData.isDisabled());
 
-
-
-
         return Optional.of(user);
+    }
+
+    private void addAuthority(User user, String name){
+        Authority authority = new Authority();
+        authority.setName(name);
+        user.getAuthorities().add(authority);
     }
 
 

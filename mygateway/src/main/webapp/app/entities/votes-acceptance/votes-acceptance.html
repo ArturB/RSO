@@ -48,7 +48,7 @@
                required min="0" disabled/>
 
 
-        <form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+        <form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validatio ng-hide="vm.municipalityId">
             <h3><u>Wpisz</u> ilość osób uprawnionych do głosowania</h3>
             <input type="number" class="form-control" name="erasedMarksVotes" id="field_canVote"
                    ng-model="vm.outEntity.no_can_vote"
@@ -70,5 +70,24 @@
                 </div>
             </div>
         </form>
+
+
+        <form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validatio ng-show="vm.municipalityId">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-4 no-padding-left">
+                        <jhi-alert-error></jhi-alert-error>
+                        <div ng-show="vm.saved" class="alert alert-success">Głosy zaakceptowano!</div>
+                        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving || vm.saved "
+                                class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Potwierdź!!!</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div  ng-hide="vm.canAcceptProtocol">
+            <h2>Protokół został już zaakceptowany!</h2>
+        </div>
     </div>
 </div>

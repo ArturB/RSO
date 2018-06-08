@@ -402,6 +402,10 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-.disabledUser{
+.disabledUser {
     text-decoration: line-through;
+}
+.emphasizedSelect{
+    border: 2px solid !important;
+    background-color: #EEEEEE !important;
 }

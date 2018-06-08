@@ -6,7 +6,10 @@
         .constant('VERSION', "0.0.1-SNAPSHOT")
         .constant('DEBUG_INFO_ENABLED', false)
         .constant('BUILD_TIMESTAMP', 1527700148386)
-        .constant('FUN_THINGS', false)
+        .constant('FUN_THINGS',false)
         .constant('PERIOD_FILTERING', true)
-;
+        .run(['$rootScope', 'FUN_THINGS',  function($rootScope, FUN_THINGS){
+            // $rootScope.FUN_THINGS = FUN_THINGS;
+            // $rootScope.PERIOD_FILTERING = PERIOD_FILTERING;
+        }]);
 })();

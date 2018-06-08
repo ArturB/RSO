@@ -1,0 +1,43 @@
+version: "3"
+services:
+  msapp-app:
+    build:
+      context: msapp/target 
+      dockerfile: Dockerfile
+    image: arturbrodzki/rso:msapp
+    environment:
+        - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
+        - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+        - JHIPSTER_REGISTRY_PASSWORD=admin  
+        - JHIPSTER_SLEEP=2
+    ports:
+        - 8081:8081                 
+  mygateway-app:
+    build:
+      context: mygateway/target 
+      dockerfile: Dockerfile
+    image: arturbrodzki/rso:mygateway
+    volumes:
+      - "/root/ssl:/ssl"    
+    environment:
+        - SPRING_PROFILES_ACTIVE=prod,no-liquibase,zuul,no-eureka,ssl
+        - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+        - JHIPSTER_SLEEP=2
+        - JHIPSTER_REGISTRY_PASSWORD=admin
+    ports:
+        - 8080:8443
+        - 8443:8443
+        - 80:8443
+        - 443:8443         
+  myuaa-app:
+    build:
+      context: myuaa/target 
+      dockerfile: Dockerfile
+    image: arturbrodzki/rso:myuaa
+    environment:
+        - SPRING_PROFILES_ACTIVE=dev,no-liquibase,zuul,no-eureka
+        - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+        - JHIPSTER_SLEEP=2
+        - JHIPSTER_REGISTRY_PASSWORD=admin    
+    ports:
+        - 9999:9999        

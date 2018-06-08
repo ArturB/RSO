@@ -2,6 +2,7 @@ package org.voting.gateway.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.datastax.driver.core.utils.UUIDs;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.voting.gateway.domain.Party;
 
 
@@ -34,9 +35,11 @@ public class PartyResource {
     private static final String ENTITY_NAME = "party";
 
     private final PartyRepository partyRepository;
+    private final ElectoralPeriodsResource electoralPeriodsResource;
 
-    public PartyResource(PartyRepository partyRepository) {
+    public PartyResource(PartyRepository partyRepository, ElectoralPeriodsResource electoralPeriodsResource) {
         this.partyRepository = partyRepository;
+        this.electoralPeriodsResource = electoralPeriodsResource;
     }
 
     /**
@@ -46,10 +49,12 @@ public class PartyResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new party, or with status 400 (Bad Request) if the party has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
    @PostMapping("/parties")
     @Timed
     public ResponseEntity<Party> createParty(@Valid @RequestBody Party party) throws URISyntaxException {
         log.debug("REST request to save Party : {}", party);
+        electoralPeriodsResource.isInPeriod("PreElectionPeriod");
         if (party.getParty_id() != null) {
             throw new BadRequestAlertException("A new party cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -69,10 +74,12 @@ public class PartyResource {
      * or with status 500 (Internal Server Error) if the party couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @PutMapping("/parties")
     @Timed
     public ResponseEntity<Party> updateParty(@Valid @RequestBody Party party) throws URISyntaxException {
         log.debug("REST request to update Party : {}", party);
+        electoralPeriodsResource.isInPeriod("PreElectionPeriod");
         if (party.getParty_id() == null) {
             return createParty(party);
         }
@@ -114,10 +121,12 @@ public class PartyResource {
      * @param id the id of the party to delete
      * @return the ResponseEntity with status 200 (OK)
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_GKW_MEMBER', 'ROLE_ADMIN')")
     @DeleteMapping("/parties/{id}")
     @Timed
     public ResponseEntity<Void> deleteParty(@PathVariable UUID id) {
         log.debug("REST request to delete Party : {}", id);
+        electoralPeriodsResource.isInPeriod("PreElectionPeriod");
         partyRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
