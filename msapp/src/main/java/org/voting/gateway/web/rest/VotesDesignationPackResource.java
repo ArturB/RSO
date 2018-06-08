@@ -76,5 +76,4 @@ public class VotesDesignationPackResource {
 
         return votePack;
     }
-
 }
