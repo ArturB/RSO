@@ -7,7 +7,7 @@
 
     HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Municipality', 'ElectoralDistrict', 'ElectoralPeriod', '$window', 'VotesDesignation'];
 
-        function HomeController ($scope, Principal, LoginService, $state, Municipality, ElectoralDistrict, ElectoralPeriod, $window, VotesDesignation) {
+    function HomeController ($scope, Principal, LoginService, $state, Municipality, ElectoralDistrict, ElectoralPeriod, $window, VotesDesignation) {
         var vm = this;
 
         vm.account = null;
@@ -68,8 +68,8 @@
         }
 
         vm.debugMethod = function(){
-                    VotesDesignation.findByUserId({round:1, userId:"5554ae59-b62c-4380-967b-6f5b0eabf98f"})
-                }
+            VotesDesignation.findByUserId({round:1, userId:"5554ae59-b62c-4380-967b-6f5b0eabf98f"})
+        }
 
 
     }

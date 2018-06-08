@@ -44,7 +44,7 @@
                     {{$index+1}}
                 </td>
                 <td>
-                    {{designationPack.date}}
+                    {{designationPack}}
                 </td>
                 <td>
                     <button type="submit"
@@ -52,7 +52,7 @@
                                         {
                                             userId:vm.userId,
                                             round:vm.round,
-                                            designationPackId:designationPack.id
+                                            designationPackDate:designationPack.date
                                         })"
                             class="btn btn-primary btn-sm"
                             ng-disabled="!vm.canDesignateVotes">

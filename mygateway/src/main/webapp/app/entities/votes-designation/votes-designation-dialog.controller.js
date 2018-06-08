@@ -38,13 +38,19 @@
                         candidateVote.candidate.party = Party.get({id:candidate.party_id})
                     });
             });
-        }else{
-            vm.entity.candidate_votes.then(function (votes) {
-                vm.entity.candidate_votes = votes;
-                angular.forEach(vm.entity.candidate_votes, function(vote){
-                    vote.candidate.party = Party.get({id:vote.candidate.party_id})
+        }else {
+            if (vm.entity.candidate_votes.then) {
+                vm.entity.candidate_votes.then(function (votes) {
+                    vm.entity.candidate_votes = votes;
+                    angular.forEach(vm.entity.candidate_votes, function (vote) {
+                        vote.candidate.party = Party.get({id: vote.candidate.party_id})
+                    });
                 });
-            });
+            } else {
+                angular.forEach(vm.entity.candidate_votes, function (vote) {
+                    vote.candidate.party = Party.get({id: vote.candidate.party_id})
+                });
+            }
         }
 
         function save(){
